@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Deploy any Java webapp via war to Heroku - Ollivander</title>
+  <meta name="author" content="Alan Franzoni">
+
+  
+  <meta name="description" content="Heroku Java support is something I longed for, but they apparently don&#8217;t support deploying a plain, old war file to Heroku. I don&#8217;t like &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://alanfranz.github.com/ollivander/2011/10/20/deploy-any-java-webapp-via-war-to-heroku/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Ollivander" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ollivander</a></h1>
+  
+    <h2>A wand is not enough</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:alanfranz.github.com/ollivander" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a title="Go to my homepage" href="http://www.franzoni.eu">My homepage</a></li>
+  <li><a title="Go to my tips&tricks blog" href="http://mostlyunixish.franzoni.eu">Mostly Unixish</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Deploy Any Java Webapp via War to Heroku</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-20T23:17:00+02:00" pubdate data-updated="true">Oct 20<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><div class='post'>
+<a href="http://www.heroku.com/java">Heroku Java</a> support is something I longed for, but they <a href="http://devcenter.heroku.com/articles/java-faq#can_i_deploy_an_application_packaged_as_a_war_file_to_heroku">apparently don&#8217;t support</a> deploying a plain, old war file to Heroku.  <br /><br />I don&#8217;t like that; I&#8217;ve got my own continuous integration setup, and I want to compile my files on my own box - this allows me to keep my own Maven proxy with my own dependencies - which sometimes are patched versions of public ones - &nbsp;so that I don&#8217;t need to push everything on a public repo. I don&#8217;t want to be forced to build everything on Heroku, and I don&#8217;t want to compile anything I push - I&#8217;d usually push to Heroku stable versions only, or maybe integration versions that pass unit, integration and acceptance tests.<br /><br />So what? Don&#8217;t worry, deployment is possible.<br /><br /><script src="https://gist.github.com/1301100.js"> </script><br/><br/>Setup an heroku-aware git repository and a <a href="http://devcenter.heroku.com/articles/java">Cedar stack app,</a> and add the files you see above; your dir structure should look like:<br /><br /><blockquote>pom.xml<br />Procfile<br />src/<br />&nbsp; &nbsp; &nbsp;main/<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;java/<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; root/<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;StartWebApp.java<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;resources/<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;mywebapp.war</blockquote><br /><br />Now a simple<br /><br /><blockquote>git push heroku master</blockquote><br /><br />Should do the trick, and let you see your fully deployed war app.<br /><br /><br />There&#8217;re still things you need to be aware of; file persistence may not work as expected, since filesystem is ephemeral, and I still need to figure out things related to database configuration, but those should not come at a great expense.<br /><br />I&#8217;ll post updates in the future as soon as I get them right.<br /><br /><br /><br /></div>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Alan Franzoni</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-20T23:17:00+02:00" pubdate data-updated="true">Oct 20<span>th</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://alanfranz.github.com/ollivander/2011/10/20/deploy-any-java-webapp-via-war-to-heroku/" data-via="franzeur" data-counturl="http://alanfranz.github.com/ollivander/2011/10/20/deploy-any-java-webapp-via-war-to-heroku/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/08/30/mock-javamail-primer/" title="Previous Post: Mock Javamail primer">&laquo; Mock Javamail primer</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/12/07/jetbrains-ides-dock-aware-launcher-for-linux/" title="Next Post: Jetbrains IDEs: dock-aware launcher for Linux">Jetbrains IDEs: dock-aware launcher for Linux &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/">Unicode and Encoding: Python vs Java Shootout, part 2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/07/17/migrated-to-octopress/">Migrated to Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/">Unicode and encoding:  Python vs Java shootout, part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/12/07/jetbrains-ides-dock-aware-launcher-for-linux/">Jetbrains IDEs: dock-aware launcher for Linux</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/10/20/deploy-any-java-webapp-via-war-to-heroku/">Deploy any Java webapp via war to Heroku</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("franzeur", 3, true);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/franzeur" class="twitter-follow-button" data-show-count="false">Follow @franzeur</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Alan Franzoni -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ollivander';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ollivander</title>
+  <meta name="author" content="Alan Franzoni">
+
+  
+  <meta name="description" content="I had some hard time when testing Twisted&nbsp;protocols. Although they should be decoupled from factories, most examples I could find, including &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://alanfranz.github.com/ollivander/blog/page/3/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Ollivander" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ollivander</a></h1>
+  
+    <h2>A wand is not enough</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:alanfranz.github.com/ollivander" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a title="Go to my homepage" href="http://www.franzoni.eu">My homepage</a></li>
+  <li><a title="Go to my tips&tricks blog" href="http://mostlyunixish.franzoni.eu">Mostly Unixish</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/04/26/unit-testing-with-twisted-testing-protocols/">Unit Testing With Twisted: Testing Protocols</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-26T21:33:00+02:00" pubdate data-updated="true">Apr 26<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+I had some hard time when testing <a href="http://twistedmatrix.com/trac/">Twisted</a>&nbsp;protocols. Although they should be decoupled from factories, most examples I could find, including those from the <a href="http://twistedmatrix.com/trac/browser/trunk/doc/core/howto/trial.xhtml?format=raw">official doc</a>, were just too noisy and suggested using a factory.<br /><br />I don&#8217;t like that approach - I should not be forced to use a factory - that creates an unnecessary coupling - let&#8217;s just pretend a factory existed and creates a connections, that&#8217;s all our protocol should need.<br /><br />Of course sometimes a protocol is bound to a very specific factory since it needs to invoke methods on it for non protocol-specific data (remember, there&#8217;s just one factory, while there&#8217;s one protocol per connection). I don&#8217;t like that behaviour, since it creates an unnecessary coupling and makes factories huge and not cohesive, and I think protocols should just be injected whatever peers they need during the <a href="http://twistedmatrix.com/documents/current/api/twisted.internet.protocol.Factory.html#buildProtocol">buildProtocol()</a>&nbsp;invocation - but I&#8217;ll talk about that in another post. In the meantime, I reccommend just creating a mock factory and setting it manually on the protocol.<br /><br />So, here it is the solution I baked:<br /><br /><script src="https://gist.github.com/942093.js">  </script><br /><br />What do you think about this solution?</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/04/22/building-a-successful-community-driven-software-project-part-4/">Building a Successful Community-driven Software Project / Part 4</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-22T18:33:00+02:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+This is a multipart post. See <a href="http://ollivander.franzoni.eu/2011/02/building-successful-community-driven.html">part 3</a><br /><br />Just a brief conclusion to my post sequence; the three principles for succeeding at community-driven projects are:<br /><br /><br /><ul><li>Make it easy for the people to give you their feedback - it&#8217;s highly valuable.</li><li>Listen and reply to people&#8217;s feedback. Don&#8217;t do every-possible-requested-thing, but reply on time.</li><li>Don&#8217;t take any policy as a dogma. Everything can be changed.</li></ul></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/03/14/using-trial-as-test-runner-with-zc-buildout/">Using Trial as Test Runner With zc.buildout</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-14T18:10:00+01:00" pubdate data-updated="true">Mar 14<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+I&#8217;ve found a good way to launch tests using <a href="http://twistedmatrix.com/trac/wiki/TwistedTrial">Twisted Trial</a> in a <a href="http://www.buildout.org/">zc.buildout</a> enabled project. I was in fear of needing a full-fledged recipe - which I didn&#8217;t have the time nor the will to code.<br /><br />Luckily, <a href="http://pypi.python.org/pypi/zc.recipe.egg">zc.recipe.egg</a> seems good enough to satisfy my needs; I wanted a recipe that could launch all unit tests if no parameter was passed, while retaining the ability to choose which specific unit test was launched on command line.<br /><br /><br />Here it is:<br /><br /><script src="https://gist.github.com/869469.js?file=buildout.cfg"></script><br /><br />That&#8217;s filled in for <a href="http://pydenji.franzoni.eu">pydenji</a><br /><br /><script src="https://gist.github.com/869469.js?file=example.buildout.cfg"></script></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/4/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/2/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/">Unicode and Encoding: Python vs Java Shootout, part 2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/07/17/migrated-to-octopress/">Migrated to Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/">Unicode and encoding:  Python vs Java shootout, part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/12/07/jetbrains-ides-dock-aware-launcher-for-linux/">Jetbrains IDEs: dock-aware launcher for Linux</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/10/20/deploy-any-java-webapp-via-war-to-heroku/">Deploy any Java webapp via war to Heroku</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("franzeur", 3, true);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/franzeur" class="twitter-follow-button" data-show-count="false">Follow @franzeur</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Alan Franzoni -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ollivander';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
