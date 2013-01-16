@@ -9,7 +9,7 @@
   <meta name="author" content="Alan Franzoni">
 
   
-  <meta name="description" content="UPDATE:Most of this is pointless on IDEA &gt;= 11 and PyCharm &gt;= 2, since a Tools -&gt; Create desktop entry menu now exists and will let you do &hellip;">
+  <meta name="description" content="Before going on with this post, be sure you&#8217;ve read&nbsp;The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,48 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/">Unicode and Encoding: Python vs Java Shootout, Part 1</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-22T13:34:00+01:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+Before going on with this post, be sure you&#8217;ve read&nbsp;<a href="http://www.joelonsoftware.com/articles/Unicode.html" target="_blank">The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)</a>&nbsp;- otherwise, I won&#8217;t be able to solve your issues.<br /><br />Sometimes Java fans just say that Python Unicode support sucks. While there&#8217;s a bit of truth in that assertion - for Python 2.x at least, since 3.x solved the problem at its root - the real problem lies in the fact that many programmers don&#8217;t know what&#8217;s going on &#8220;under the hood&#8221;, and that python default behaviour is a bit unforgiving.<br /><br />First things first: Python 2.x has got <b><a href="http://docs.python.org/library/stdtypes.html#string-methods">two distinct string types</a>: </b>the so-called &#8220;byte strings&#8221; (str type) are one, and unicode objects (unicode type) are another one. Unicode objects are much like Java strings; they&#8217;re an internal abstraction of Python, and need to be interpreted to/from byte strings whenever printing, reading/writing from/to a file, etc.<br /><br />Sometimes such interpreting &#8220;just works&#8221; (most probably if you&#8217;re dealing with ascii-only text), but if such conversion fails, errors occur:&nbsp;Python infamous and dreaded UnicodeDecodeError can happen in many places and might sometime just puzzle the programmer:<br /><br /><pre class="brush: py"># -*- coding: utf-8 -*-<br />import sys<br /><br />print "current default encoding: " + sys.getdefaultencoding()<br /><br />"àèìòù" + u"asd"<br /></pre><br /><pre class="brush: plain">javapythonunicode$ python unicode_concat.py<br />current default encoding: ascii<br />Traceback (most recent call last):<br />  File "unicode_concat.py", line 6, in &lt;module&gt;<br />  "àèìòù" + u"asd"<br />UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 0: ordinal not in range(128)<br /></pre><br />&nbsp;This happens when trying to concatenate an unicode string to string object. What really happens here, behind the scenes, is explained in unicode_concat_explained.py:<br /><br /><pre class="brush: py"># -*- coding: utf-8 -*-<br />import sys<br /><br />print "current default encoding: " + sys.getdefaultencoding()<br /><br />"àèìòù".decode(sys.getdefaultencoding()) + u"asd"<br /></pre><br />When using a byte string (not a unicode object) python tries to convert that string to unicode before concatenating to a unicode object. Since an encoding wasn&#8217;t specified, python just uses the default.<br /><br />So, if you&#8217;re planning to mix unicode and bytestring objects (which is not a good idea), <b>always remember to explicitly convert string objects to unicode by their decode() method.</b> Or, if you&#8217;re sure the encoding is always the same, you could add a <a href="http://docs.python.org/library/site.html">sitecustomize.py</a> to your interpreter or your project PYTHONPATH, and set such encoding. Beware that setting it system wide may lead to unexpected results when running your project on another machine.<br /><br />Also, just remember that the <a href="http://www.python.org/dev/peps/pep-0263/">coding directive</a> at the begininning of the file does not change unicode encoding/decoding behaviour: that&#8217;s a directive to the parser, which is used to instruct it about the current encoding of the file. That information is not retained nor used at runtime.<br /><br /><br />Let&#8217;s go for another much dreaded error now:&nbsp;UnicodeEncodeError!<br /><br /><pre class="brush: py"># -*- coding: utf-8 -*-<br />import sys<br />print "current stdout encoding: " + str(sys.stdout.encoding)<br />print "current default encoding: " + sys.getdefaultencoding()<br /><br />print u"àèìòù"<br /></pre><br />results in this output: <br /><br /><pre class="brush: plain">javapythonunicode$ python unicode_print.py<br />current stdout encoding: UTF-8<br />àèìòù<br /></pre><br />Everything seems to work (as long as your terminal supports a charset, like UTF-8, or iso-8859-1, which can display accented chars) ! But now let&#8217;s go for some &#8220;black magic&#8221;:<br /><br /><script class="brush: plain" type="syntaxhighlighter"><![CDATA[ javapythonunicode$ python unicode_print.py | tee Traceback (most recent call last):   File "unicode_print.py", line 6, in <module>    print u"àèìòù" UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-4: ordinal not in range(128) current stdout encoding: None current default encoding: ascii ]] </script><br />That may be puzzling, but the sys.stdout printout should give you an hint.<br /><br />Whenever output is to a terminal, Python does perform autodetection of the encoding of your terminal, and subsequently sets sys.stdout accordingly. When sys.stdout encoding is set, any unicode object that gets printed is encoded accordingly. When output is NOT to a terminal, python does not autodetect sys.stdout encoding and, when sys.stdout has no encoding set any unicode object that is printed is <a href="http://docs.python.org/library/stdtypes.html#file-objects" target="_blank">converted according to sys.getdefaultencoding()</a><br /><br />So, what really happens here is:<br /><br /><pre class="brush: py"># -*- coding: utf-8 -*-<br />import sys<br />print "current stdout encoding: " + str(sys.stdout.encoding)<br />print "current default encoding: " + sys.getdefaultencoding()<br /><br />sys.stdout.write(<br />    u"àèìòù".encode(sys.stdout.encoding or sys.getdefaultencoding())<br />                )<br /></pre><br />Since accented characters can be encoded to UTF-8 but not to ASCII, such UnicodeEncodeErrors arise.<br /><br />Also beware of <a href="http://bugs.python.org/issue4947" target="_blank">bug 4947</a>&nbsp;- it may hit you if you&#8217;re using Python 2.6 or or older.<br /><br />
+You can find the second part of this article  <a href="http://ollivander.franzoni.eu/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/">here</a>
+<br /></div>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -141,131 +183,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/08/30/mock-javamail-primer/">Mock Javamail Primer</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-08-30T21:46:00+02:00" pubdate data-updated="true">Aug 30<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class='post'>
-Small primer for mock javamail, a pretty useful project that will be handy whenever you need to test code that uses POP3/IMAP/SMTP and you wouldn&#8217;t like to build wrappers for anything you need to test - javamail does not really offer interfaces that can be implemented by mock objects, but different implementations can be used at runtime depending on which jars are on the classpath.<br /><br />Take a look at the project homepage:<br /><br /><a href="http://java.net/projects/mock-javamail">http://java.net/projects/mock-javamail</a><br /><br />Be sure you&#8217;ve enabled java.net Maven repo, and add this dependency to your pom.xml:<br /><br /><pre style="background-color: #002b36; border-color: #000000; border-style: solid; border-width: 0.01mm; font-family: monospace; font-size: 13pt; line-height: 100%; padding: 4px;"><span style="background-color: #073642; color: #586e75;">1 </span><span style="background-color: #002b36; color: #839496;">        </span><span style="background-color: #002b36; color: #586e75;">&lt;</span><span style="background-color: #002b36; color: #268bd2; font-weight: bold;">dependency</span><span style="background-color: #002b36; color: #586e75;">&gt;
-<br /></span><span style="background-color: #073642; color: #586e75;">2 </span><span style="background-color: #002b36; color: #839496;">            </span><span style="background-color: #002b36; color: #586e75;">&lt;</span><span style="background-color: #002b36; color: #268bd2; font-weight: bold;">groupId</span><span style="background-color: #002b36; color: #586e75;">&gt;</span><span style="background-color: #002b36; color: #839496;">org.jvnet.mock-javamail</span><span style="background-color: #002b36; color: #586e75;">&lt;/</span><span style="background-color: #002b36; color: #268bd2; font-weight: bold;">groupId</span><span style="background-color: #002b36; color: #586e75;">&gt;
-<br /></span><span style="background-color: #073642; color: #586e75;">3 </span><span style="background-color: #002b36; color: #839496;">            </span><span style="background-color: #002b36; color: #586e75;">&lt;</span><span style="background-color: #002b36; color: #268bd2; font-weight: bold;">artifactId</span><span style="background-color: #002b36; color: #586e75;">&gt;</span><span style="background-color: #002b36; color: #839496;">mock-javamail</span><span style="background-color: #002b36; color: #586e75;">&lt;/</span><span style="background-color: #002b36; color: #268bd2; font-weight: bold;">artifactId</span><span style="background-color: #002b36; color: #586e75;">&gt;
-<br /></span><span style="background-color: #073642; color: #586e75;">4 </span><span style="background-color: #002b36; color: #839496;">            </span><span style="background-color: #002b36; color: #586e75;">&lt;</span><span style="background-color: #002b36; color: #268bd2; font-weight: bold;">version</span><span style="background-color: #002b36; color: #586e75;">&gt;</span><span style="background-color: #002b36; color: #839496;">1.9</span><span style="background-color: #002b36; color: #586e75;">&lt;/</span><span style="background-color: #002b36; color: #268bd2; font-weight: bold;">version</span><span style="background-color: #002b36; color: #586e75;">&gt;
-<br /></span><span style="background-color: #073642; color: #586e75;">5 </span><span style="background-color: #002b36; color: #839496;">            </span><span style="background-color: #002b36; color: #586e75;">&lt;</span><span style="background-color: #002b36; color: #268bd2; font-weight: bold;">scope</span><span style="background-color: #002b36; color: #586e75;">&gt;</span><span style="background-color: #002b36; color: #839496;">test</span><span style="background-color: #002b36; color: #586e75;">&lt;/</span><span style="background-color: #002b36; color: #268bd2; font-weight: bold;">scope</span><span style="background-color: #002b36; color: #586e75;">&gt;
-<br /></span><span style="background-color: #073642; color: #586e75;">6 </span><span style="background-color: #002b36; color: #839496;">        </span><span style="background-color: #002b36; color: #586e75;">&lt;/</span><span style="background-color: #002b36; color: #268bd2; font-weight: bold;">dependency</span><span style="background-color: #002b36; color: #586e75;">&gt;</span></pre><br />You&#8217;re almost ready; now setup your test code this way:<br /><br /><pre style="background-color: #002b36; border-color: #000000; border-style: solid; border-width: 0.01mm; font-family: monospace; font-size: 13pt; line-height: 100%; padding: 4px;"><span style="background-color: #073642; color: #586e75;"> 1 </span><span style="background-color: #002b36; color: #b58900;">public</span><span style="background-color: #002b36; color: #839496;"> </span><span style="background-color: #002b36; color: #b58900;">class</span><span style="background-color: #002b36; color: #839496;"> IMAPMailRepositoryTest {
-<br /></span><span style="background-color: #073642; color: #586e75;"> 2 </span><span style="background-color: #002b36; color: #839496;">    </span><span style="background-color: #002b36; color: #859900;">@Before
-<br /></span><span style="background-color: #073642; color: #586e75;"> 3 </span><span style="background-color: #002b36; color: #839496;">    </span><span style="background-color: #002b36; color: #b58900;">public</span><span style="background-color: #002b36; color: #839496;"> </span><span style="background-color: #002b36; color: #b58900;">void</span><span style="background-color: #002b36; color: #839496;"> setUp() </span><span style="background-color: #002b36; color: #b58900;">throws</span><span style="background-color: #002b36; color: #839496;"> Exception {
-<br /></span><span style="background-color: #073642; color: #586e75;"> 4 </span><span style="background-color: #002b36; color: #839496;">        </span><span style="background-color: #002b36; color: #b58900;">final</span><span style="background-color: #002b36; color: #839496;"> Session session = Session.getInstance(
-<br /></span><span style="background-color: #073642; color: #586e75;"> 5 </span><span style="background-color: #002b36; color: #839496;">                System.getProperties());
-<br /></span><span style="background-color: #073642; color: #586e75;"> 6 
-<br /> 7 </span><span style="background-color: #002b36; color: #839496;">        MimeMessage msg = </span><span style="background-color: #002b36; color: #b58900;">new</span><span style="background-color: #002b36; color: #839496;"> MimeMessage(
-<br /></span><span style="background-color: #073642; color: #586e75;"> 8 </span><span style="background-color: #002b36; color: #839496;">                session);
-<br /></span><span style="background-color: #073642; color: #586e75;"> 9 </span><span style="background-color: #002b36; color: #839496;">        msg.setRecipients(Message.RecipientType.</span><span style="background-color: #002b36; color: #d33682;">TO</span><span style="background-color: #002b36; color: #839496;">,
-<br /></span><span style="background-color: #073642; color: #586e75;">10 </span><span style="background-color: #002b36; color: #839496;">                </span><span style="background-color: #002b36; color: #2aa198;">"testuser@mockserver.com"</span><span style="background-color: #002b36; color: #839496;">);
-<br /></span><span style="background-color: #073642; color: #586e75;">11 </span><span style="background-color: #002b36; color: #839496;">        msg.setSubject(</span><span style="background-color: #002b36; color: #2aa198;">"Some Subject"</span><span style="background-color: #002b36; color: #839496;">);
-<br /></span><span style="background-color: #073642; color: #586e75;">12 </span><span style="background-color: #002b36; color: #839496;">        msg.setText(</span><span style="background-color: #002b36; color: #2aa198;">"sometext"</span><span style="background-color: #002b36; color: #839496;">);
-<br /></span><span style="background-color: #073642; color: #586e75;">13 </span><span style="background-color: #002b36; color: #839496;">        Transport.send(msg);
-<br /></span><span style="background-color: #073642; color: #586e75;">14 </span><span style="background-color: #002b36; color: #839496;">    }
-<br /></span><span style="background-color: #073642; color: #586e75;">15 
-<br />16 </span><span style="background-color: #002b36; color: #839496;">    </span><span style="background-color: #002b36; color: #859900;">@After
-<br /></span><span style="background-color: #073642; color: #586e75;">17 </span><span style="background-color: #002b36; color: #839496;">    </span><span style="background-color: #002b36; color: #b58900;">public</span><span style="background-color: #002b36; color: #839496;"> </span><span style="background-color: #002b36; color: #b58900;">void</span><span style="background-color: #002b36; color: #839496;"> tearDown() </span><span style="background-color: #002b36; color: #b58900;">throws</span><span style="background-color: #002b36; color: #839496;"> Exception {
-<br /></span><span style="background-color: #073642; color: #586e75;">18 </span><span style="background-color: #002b36; color: #839496;">        Mailbox.clearAll();
-<br /></span><span style="background-color: #073642; color: #586e75;">19 </span><span style="background-color: #002b36; color: #839496;">    }</span></pre><br /><br /><br />Now you&#8217;re ready to use your mock javamail:<br /><br /><pre style="background-color: #002b36; border-color: #000000; border-style: solid; border-width: 0.01mm; font-family: monospace; font-size: 13pt; line-height: 100%; padding: 4px;"><span style="background-color: #073642; color: #586e75;"> 1 </span><span style="background-color: #002b36; color: #b58900;">public</span><span style="background-color: #002b36; color: #839496;"> </span><span style="background-color: #002b36; color: #b58900;">class</span><span style="background-color: #002b36; color: #839496;"> SomeImapClient {
-<br /></span><span style="background-color: #073642; color: #586e75;"> 2 
-<br /> 3 </span><span style="background-color: #002b36; color: #839496;">    </span><span style="background-color: #002b36; color: #b58900;">private</span><span style="background-color: #002b36; color: #839496;"> </span><span style="background-color: #002b36; color: #b58900;">static</span><span style="background-color: #002b36; color: #839496;"> Logger </span><span style="background-color: #002b36; color: #d33682;">log</span><span style="background-color: #002b36; color: #839496;"> = Logger.getLogger(SomeImapClient.</span><span style="background-color: #002b36; color: #b58900;">class</span><span style="background-color: #002b36; color: #839496;">);
-<br /></span><span style="background-color: #073642; color: #586e75;"> 4 
-<br /> 5 </span><span style="background-color: #002b36; color: #839496;">    </span><span style="background-color: #002b36; color: #b58900;">public</span><span style="background-color: #002b36; color: #839496;"> </span><span style="background-color: #002b36; color: #b58900;">void</span><span style="background-color: #002b36; color: #839496;"> processMail() {
-<br /></span><span style="background-color: #073642; color: #586e75;"> 6 </span><span style="background-color: #002b36; color: #839496;">        </span><span style="background-color: #002b36; color: #b58900;">try</span><span style="background-color: #002b36; color: #839496;"> {
-<br /></span><span style="background-color: #073642; color: #586e75;"> 7 </span><span style="background-color: #002b36; color: #839496;">            Session session = getMailSession();
-<br /></span><span style="background-color: #073642; color: #586e75;"> 8 </span><span style="background-color: #002b36; color: #839496;">            Store store = connect(session);
-<br /></span><span style="background-color: #073642; color: #586e75;"> 9 </span><span style="background-color: #002b36; color: #839496;">            Folder folder = openMailFolder(store);
-<br /></span><span style="background-color: #073642; color: #586e75;">10 </span><span style="background-color: #002b36; color: #839496;">            findContent(folder);
-<br /></span><span style="background-color: #073642; color: #586e75;">11 </span><span style="background-color: #002b36; color: #839496;">        } </span><span style="background-color: #002b36; color: #b58900;">catch</span><span style="background-color: #002b36; color: #839496;"> (MessagingException e) {
-<br /></span><span style="background-color: #073642; color: #586e75;">12 </span><span style="background-color: #002b36; color: #839496;">            </span><span style="background-color: #002b36; color: #b58900;">throw</span><span style="background-color: #002b36; color: #839496;"> </span><span style="background-color: #002b36; color: #b58900;">new</span><span style="background-color: #002b36; color: #839496;"> RuntimeException(e);
-<br /></span><span style="background-color: #073642; color: #586e75;">13 </span><span style="background-color: #002b36; color: #839496;">        } </span><span style="background-color: #002b36; color: #b58900;">catch</span><span style="background-color: #002b36; color: #839496;"> (IOException e) {
-<br /></span><span style="background-color: #073642; color: #586e75;">14 </span><span style="background-color: #002b36; color: #839496;">            </span><span style="background-color: #002b36; color: #b58900;">throw</span><span style="background-color: #002b36; color: #839496;"> </span><span style="background-color: #002b36; color: #b58900;">new</span><span style="background-color: #002b36; color: #839496;"> RuntimeException(e);
-<br /></span><span style="background-color: #073642; color: #586e75;">15 </span><span style="background-color: #002b36; color: #839496;">        }
-<br /></span><span style="background-color: #073642; color: #586e75;">16 
-<br />17 </span><span style="background-color: #002b36; color: #839496;">    }
-<br /></span><span style="background-color: #073642; color: #586e75;">18 
-<br />19 </span><span style="background-color: #002b36; color: #839496;">    </span><span style="background-color: #002b36; color: #b58900;">public</span><span style="background-color: #002b36; color: #839496;"> Session getMailSession() {
-<br /></span><span style="background-color: #073642; color: #586e75;">20 </span><span style="background-color: #002b36; color: #839496;">        Properties props = System.getProperties();
-<br /></span><span style="background-color: #073642; color: #586e75;">21 </span><span style="background-color: #002b36; color: #839496;">        props.setProperty(</span><span style="background-color: #002b36; color: #2aa198;">"mail.store.protocol"</span><span style="background-color: #002b36; color: #839496;">, </span><span style="background-color: #002b36; color: #2aa198;">"imaps"</span><span style="background-color: #002b36; color: #839496;">);
-<br /></span><span style="background-color: #073642; color: #586e75;">22 </span><span style="background-color: #002b36; color: #839496;">        props.setProperty(</span><span style="background-color: #002b36; color: #2aa198;">"mail.imap.partialfetch"</span><span style="background-color: #002b36; color: #839496;">, </span><span style="background-color: #002b36; color: #2aa198;">"0"</span><span style="background-color: #002b36; color: #839496;">);
-<br /></span><span style="background-color: #073642; color: #586e75;">23 
-<br />24 </span><span style="background-color: #002b36; color: #839496;">        </span><span style="background-color: #002b36; color: #d33682;">log</span><span style="background-color: #002b36; color: #839496;">.debug(</span><span style="background-color: #002b36; color: #2aa198;">"Getting session"</span><span style="background-color: #002b36; color: #839496;">);
-<br /></span><span style="background-color: #073642; color: #586e75;">25 </span><span style="background-color: #002b36; color: #839496;">        </span><span style="background-color: #002b36; color: #b58900;">return</span><span style="background-color: #002b36; color: #839496;"> Session.getDefaultInstance(props, </span><span style="background-color: #002b36; color: #b58900;">null</span><span style="background-color: #002b36; color: #839496;">);
-<br /></span><span style="background-color: #073642; color: #586e75;">26 
-<br />27 </span><span style="background-color: #002b36; color: #839496;">    }
-<br /></span><span style="background-color: #073642; color: #586e75;">28 
-<br />29 </span><span style="background-color: #002b36; color: #839496;">    </span><span style="background-color: #002b36; color: #b58900;">public</span><span style="background-color: #002b36; color: #839496;"> Store connect(Session session) </span><span style="background-color: #002b36; color: #b58900;">throws</span><span style="background-color: #002b36; color: #839496;"> MessagingException {
-<br /></span><span style="background-color: #073642; color: #586e75;">30 </span><span style="background-color: #002b36; color: #839496;">        </span><span style="background-color: #002b36; color: #d33682;">log</span><span style="background-color: #002b36; color: #839496;">.debug(</span><span style="background-color: #002b36; color: #2aa198;">"getting the session for accessing email."</span><span style="background-color: #002b36; color: #839496;">);
-<br /></span><span style="background-color: #073642; color: #586e75;">31 </span><span style="background-color: #002b36; color: #839496;">        Store store = session.getStore(</span><span style="background-color: #002b36; color: #2aa198;">"imap"</span><span style="background-color: #002b36; color: #839496;">);
-<br /></span><span style="background-color: #073642; color: #586e75;">32 
-<br />33 </span><span style="background-color: #002b36; color: #839496;">        store.connect(</span><span style="background-color: #002b36; color: #2aa198;">"mockserver.com"</span><span style="background-color: #002b36; color: #839496;">, </span><span style="background-color: #002b36; color: #2aa198;">"testuser"</span><span style="background-color: #002b36; color: #839496;">, </span><span style="background-color: #002b36; color: #2aa198;">"somepassword"</span><span style="background-color: #002b36; color: #839496;">);
-<br /></span><span style="background-color: #073642; color: #586e75;">34 </span><span style="background-color: #002b36; color: #839496;">        </span><span style="background-color: #002b36; color: #d33682;">log</span><span style="background-color: #002b36; color: #839496;">.debug(</span><span style="background-color: #002b36; color: #2aa198;">"Connection established with IMAP server."</span><span style="background-color: #002b36; color: #839496;">);
-<br /></span><span style="background-color: #073642; color: #586e75;">35 </span><span style="background-color: #002b36; color: #839496;">        </span><span style="background-color: #002b36; color: #b58900;">return</span><span style="background-color: #002b36; color: #839496;"> store;
-<br /></span><span style="background-color: #073642; color: #586e75;">36 </span><span style="background-color: #002b36; color: #839496;">    }
-<br /></span><span style="background-color: #073642; color: #586e75;">37 
-<br />38 </span><span style="background-color: #002b36; color: #839496;">    </span><span style="background-color: #002b36; color: #b58900;">public</span><span style="background-color: #002b36; color: #839496;"> Folder openMailFolder(Store store) </span><span style="background-color: #002b36; color: #b58900;">throws</span><span style="background-color: #002b36; color: #839496;"> MessagingException {
-<br /></span><span style="background-color: #073642; color: #586e75;">39 </span><span style="background-color: #002b36; color: #839496;">        Folder folder = store.getDefaultFolder();
-<br /></span><span style="background-color: #073642; color: #586e75;">40 </span><span style="background-color: #002b36; color: #839496;">        folder = folder.getFolder(</span><span style="background-color: #002b36; color: #2aa198;">"inbox"</span><span style="background-color: #002b36; color: #839496;">);
-<br /></span><span style="background-color: #073642; color: #586e75;">41 </span><span style="background-color: #002b36; color: #839496;">        folder.open(Folder.</span><span style="background-color: #002b36; color: #d33682;">READ_ONLY</span><span style="background-color: #002b36; color: #839496;">);
-<br /></span><span style="background-color: #073642; color: #586e75;">42 </span><span style="background-color: #002b36; color: #839496;">        </span><span style="background-color: #002b36; color: #b58900;">return</span><span style="background-color: #002b36; color: #839496;"> folder;
-<br /></span><span style="background-color: #073642; color: #586e75;">43 </span><span style="background-color: #002b36; color: #839496;">    }
-<br /></span><span style="background-color: #073642; color: #586e75;">44 
-<br />45 </span><span style="background-color: #002b36; color: #839496;">    </span><span style="background-color: #002b36; color: #b58900;">public</span><span style="background-color: #002b36; color: #839496;"> </span><span style="background-color: #002b36; color: #b58900;">void</span><span style="background-color: #002b36; color: #839496;"> findContent(Folder folder) </span><span style="background-color: #002b36; color: #b58900;">throws</span><span style="background-color: #002b36; color: #839496;"> MessagingException, IOException {
-<br /></span><span style="background-color: #073642; color: #586e75;">46 </span><span style="background-color: #002b36; color: #839496;">        </span><span style="background-color: #002b36; color: #b58900;">for</span><span style="background-color: #002b36; color: #839496;"> (Message m : folder.getMessages()) {
-<br /></span><span style="background-color: #073642; color: #586e75;">47 </span><span style="background-color: #002b36; color: #839496;">            </span><span style="background-color: #002b36; color: #d33682;">log</span><span style="background-color: #002b36; color: #839496;">.debug(m.getSubject());
-<br /></span><span style="background-color: #073642; color: #586e75;">48 
-<br />49 </span><span style="background-color: #002b36; color: #839496;">        }
-<br /></span><span style="background-color: #073642; color: #586e75;">50 
-<br />51 
-<br />52 </span><span style="background-color: #002b36; color: #839496;">    }
-<br /></span><span style="background-color: #073642; color: #586e75;">53 
-<br />54 
-<br />55 </span><span style="background-color: #002b36; color: #839496;">}</span></pre><br /><br />Output is:<br /><br /><blockquote><blockquote>DEBUG 30 Aug 2011 19:25:25 SomeImapClient:32 - Getting session</blockquote><blockquote>DEBUG 30 Aug 2011 19:25:25 SomeImapClient:38 - getting the session for accessing email.</blockquote><blockquote>DEBUG 30 Aug 2011 19:25:25 SomeImapClient:42 - Connection established with IMAP server.</blockquote><blockquote>DEBUG 30 Aug 2011 19:25:25 SomeImapClient:55 - Some Subject</blockquote><blockquote><br /></blockquote></blockquote><br />Some small gotchas:<br /><br /><ul><li>your store.connect(&#8220;example.com&#8221;, &#8220;username&#8221;, &#8220;anything&#8221;) must match your &#8220;username@example.com&#8221; addressee in msg.setRecipients; different addressees will yield multiple mailboxes.</li>
- <li>Only works for plain imap &amp; pop3 mailboxes. Even though it doesn&#8217;t make a lot of sense to use SSL on a mock mailbox, if you try getting the &#8220;imaps&#8221; store you&#8217;ll get an error as a real implementation of javamail will be employed.</li>
- <li>I&#8217;d always advise to use such tearDown() when doing unit tests, since the Session seems global and different tests could interfere with different contents - unless you use a different fake user/test server url in each of your tests.</li>
- </ul><br /><br /><br /></div>
-<h2>Comments</h2>
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Craig Doremus</div>
-<div class='content'>
-Where&#39;s the rest of the IMAPMailRepositoryTest class with the test methods and assertions?!?</div>
-</div>
-</div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -283,6 +200,10 @@ Where&#39;s the rest of the IMAPMailRepositoryTest class with the test methods a
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/01/17/php-killer-features/">PHP Killer Features</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/">Unicode and Encoding: Python vs Java Shootout, part 2</a>
       </li>
     
@@ -296,10 +217,6 @@ Where&#39;s the rest of the IMAPMailRepositoryTest class with the test methods a
     
       <li class="post">
         <a href="/2011/12/07/jetbrains-ides-dock-aware-launcher-for-linux/">Jetbrains IDEs: dock-aware launcher for Linux</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2011/10/20/deploy-any-java-webapp-via-war-to-heroku/">Deploy any Java webapp via war to Heroku</a>
       </li>
     
   </ul>
