@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: misc | Ollivander]]></title>
-  <link href="http://alanfranz.github.com/ollivander/blog/categories/misc/atom.xml" rel="self"/>
-  <link href="http://alanfranz.github.com/ollivander/"/>
-  <updated>2013-01-17T00:09:14+01:00</updated>
-  <id>http://alanfranz.github.com/ollivander/</id>
+  <link href="http://ollivander.franzoni.eu/blog/categories/misc/atom.xml" rel="self"/>
+  <link href="http://ollivander.franzoni.eu/"/>
+  <updated>2013-01-17T11:57:30+01:00</updated>
+  <id>http://ollivander.franzoni.eu/</id>
   <author>
     <name><![CDATA[Alan Franzoni]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Migrated to Octopress]]></title>
-    <link href="http://alanfranz.github.com/ollivander/2012/07/17/migrated-to-octopress/"/>
+    <link href="http://ollivander.franzoni.eu/2012/07/17/migrated-to-octopress/"/>
     <updated>2012-07-17T17:20:00+02:00</updated>
-    <id>http://alanfranz.github.com/ollivander/2012/07/17/migrated-to-octopress</id>
+    <id>http://ollivander.franzoni.eu/2012/07/17/migrated-to-octopress</id>
     <content type="html"><![CDATA[<p>My blog was migrated to Octopress.</p>
 
 <p>I apologize if you had an RSS-firing or you were tweet-spammed; It seems that dealing with RSS migration

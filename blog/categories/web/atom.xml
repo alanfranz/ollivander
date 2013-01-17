@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: web | Ollivander]]></title>
-  <link href="http://alanfranz.github.com/ollivander/blog/categories/web/atom.xml" rel="self"/>
-  <link href="http://alanfranz.github.com/ollivander/"/>
-  <updated>2013-01-17T00:09:14+01:00</updated>
-  <id>http://alanfranz.github.com/ollivander/</id>
+  <link href="http://ollivander.franzoni.eu/blog/categories/web/atom.xml" rel="self"/>
+  <link href="http://ollivander.franzoni.eu/"/>
+  <updated>2013-01-17T11:57:30+01:00</updated>
+  <id>http://ollivander.franzoni.eu/</id>
   <author>
     <name><![CDATA[Alan Franzoni]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[PHP Killer Features]]></title>
-    <link href="http://alanfranz.github.com/ollivander/2013/01/17/php-killer-features/"/>
+    <link href="http://ollivander.franzoni.eu/2013/01/17/php-killer-features/"/>
     <updated>2013-01-17T00:10:00+01:00</updated>
-    <id>http://alanfranz.github.com/ollivander/2013/01/17/php-killer-features</id>
+    <id>http://ollivander.franzoni.eu/2013/01/17/php-killer-features</id>
     <content type="html"><![CDATA[<p>I don't like php, and I've got <a href="http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/">my reasons</a>.
 I've met a lot of people who dislike PHP and don't see how possibly anyone, anyhow, could think about ever
 using PHP in any real-world project out there, and simply dismiss PHP as a crap being created and used from

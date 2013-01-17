@@ -1,109 +1,105 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>http://ollivander.franzoni.eu/2010/10/21/why-apple-should-not-ditch-java/</loc>
+        <lastmod>2012-12-31T18:06:29+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://ollivander.franzoni.eu/2010/11/21/apple-and-openjdk-was-i-wrong/</loc>
+        <lastmod>2012-12-31T18:06:29+01:00</lastmod>
+    </url>
+    <url>
         <loc>
-            http://alanfranz.github.com/ollivander/2010/10/21/why-apple-should-not-ditch-java/
+            http://ollivander.franzoni.eu/2010/12/19/building-a-successful-community-driven-software-project-part-1/
         </loc>
         <lastmod>2012-12-31T18:06:29+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://alanfranz.github.com/ollivander/2010/11/21/apple-and-openjdk-was-i-wrong/
+            http://ollivander.franzoni.eu/2011/01/02/building-a-successful-community-driven-software-project-part-2/
         </loc>
         <lastmod>2012-12-31T18:06:29+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://alanfranz.github.com/ollivander/2010/12/19/building-a-successful-community-driven-software-project-part-1/
+            http://ollivander.franzoni.eu/2011/02/01/building-a-successful-community-driven-software-project-part-3/
         </loc>
         <lastmod>2012-12-31T18:06:29+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://alanfranz.github.com/ollivander/2011/01/02/building-a-successful-community-driven-software-project-part-2/
+            http://ollivander.franzoni.eu/2011/02/03/pycharm-rubymine-and-idea-linux-desktop-entries/
         </loc>
         <lastmod>2012-12-31T18:06:29+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://alanfranz.github.com/ollivander/2011/02/01/building-a-successful-community-driven-software-project-part-3/
+            http://ollivander.franzoni.eu/2011/03/14/using-trial-as-test-runner-with-zc-buildout/
         </loc>
         <lastmod>2012-12-31T18:06:29+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://alanfranz.github.com/ollivander/2011/02/03/pycharm-rubymine-and-idea-linux-desktop-entries/
+            http://ollivander.franzoni.eu/2011/04/22/building-a-successful-community-driven-software-project-part-4/
         </loc>
         <lastmod>2012-12-31T18:06:29+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://alanfranz.github.com/ollivander/2011/03/14/using-trial-as-test-runner-with-zc-buildout/
+            http://ollivander.franzoni.eu/2011/04/26/unit-testing-with-twisted-testing-protocols/
+        </loc>
+        <lastmod>2012-12-31T18:06:29+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://ollivander.franzoni.eu/2011/08/30/mock-javamail-primer/</loc>
+        <lastmod>2012-12-31T18:06:29+01:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://ollivander.franzoni.eu/2011/10/20/deploy-any-java-webapp-via-war-to-heroku/
         </loc>
         <lastmod>2012-12-31T18:06:29+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://alanfranz.github.com/ollivander/2011/04/22/building-a-successful-community-driven-software-project-part-4/
+            http://ollivander.franzoni.eu/2011/12/07/jetbrains-ides-dock-aware-launcher-for-linux/
         </loc>
         <lastmod>2012-12-31T18:06:29+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://alanfranz.github.com/ollivander/2011/04/26/unit-testing-with-twisted-testing-protocols/
+            http://ollivander.franzoni.eu/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/
         </loc>
         <lastmod>2012-12-31T18:06:29+01:00</lastmod>
     </url>
     <url>
-        <loc>http://alanfranz.github.com/ollivander/2011/08/30/mock-javamail-primer/</loc>
+        <loc>http://ollivander.franzoni.eu/2012/07/17/migrated-to-octopress/</loc>
         <lastmod>2012-12-31T18:06:29+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://alanfranz.github.com/ollivander/2011/10/20/deploy-any-java-webapp-via-war-to-heroku/
+            http://ollivander.franzoni.eu/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/
         </loc>
         <lastmod>2012-12-31T18:06:29+01:00</lastmod>
     </url>
     <url>
-        <loc>
-            http://alanfranz.github.com/ollivander/2011/12/07/jetbrains-ides-dock-aware-launcher-for-linux/
-        </loc>
-        <lastmod>2012-12-31T18:06:29+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://alanfranz.github.com/ollivander/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/
-        </loc>
-        <lastmod>2012-12-31T18:06:29+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://alanfranz.github.com/ollivander/2012/07/17/migrated-to-octopress/</loc>
-        <lastmod>2012-12-31T18:06:29+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://alanfranz.github.com/ollivander/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/
-        </loc>
-        <lastmod>2012-12-31T18:06:29+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://alanfranz.github.com/ollivander/2013/01/17/php-killer-features/</loc>
+        <loc>http://ollivander.franzoni.eu/2013/01/17/php-killer-features/</loc>
         <lastmod>2013-01-17T00:09:09+01:00</lastmod>
     </url>
     <url>
-        <loc>http://alanfranz.github.com/ollivander/blog/archives/</loc>
+        <loc>http://ollivander.franzoni.eu/blog/archives/</loc>
         <lastmod>2013-01-17T00:09:09+01:00</lastmod>
     </url>
     <url>
-        <loc>http://alanfranz.github.com/ollivander/feeds/posts/default</loc>
+        <loc>http://ollivander.franzoni.eu/feeds/posts/default</loc>
         <lastmod>2012-12-31T14:47:51+01:00</lastmod>
     </url>
     <url>
-        <loc>http://alanfranz.github.com/ollivander/</loc>
+        <loc>http://ollivander.franzoni.eu/</loc>
         <lastmod>2013-01-17T00:09:09+01:00</lastmod>
     </url>
     <url>
-        <loc>http://alanfranz.github.com/ollivander/robots.txt</loc>
+        <loc>http://ollivander.franzoni.eu/robots.txt</loc>
         <lastmod>2012-12-31T18:06:29+01:00</lastmod>
     </url>
 </urlset>
