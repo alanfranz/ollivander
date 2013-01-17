@@ -4,7 +4,7 @@
   <title><![CDATA[Ollivander]]></title>
   <link href="http://ollivander.franzoni.eu/atom.xml" rel="self"/>
   <link href="http://ollivander.franzoni.eu/"/>
-  <updated>2013-01-17T11:57:30+01:00</updated>
+  <updated>2013-01-17T16:12:45+01:00</updated>
   <id>http://ollivander.franzoni.eu/</id>
   <author>
     <name><![CDATA[Alan Franzoni]]></name>
@@ -31,7 +31,7 @@ nights at getting things done in Java or C#.</p>
 <p>I disagree with both groups (of course!) and I think that PHP&#8217;s got its unique set of killer features
 that make it still valuable, and those should be acknowledged.</p>
 
-<p>First, it&#8217;s not PHP by itself - there&#8217;s the <a href="http://en.wikipedia.org/wiki/LAMP_(software_bundle">LAMP stack</a>),
+<p>First, it&#8217;s not PHP by itself - there&#8217;s the <a href="http://en.wikipedia.org/wiki/LAMP_(software_bundle">LAMP stack</a>,
 a de-facto pseudo-standard; interoperability of PHP applications on many different hostings work quite well.
 This is very different from most other platforms, where you must either adapt your development environment
 to what your hosting provides, like in Google App Engine, or you must find a way to tune your hosting environment
