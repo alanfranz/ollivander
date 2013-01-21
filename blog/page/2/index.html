@@ -9,7 +9,8 @@
   <meta name="author" content="Alan Franzoni">
 
   
-  <meta name="description" content="Before going on with this post, be sure you&#8217;ve read&nbsp;The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About &hellip;">
+  <meta name="description" content="My blog was migrated to Octopress. I apologize if you had an RSS-firing or you were tweet-spammed; It seems that dealing with RSS migration
+is not &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +67,48 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/07/17/migrated-to-octopress/">Migrated to Octopress</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-17T17:20:00+02:00" pubdate data-updated="true">Jul 17<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>My blog was migrated to Octopress.</p>
+
+<p>I apologize if you had an RSS-firing or you were tweet-spammed; It seems that dealing with RSS migration
+is not trivial.</p>
+
+<p>I suggest you update your feed reader to use the new feed you can find at <a href="http://ollivander.franzoni.eu/atom.xml">http://ollivander.franzoni.eu/atom.xml</a> since the old
+URL will probably be dismissed shortly.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -146,43 +189,6 @@ You can find the second part of this article  <a href="http://ollivander.franzon
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/20/deploy-any-java-webapp-via-war-to-heroku/">Deploy Any Java Webapp via War to Heroku</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-20T23:17:00+02:00" pubdate data-updated="true">Oct 20<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class='post'>
-<a href="http://www.heroku.com/java">Heroku Java</a> support is something I longed for, but they <a href="http://devcenter.heroku.com/articles/java-faq#can_i_deploy_an_application_packaged_as_a_war_file_to_heroku">apparently don&#8217;t support</a> deploying a plain, old war file to Heroku.  <br /><br />I don&#8217;t like that; I&#8217;ve got my own continuous integration setup, and I want to compile my files on my own box - this allows me to keep my own Maven proxy with my own dependencies - which sometimes are patched versions of public ones - &nbsp;so that I don&#8217;t need to push everything on a public repo. I don&#8217;t want to be forced to build everything on Heroku, and I don&#8217;t want to compile anything I push - I&#8217;d usually push to Heroku stable versions only, or maybe integration versions that pass unit, integration and acceptance tests.<br /><br />So what? Don&#8217;t worry, deployment is possible.<br /><br /><script src="https://gist.github.com/1301100.js"> </script><br/><br/>Setup an heroku-aware git repository and a <a href="http://devcenter.heroku.com/articles/java">Cedar stack app,</a> and add the files you see above; your dir structure should look like:<br /><br /><blockquote>pom.xml<br />Procfile<br />src/<br />&nbsp; &nbsp; &nbsp;main/<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;java/<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; root/<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;StartWebApp.java<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;resources/<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;mywebapp.war</blockquote><br /><br />Now a simple<br /><br /><blockquote>git push heroku master</blockquote><br /><br />Should do the trick, and let you see your fully deployed war app.<br /><br /><br />There&#8217;re still things you need to be aware of; file persistence may not work as expected, since filesystem is ephemeral, and I still need to figure out things related to database configuration, but those should not come at a great expense.<br /><br />I&#8217;ll post updates in the future as soon as I get them right.<br /><br /><br /><br /></div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -200,6 +206,10 @@ You can find the second part of this article  <a href="http://ollivander.franzon
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/01/21/python-packaging-woes/">Python Packaging Woes - part 1</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/01/17/php-killer-features/">PHP Killer Features</a>
       </li>
     
@@ -213,10 +223,6 @@ You can find the second part of this article  <a href="http://ollivander.franzon
     
       <li class="post">
         <a href="/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/">Unicode and encoding:  Python vs Java shootout, part 1</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2011/12/07/jetbrains-ides-dock-aware-launcher-for-linux/">Jetbrains IDEs: dock-aware launcher for Linux</a>
       </li>
     
   </ul>

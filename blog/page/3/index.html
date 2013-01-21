@@ -9,7 +9,7 @@
   <meta name="author" content="Alan Franzoni">
 
   
-  <meta name="description" content="Small primer for mock javamail, a pretty useful project that will be handy whenever you need to test code that uses POP3/IMAP/SMTP and you wouldn&# &hellip;">
+  <meta name="description" content="Heroku Java support is something I longed for, but they apparently don&#8217;t support deploying a plain, old war file to Heroku. I don&#8217;t like &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,43 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/20/deploy-any-java-webapp-via-war-to-heroku/">Deploy Any Java Webapp via War to Heroku</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-20T23:17:00+02:00" pubdate data-updated="true">Oct 20<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<a href="http://www.heroku.com/java">Heroku Java</a> support is something I longed for, but they <a href="http://devcenter.heroku.com/articles/java-faq#can_i_deploy_an_application_packaged_as_a_war_file_to_heroku">apparently don&#8217;t support</a> deploying a plain, old war file to Heroku.  <br /><br />I don&#8217;t like that; I&#8217;ve got my own continuous integration setup, and I want to compile my files on my own box - this allows me to keep my own Maven proxy with my own dependencies - which sometimes are patched versions of public ones - &nbsp;so that I don&#8217;t need to push everything on a public repo. I don&#8217;t want to be forced to build everything on Heroku, and I don&#8217;t want to compile anything I push - I&#8217;d usually push to Heroku stable versions only, or maybe integration versions that pass unit, integration and acceptance tests.<br /><br />So what? Don&#8217;t worry, deployment is possible.<br /><br /><script src="https://gist.github.com/1301100.js"> </script><br/><br/>Setup an heroku-aware git repository and a <a href="http://devcenter.heroku.com/articles/java">Cedar stack app,</a> and add the files you see above; your dir structure should look like:<br /><br /><blockquote>pom.xml<br />Procfile<br />src/<br />&nbsp; &nbsp; &nbsp;main/<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;java/<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; root/<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;StartWebApp.java<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;resources/<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;mywebapp.war</blockquote><br /><br />Now a simple<br /><br /><blockquote>git push heroku master</blockquote><br /><br />Should do the trick, and let you see your fully deployed war app.<br /><br /><br />There&#8217;re still things you need to be aware of; file persistence may not work as expected, since filesystem is ephemeral, and I still need to figure out things related to database configuration, but those should not come at a great expense.<br /><br />I&#8217;ll post updates in the future as soon as I get them right.<br /><br /><br /><br /></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -229,43 +266,6 @@ I had some hard time when testing <a href="http://twistedmatrix.com/trac/">Twist
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/04/22/building-a-successful-community-driven-software-project-part-4/">Building a Successful Community-driven Software Project / Part 4</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-04-22T18:33:00+02:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class='post'>
-This is a multipart post. See <a href="http://ollivander.franzoni.eu/2011/02/building-successful-community-driven.html">part 3</a><br /><br />Just a brief conclusion to my post sequence; the three principles for succeeding at community-driven projects are:<br /><br /><br /><ul><li>Make it easy for the people to give you their feedback - it&#8217;s highly valuable.</li><li>Listen and reply to people&#8217;s feedback. Don&#8217;t do every-possible-requested-thing, but reply on time.</li><li>Don&#8217;t take any policy as a dogma. Everything can be changed.</li></ul></div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -283,6 +283,10 @@ This is a multipart post. See <a href="http://ollivander.franzoni.eu/2011/02/bui
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/01/21/python-packaging-woes/">Python Packaging Woes - part 1</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/01/17/php-killer-features/">PHP Killer Features</a>
       </li>
     
@@ -296,10 +300,6 @@ This is a multipart post. See <a href="http://ollivander.franzoni.eu/2011/02/bui
     
       <li class="post">
         <a href="/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/">Unicode and encoding:  Python vs Java shootout, part 1</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2011/12/07/jetbrains-ides-dock-aware-launcher-for-linux/">Jetbrains IDEs: dock-aware launcher for Linux</a>
       </li>
     
   </ul>
