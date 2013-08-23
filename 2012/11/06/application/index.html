@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: encodings - Ollivander</title>
+  <title>Application, state and configuration - Ollivander</title>
   <meta name="author" content="Alan Franzoni">
 
   
-  <meta name="description" content="Category: encodings">
+  <meta name="description" content="A lot of time I get pissed off at how application, state and configuration concepts are messed up in applications,
+and I think it&rsquo;s high time &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ollivander.franzoni.eublog/categories/encodings/">
+  <link rel="canonical" href="http://ollivander.franzoni.eu/2012/11/06/application/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -65,36 +66,107 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Encodings</h1>
+    
+      <h1 class="entry-title">Application, State and Configuration</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-06T18:24:00+01:00" pubdate data-updated="true">Nov 6<span>th</span>, 2012</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>A lot of time I get pissed off at how application, state and configuration concepts are messed up in applications,
+and I think it&rsquo;s high time for a clarification.</p>
 
-  
-  <h2>2012</h2>
+<p>What&rsquo;s part of your application, what&rsquo;s part of your application&rsquo;s state and what&rsquo;s part of your configuration?</p>
 
-<article>
-  
-<h1><a href="/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/">Unicode and Encoding: Python vs Java Shootout, part 2</a></h1>
-<time datetime="2012-07-23T13:30:00+02:00" pubdate><span class='month'>Jul</span> <span class='day'>23</span> <span class='year'>2012</span></time>
+<p>Your application should be <em>read-only</em> at runtime, it should <em>read</em> your configuration and <em>read and write</em> the state.
+There may be exceptions to that rule for the so-called meta-applications that let you configure them when running, nonetheless you should <em>never</em> mix up such concerns.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/encodings/'>encodings</a>, <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/unicode/'>unicode</a></span>
-</footer>
+<p>What should your application contain?</p>
 
-
-</article>
-
+<p>Most likely your application will contain a GUI and a core, it will connect to a data source and/or other external services, and will be deployed on some machine.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Alan Franzoni</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-06T18:24:00+01:00" pubdate data-updated="true">Nov 6<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/application/'>application</a>, <a class='category' href='/blog/categories/architecture/'>architecture</a>, <a class='category' href='/blog/categories/configuration/'>configuration</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://ollivander.franzoni.eu/2012/11/06/application/" data-via="franzeur" data-counturl="http://ollivander.franzoni.eu/2012/11/06/application/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/" title="Previous Post: Unicode and Encoding: Python vs Java Shootout, part 2">&laquo; Unicode and Encoding: Python vs Java Shootout, part 2</a>
+      
+      
+        <a class="basic-alignment right" href="/2013/01/17/php-killer-features/" title="Next Post: PHP Killer Features">PHP Killer Features &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -154,7 +226,10 @@
       var disqus_shortname = 'ollivander';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ollivander.franzoni.eu/2012/11/06/application/';
+        var disqus_url = 'http://ollivander.franzoni.eu/2012/11/06/application/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

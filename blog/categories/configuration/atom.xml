@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: configuration | Ollivander]]></title>
+  <link href="http://ollivander.franzoni.eu/blog/categories/configuration/atom.xml" rel="self"/>
+  <link href="http://ollivander.franzoni.eu/"/>
+  <updated>2013-08-23T11:32:47+02:00</updated>
+  <id>http://ollivander.franzoni.eu/</id>
+  <author>
+    <name><![CDATA[Alan Franzoni]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Application, state and configuration]]></title>
+    <link href="http://ollivander.franzoni.eu/2012/11/06/application/"/>
+    <updated>2012-11-06T18:24:00+01:00</updated>
+    <id>http://ollivander.franzoni.eu/2012/11/06/application</id>
+    <content type="html"><![CDATA[<p>A lot of time I get pissed off at how application, state and configuration concepts are messed up in applications,
+and I think it&rsquo;s high time for a clarification.</p>
+
+<p>What&rsquo;s part of your application, what&rsquo;s part of your application&rsquo;s state and what&rsquo;s part of your configuration?</p>
+
+<p>Your application should be <em>read-only</em> at runtime, it should <em>read</em> your configuration and <em>read and write</em> the state.
+There may be exceptions to that rule for the so-called meta-applications that let you configure them when running, nonetheless you should <em>never</em> mix up such concerns.</p>
+
+<p>What should your application contain?</p>
+
+<p>Most likely your application will contain a GUI and a core, it will connect to a data source and/or other external services, and will be deployed on some machine.</p>
+]]></content>
+  </entry>
+  
+</feed>

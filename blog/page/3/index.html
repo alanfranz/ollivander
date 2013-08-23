@@ -9,7 +9,7 @@
   <meta name="author" content="Alan Franzoni">
 
   
-  <meta name="description" content="Heroku Java support is something I longed for, but they apparently don&#8217;t support deploying a plain, old war file to Heroku. I don&#8217;t like &hellip;">
+  <meta name="description" content="UPDATE:Most of this is pointless on IDEA &gt;= 11 and PyCharm &gt;= 2, since a Tools -&gt; Create desktop entry menu now exists and will let you do &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,43 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/12/07/jetbrains-ides-dock-aware-launcher-for-linux/">Jetbrains IDEs: Dock-aware Launcher for Linux</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-07T20:24:00+01:00" pubdate data-updated="true">Dec 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<b>UPDATE:</b><br />Most of this is pointless on IDEA &gt;= 11 and PyCharm &gt;= 2, since a <i>Tools -&gt; Create desktop entry </i>menu now exists and will let you do everything my launcher did. You&#8217;ll need to reinstall it at every update - or just use the symlink trick I reccomended with the&nbsp;<a href="https://github.com/alanfranz/jb_ide_launcher/" target="_blank">standalone launcher</a>&nbsp;and edit the IDEA desktop entry.<br /><br />I had<a href="http://ollivander.franzoni.eu/2011/02/pycharm-and-rubymine-linux-desktop.html" target="_blank"> already elaborated</a> on this, and I still thank <a href="http://blog.dutchworks.nl/2011/01/09/make-intellij-idea-behave-properly-in-linux-docks/" target="_blank">Dutchworks</a>&nbsp;for their work, but I was yet to be satisfied with the status of dock awareness for Jetbrains IDEs; I tend to use multiple of those and I was highly dissatisfied with the way the dock grouped all my Java apps - that&#8217;s caused by the fact that many Java apps based on Swing/AWT share the same WM_CLASS attribute, which is used bye the dock to tell one window from another - but you can read more on that from the Dutchworks blog page above.<br /><br />The basic problem is:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://github.com/alanfranz/jb_ide_launcher/raw/master/screenshot-problem.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="345" src="https://github.com/alanfranz/jb_ide_launcher/raw/master/screenshot-problem.jpg" width="640" /></a></div><br />Here I have launched IDEA and PyCharm at the same time, and they&#8217;re grouped with the very same icon by <a href="http://do.davebsd.com/wiki/Docky" target="_blank">docky</a> - you need to right-click the icon and pick the proper subwindow, which is quite an hassle.<br /><br />My previously created solution required to update the launcher and copy agent.jar at every update.<br /><br />So what?<br /><br />I just created a <a href="https://github.com/alanfranz/jb_ide_launcher/" target="_blank">standalone launcher</a>&nbsp;which creates a proper .desktop file in your .local/share/applications directory, does not modify original files and still allows IDEs to have their own distinct icon in the dock:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://github.com/alanfranz/jb_ide_launcher/raw/master/screenshot-solved.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="314" src="https://github.com/alanfranz/jb_ide_launcher/raw/master/screenshot-solved.jpg" width="640" /></a></div><br /><br />There I have both IDEA and PyCharm active at the same time, and they both work properly, and, whenever updating, you can just update the symlink (as suggested in the README from the GitHub repo) and you&#8217;re done!<br /><br />Multiple projects in the same DIE still share the same icon, but that doesn&#8217;t seem to be changeable from the outside, it&#8217;s something that Jetbrains should do; I&#8217;ll open a ticket for that.<br /><br />Enjoy!<br /><br /><br /></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -229,43 +266,6 @@ Where&#39;s the rest of the IMAPMailRepositoryTest class with the test methods a
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/04/26/unit-testing-with-twisted-testing-protocols/">Unit Testing With Twisted: Testing Protocols</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-04-26T21:33:00+02:00" pubdate data-updated="true">Apr 26<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class='post'>
-I had some hard time when testing <a href="http://twistedmatrix.com/trac/">Twisted</a>&nbsp;protocols. Although they should be decoupled from factories, most examples I could find, including those from the <a href="http://twistedmatrix.com/trac/browser/trunk/doc/core/howto/trial.xhtml?format=raw">official doc</a>, were just too noisy and suggested using a factory.<br /><br />I don&#8217;t like that approach - I should not be forced to use a factory - that creates an unnecessary coupling - let&#8217;s just pretend a factory existed and creates a connections, that&#8217;s all our protocol should need.<br /><br />Of course sometimes a protocol is bound to a very specific factory since it needs to invoke methods on it for non protocol-specific data (remember, there&#8217;s just one factory, while there&#8217;s one protocol per connection). I don&#8217;t like that behaviour, since it creates an unnecessary coupling and makes factories huge and not cohesive, and I think protocols should just be injected whatever peers they need during the <a href="http://twistedmatrix.com/documents/current/api/twisted.internet.protocol.Factory.html#buildProtocol">buildProtocol()</a>&nbsp;invocation - but I&#8217;ll talk about that in another post. In the meantime, I reccommend just creating a mock factory and setting it manually on the protocol.<br /><br />So, here it is the solution I baked:<br /><br /><script src="https://gist.github.com/942093.js">  </script><br /><br />What do you think about this solution?</div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -291,15 +291,15 @@ I had some hard time when testing <a href="http://twistedmatrix.com/trac/">Twist
       </li>
     
       <li class="post">
+        <a href="/2012/11/06/application/">Application, state and configuration</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/">Unicode and Encoding: Python vs Java Shootout, part 2</a>
       </li>
     
       <li class="post">
         <a href="/2012/07/17/migrated-to-octopress/">Migrated to Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/">Unicode and encoding:  Python vs Java shootout, part 1</a>
       </li>
     
   </ul>
