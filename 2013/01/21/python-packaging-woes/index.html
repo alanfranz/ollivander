@@ -9,7 +9,7 @@
   <meta name="author" content="Alan Franzoni">
 
   
-  <meta name="description" content="This is a spinoff from my Europython 2012 talk (video, slides). Some days ago I got involved in a brief discussion on the topic, so here&#8217;s what &hellip;">
+  <meta name="description" content="This is a spinoff from my Europython 2012 talk (video, slides). Some days ago I got involved in a brief discussion on the topic, so here&rsquo;s what &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -94,51 +94,51 @@
 
 <div class="entry-content"><p>This is a spinoff from my <a href="https://ep2012.europython.eu/conference/talks/language-alone-wont-pay-your-bills">Europython 2012 talk</a> (<a href="http://www.youtube.com/watch?v=JlNYO4zUDAQ">video</a>, <a href="https://ep2013.europython.eu/media/conference/slides/language-alone-wont-pay-your-bills.pdf">slides</a>).</p>
 
-<p>Some days ago I got involved in a brief <a href="https://twitter.com/hpk42/status/292599238095933440">discussion</a> on the topic, <strong>so here&#8217;s what I think about Python packaging and dependency management: it&#8217;s in a very bad state, requires a lot of manual intervention to work properly and heavily limits code reuse.</strong></p>
+<p>Some days ago I got involved in a brief <a href="https://twitter.com/hpk42/status/292599238095933440">discussion</a> on the topic, <strong>so here&rsquo;s what I think about Python packaging and dependency management: it&rsquo;s in a very bad state, requires a lot of manual intervention to work properly and heavily limits code reuse.</strong></p>
 
-<p>Why? Let&#8217;s see.</p>
+<p>Why? Let&rsquo;s see.</p>
 
 <h2>The Packaging Conspiracy</h2>
 
 <h3>Aim</h3>
 
-<p>No, it&#8217;s not a conspiracy to force you to learn something you don&#8217;t care about. The whole point of packaging is to make code reuse easy enough, both for the developer&#8217;s own sake (e.g. shared code between different projects) and for sharing it with the public.</p>
+<p>No, it&rsquo;s not a conspiracy to force you to learn something you don&rsquo;t care about. The whole point of packaging is to make code reuse easy enough, both for the developer&rsquo;s own sake (e.g. shared code between different projects) and for sharing it with the public.</p>
 
-<p><strong>Packaging usually involves dependency management</strong>; this happens in most Linux distributions as well as other packaging systems (e.g. Apache Maven, Rubygems), because you don&#8217;t just release your code in &#8220;in the dark&#8221;: you are releasing version 1.0.0 of your code on January, 1st 2013, and that usually matches (or should match) an exact revision on your source control system, and a precise set of dependencies, because your own software or library may have its own requirements.</p>
+<p><strong>Packaging usually involves dependency management</strong>; this happens in most Linux distributions as well as other packaging systems (e.g. Apache Maven, Rubygems), because you don&rsquo;t just release your code in &ldquo;in the dark&rdquo;: you are releasing version 1.0.0 of your code on January, 1st 2013, and that usually matches (or should match) an exact revision on your source control system, and a precise set of dependencies, because your own software or library may have its own requirements.</p>
 
-<h3>It&#8217;s an overkill!</h3>
+<h3>It&rsquo;s an overkill!</h3>
 
 <p>Some developers think all of this is a waste of their time.</p>
 
-<p><em>D: Hey Alan, are you really saying say I can&#8217;t just copy and paste some source code in some directory and just go on? How much time should I spend at this tedious task?!?</em></p>
+<p><em>D: Hey Alan, are you really saying say I can&rsquo;t just copy and paste some source code in some directory and just go on? How much time should I spend at this tedious task?!?</em></p>
 
-<p>A: Sure, just copy and paste. And remember copying and pasting all transitive dependencies as well. And since this is Python, start hoping all your transitive dependencies are pure Python, otherwise good luck at copypasting C source code into your repo and remembering to compile it every time. And whenever you need a bugfix in your upstream dependency, good luck at remembering where you&#8217;ve fetched that code from, and at which revision. Oh, did you write the URL and the revision somewhere in the VCS commit message? Fine, <strong>you&#8217;re doing by hand the work that a good dependency management tool is supposed to do</strong>. If you like that.</p>
+<p>A: Sure, just copy and paste. And remember copying and pasting all transitive dependencies as well. And since this is Python, start hoping all your transitive dependencies are pure Python, otherwise good luck at copypasting C source code into your repo and remembering to compile it every time. And whenever you need a bugfix in your upstream dependency, good luck at remembering where you&rsquo;ve fetched that code from, and at which revision. Oh, did you write the URL and the revision somewhere in the VCS commit message? Fine, <strong>you&rsquo;re doing by hand the work that a good dependency management tool is supposed to do</strong>. If you like that.</p>
 
-<p><em>D: OK, ok. I got it. So now I&#8217;ve added my dependencies. But what the heck, does the version really matter? I don&#8217;t care! If a new version of something I rely on is released, it will contain bugfixes and maybe new features, but won&#8217;t break my code.</em></p>
+<p><em>D: OK, ok. I got it. So now I&rsquo;ve added my dependencies. But what the heck, does the version really matter? I don&rsquo;t care! If a new version of something I rely on is released, it will contain bugfixes and maybe new features, but won&rsquo;t break my code.</em></p>
 
-<p>A: Dear developer, I think your great trust in the Developer From The Next Door is something that feeds your heart but hinders your brain. You should depend on Only One Version for your production code; when it&#8217;s time to upgrade to a later one, you need to do a manual test run and verify everything is fine. If you forget about doing that, your imagination will be the only limit to whatever mess can happen.</p>
+<p>A: Dear developer, I think your great trust in the Developer From The Next Door is something that feeds your heart but hinders your brain. You should depend on Only One Version for your production code; when it&rsquo;s time to upgrade to a later one, you need to do a manual test run and verify everything is fine. If you forget about doing that, your imagination will be the only limit to whatever mess can happen.</p>
 
-<p><em>D: OK, ok, now I&#8217;ve set versions for all my deps. What version should I use for my own software, though? Can I just pick any version I like? First version 1.0, then 1.1, until I get to 1.99 and i move to 2.0?</em></p>
+<p><em>D: OK, ok, now I&rsquo;ve set versions for all my deps. What version should I use for my own software, though? Can I just pick any version I like? First version 1.0, then 1.1, until I get to 1.99 and i move to 2.0?</em></p>
 
-<p>A: Try doing something meaningful, and stick to your plan. <strong>You can pick your own versioning policy</strong>. Usually your version numbers should distinguish at least between major releases, where you can break backwards compatibility (if you must, not just because you enjoy) and add a lot of new things, and bugfix releases, where you try to minimize the changes to what really needs to be fixed, in order not to mess up client code. Many softwares used to use a two-dotted version number, something like MAJOR.MINOR.REVISION, with REVISION being used for bugfixes only, but the distinction between MAJOR and MINOR is blurred and often just something &#8220;emotional&#8221;. If you perform small incremental changes on your codebase - <a href="http://blog.chromium.org/2010/07/release-early-release-often.html">a-la-Chrome</a> - you can stick with just MAJOR.REVISION. Every feature-adding release increases the MAJOR, every bugfix increases the REVISION. Of course, remember that your MAJOR should be strictly increasing, while REVISION is usually reset at 0 for every MAJOR and then strictly increasing.</p>
+<p>A: Try doing something meaningful, and stick to your plan. <strong>You can pick your own versioning policy</strong>. Usually your version numbers should distinguish at least between major releases, where you can break backwards compatibility (if you must, not just because you enjoy) and add a lot of new things, and bugfix releases, where you try to minimize the changes to what really needs to be fixed, in order not to mess up client code. Many softwares used to use a two-dotted version number, something like MAJOR.MINOR.REVISION, with REVISION being used for bugfixes only, but the distinction between MAJOR and MINOR is blurred and often just something &ldquo;emotional&rdquo;. If you perform small incremental changes on your codebase &ndash; <a href="http://blog.chromium.org/2010/07/release-early-release-often.html">a-la-Chrome</a> &ndash; you can stick with just MAJOR.REVISION. Every feature-adding release increases the MAJOR, every bugfix increases the REVISION. Of course, remember that your MAJOR should be strictly increasing, while REVISION is usually reset at 0 for every MAJOR and then strictly increasing.</p>
 
 <p><em>D: So, what should I do now? Where do I release my code? Should I copypaste my code somewhere? I know of a great pastebin!</em></p>
 
 <p>A: You should usually aggregate your build into an artifact (= product of the build) and you should upload it to a shared repository, where you and other people agree uploading your software to and fetching other people software from.</p>
 
-<p><em>D: YEAH! I&#8217;ve just released version 0.0.2 to the public. Now I&#8217;m deleting 0.0.1, right?</em></p>
+<p><em>D: YEAH! I&rsquo;ve just released version 0.0.2 to the public. Now I&rsquo;m deleting 0.0.1, right?</em></p>
 
-<p>A: No. Never. Ideally, unless you must - by must I mean something like &#8220;there&#8217;s a password for my bank account in the source code&#8221; or &#8220;I mistakenly copypasted code for which I hadn&#8217;t the copyright&#8221; - <strong>you should never, ever, ever, remove a released version</strong>. You never know who&#8217;s using it - if my software works fine with 0.0.1, why should I be forced to upgrade? You can shout at me if I ever ask anything about it to you, according to your version policy, but you shouldn&#8217;t care about old versions otherwise. If tagging is supported on the repository you might want to tag old versions as &#8220;deprecated&#8221;, &#8220;bugged&#8221;, or maybe &#8220;donut&#8221; if they contain a huge security hole.</p>
+<p>A: No. Never. Ideally, unless you must &ndash; by must I mean something like &ldquo;there&rsquo;s a password for my bank account in the source code&rdquo; or &ldquo;I mistakenly copypasted code for which I hadn&rsquo;t the copyright&rdquo; &ndash; <strong>you should never, ever, ever, remove a released version</strong>. You never know who&rsquo;s using it &ndash; if my software works fine with 0.0.1, why should I be forced to upgrade? You can shout at me if I ever ask anything about it to you, according to your version policy, but you shouldn&rsquo;t care about old versions otherwise. If tagging is supported on the repository you might want to tag old versions as &ldquo;deprecated&rdquo;, &ldquo;bugged&rdquo;, or maybe &ldquo;donut&rdquo; if they contain a huge security hole.</p>
 
-<p><em>D: I like fancy names. Can I name my next release 2.0.5sarah? You know, it&#8217;s my first daughter and she was born in the very day of such release.</em></p>
+<p><em>D: I like fancy names. Can I name my next release 2.0.5sarah? You know, it&rsquo;s my first daughter and she was born in the very day of such release.</em></p>
 
-<p>A: I&#8217;m happy of hearing that, but please stick with numbers only. Is 2.0.5sarah higher or lower than 2.0.6? No, &#8220;lexicographical&#8221; is not what you and I want to hear in such context. You may want to use a suffix/prefix/tag to mark non-final releases, e.g. alpha/beta/development releases, preferably a SINGLE suffix, which is widely recognized, for all of those, and decide once-for-all if it means lower or higher. Usually it means &#8220;lower&#8221;, so that 2.0.0beta is &lt; 2.0.0, but that&#8217;s not always the case - a very good idea is to deny that the same version of a package can exist both for a development and production version. I.e. if 2.1.&#8221; is beta, 2.0.5 can be a production release, but not 2.1.0 or 2.1.1.</p>
+<p>A: I&rsquo;m happy of hearing that, but please stick with numbers only. Is 2.0.5sarah higher or lower than 2.0.6? No, &ldquo;lexicographical&rdquo; is not what you and I want to hear in such context. You may want to use a suffix/prefix/tag to mark non-final releases, e.g. alpha/beta/development releases, preferably a SINGLE suffix, which is widely recognized, for all of those, and decide once-for-all if it means lower or higher. Usually it means &ldquo;lower&rdquo;, so that 2.0.0beta is &lt; 2.0.0, but that&rsquo;s not always the case &ndash; a very good idea is to deny that the same version of a package can exist both for a development and production version. I.e. if 2.1.&lsquo;&rsquo; is beta, 2.0.5 can be a production release, but not 2.1.0 or 2.1.1.</p>
 
-<p><em>D: There&#8217;re a lot of things to remember about dependency management and packaging. Should I learn everything by heart?</em></p>
+<p><em>D: There&rsquo;re a lot of things to remember about dependency management and packaging. Should I learn everything by heart?</em></p>
 
-<p>A: What the heck, no. <strong>Your packaging tool should guide you in such practices</strong> and prevent you from going stray unless it&#8217;s what you really mean to do! That why I&#8217;m complaining in the first place about the way Python does packaging!</p>
+<p>A: What the heck, no. <strong>Your packaging tool should guide you in such practices</strong> and prevent you from going stray unless it&rsquo;s what you really mean to do! That why I&rsquo;m complaining in the first place about the way Python does packaging!</p>
 
-<p>In part 2 I&#8217;ll dig into Python-packaging specific issues.</p>
+<p>In <a href="/2013/01/27/python-packaging-woes-2/">part 2</a> I dig into Python-specific packaging issues.</p>
 </div>
 
 
@@ -233,25 +233,13 @@
 </section>
 
 
+
+
 <section>
   <h1>Latest Tweets</h1>
-  <ul id="tweets">
-    <li class="loading">Status updating...</li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("franzeur", 3, true);
-    });
-  </script>
-  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/franzeur" class="twitter-follow-button" data-show-count="false">Follow @franzeur</a>
-  
+  <a class="twitter-timeline" href="https://twitter.com/franzeur" data-widget-id="361445337954672640">Tweets by @franzeur</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </section>
-
-
-
-
 
   
 </aside>

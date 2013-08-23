@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Ollivander]]></title>
   <link href="http://ollivander.franzoni.eu/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://ollivander.franzoni.eu/"/>
-  <updated>2013-01-21T23:38:05+01:00</updated>
+  <updated>2013-08-23T11:06:48+02:00</updated>
   <id>http://ollivander.franzoni.eu/</id>
   <author>
     <name><![CDATA[Alan Franzoni]]></name>
@@ -20,51 +20,51 @@
     <id>http://ollivander.franzoni.eu/2013/01/21/python-packaging-woes</id>
     <content type="html"><![CDATA[<p>This is a spinoff from my <a href="https://ep2012.europython.eu/conference/talks/language-alone-wont-pay-your-bills">Europython 2012 talk</a> (<a href="http://www.youtube.com/watch?v=JlNYO4zUDAQ">video</a>, <a href="https://ep2013.europython.eu/media/conference/slides/language-alone-wont-pay-your-bills.pdf">slides</a>).</p>
 
-<p>Some days ago I got involved in a brief <a href="https://twitter.com/hpk42/status/292599238095933440">discussion</a> on the topic, <strong>so here's what I think about Python packaging and dependency management: it's in a very bad state, requires a lot of manual intervention to work properly and heavily limits code reuse.</strong></p>
+<p>Some days ago I got involved in a brief <a href="https://twitter.com/hpk42/status/292599238095933440">discussion</a> on the topic, <strong>so here&rsquo;s what I think about Python packaging and dependency management: it&rsquo;s in a very bad state, requires a lot of manual intervention to work properly and heavily limits code reuse.</strong></p>
 
-<p>Why? Let's see.</p>
+<p>Why? Let&rsquo;s see.</p>
 
 <h2>The Packaging Conspiracy</h2>
 
 <h3>Aim</h3>
 
-<p>No, it's not a conspiracy to force you to learn something you don't care about. The whole point of packaging is to make code reuse easy enough, both for the developer's own sake (e.g. shared code between different projects) and for sharing it with the public.</p>
+<p>No, it&rsquo;s not a conspiracy to force you to learn something you don&rsquo;t care about. The whole point of packaging is to make code reuse easy enough, both for the developer&rsquo;s own sake (e.g. shared code between different projects) and for sharing it with the public.</p>
 
-<p><strong>Packaging usually involves dependency management</strong>; this happens in most Linux distributions as well as other packaging systems (e.g. Apache Maven, Rubygems), because you don't just release your code in "in the dark": you are releasing version 1.0.0 of your code on January, 1st 2013, and that usually matches (or should match) an exact revision on your source control system, and a precise set of dependencies, because your own software or library may have its own requirements.</p>
+<p><strong>Packaging usually involves dependency management</strong>; this happens in most Linux distributions as well as other packaging systems (e.g. Apache Maven, Rubygems), because you don&rsquo;t just release your code in &ldquo;in the dark&rdquo;: you are releasing version 1.0.0 of your code on January, 1st 2013, and that usually matches (or should match) an exact revision on your source control system, and a precise set of dependencies, because your own software or library may have its own requirements.</p>
 
-<h3>It's an overkill!</h3>
+<h3>It&rsquo;s an overkill!</h3>
 
 <p>Some developers think all of this is a waste of their time.</p>
 
-<p><em>D: Hey Alan, are you really saying say I can't just copy and paste some source code in some directory and just go on? How much time should I spend at this tedious task?!?</em></p>
+<p><em>D: Hey Alan, are you really saying say I can&rsquo;t just copy and paste some source code in some directory and just go on? How much time should I spend at this tedious task?!?</em></p>
 
-<p>A: Sure, just copy and paste. And remember copying and pasting all transitive dependencies as well. And since this is Python, start hoping all your transitive dependencies are pure Python, otherwise good luck at copypasting C source code into your repo and remembering to compile it every time. And whenever you need a bugfix in your upstream dependency, good luck at remembering where you've fetched that code from, and at which revision. Oh, did you write the URL and the revision somewhere in the VCS commit message? Fine, <strong>you're doing by hand the work that a good dependency management tool is supposed to do</strong>. If you like that.</p>
+<p>A: Sure, just copy and paste. And remember copying and pasting all transitive dependencies as well. And since this is Python, start hoping all your transitive dependencies are pure Python, otherwise good luck at copypasting C source code into your repo and remembering to compile it every time. And whenever you need a bugfix in your upstream dependency, good luck at remembering where you&rsquo;ve fetched that code from, and at which revision. Oh, did you write the URL and the revision somewhere in the VCS commit message? Fine, <strong>you&rsquo;re doing by hand the work that a good dependency management tool is supposed to do</strong>. If you like that.</p>
 
-<p><em>D: OK, ok. I got it. So now I've added my dependencies. But what the heck, does the version really matter? I don't care! If a new version of something I rely on is released, it will contain bugfixes and maybe new features, but won't break my code.</em></p>
+<p><em>D: OK, ok. I got it. So now I&rsquo;ve added my dependencies. But what the heck, does the version really matter? I don&rsquo;t care! If a new version of something I rely on is released, it will contain bugfixes and maybe new features, but won&rsquo;t break my code.</em></p>
 
-<p>A: Dear developer, I think your great trust in the Developer From The Next Door is something that feeds your heart but hinders your brain. You should depend on Only One Version for your production code; when it's time to upgrade to a later one, you need to do a manual test run and verify everything is fine. If you forget about doing that, your imagination will be the only limit to whatever mess can happen.</p>
+<p>A: Dear developer, I think your great trust in the Developer From The Next Door is something that feeds your heart but hinders your brain. You should depend on Only One Version for your production code; when it&rsquo;s time to upgrade to a later one, you need to do a manual test run and verify everything is fine. If you forget about doing that, your imagination will be the only limit to whatever mess can happen.</p>
 
-<p><em>D: OK, ok, now I've set versions for all my deps. What version should I use for my own software, though? Can I just pick any version I like? First version 1.0, then 1.1, until I get to 1.99 and i move to 2.0?</em></p>
+<p><em>D: OK, ok, now I&rsquo;ve set versions for all my deps. What version should I use for my own software, though? Can I just pick any version I like? First version 1.0, then 1.1, until I get to 1.99 and i move to 2.0?</em></p>
 
-<p>A: Try doing something meaningful, and stick to your plan. <strong>You can pick your own versioning policy</strong>. Usually your version numbers should distinguish at least between major releases, where you can break backwards compatibility (if you must, not just because you enjoy) and add a lot of new things, and bugfix releases, where you try to minimize the changes to what really needs to be fixed, in order not to mess up client code. Many softwares used to use a two-dotted version number, something like MAJOR.MINOR.REVISION, with REVISION being used for bugfixes only, but the distinction between MAJOR and MINOR is blurred and often just something "emotional". If you perform small incremental changes on your codebase - <a href="http://blog.chromium.org/2010/07/release-early-release-often.html">a-la-Chrome</a> - you can stick with just MAJOR.REVISION. Every feature-adding release increases the MAJOR, every bugfix increases the REVISION. Of course, remember that your MAJOR should be strictly increasing, while REVISION is usually reset at 0 for every MAJOR and then strictly increasing.</p>
+<p>A: Try doing something meaningful, and stick to your plan. <strong>You can pick your own versioning policy</strong>. Usually your version numbers should distinguish at least between major releases, where you can break backwards compatibility (if you must, not just because you enjoy) and add a lot of new things, and bugfix releases, where you try to minimize the changes to what really needs to be fixed, in order not to mess up client code. Many softwares used to use a two-dotted version number, something like MAJOR.MINOR.REVISION, with REVISION being used for bugfixes only, but the distinction between MAJOR and MINOR is blurred and often just something &ldquo;emotional&rdquo;. If you perform small incremental changes on your codebase &ndash; <a href="http://blog.chromium.org/2010/07/release-early-release-often.html">a-la-Chrome</a> &ndash; you can stick with just MAJOR.REVISION. Every feature-adding release increases the MAJOR, every bugfix increases the REVISION. Of course, remember that your MAJOR should be strictly increasing, while REVISION is usually reset at 0 for every MAJOR and then strictly increasing.</p>
 
 <p><em>D: So, what should I do now? Where do I release my code? Should I copypaste my code somewhere? I know of a great pastebin!</em></p>
 
 <p>A: You should usually aggregate your build into an artifact (= product of the build) and you should upload it to a shared repository, where you and other people agree uploading your software to and fetching other people software from.</p>
 
-<p><em>D: YEAH! I've just released version 0.0.2 to the public. Now I'm deleting 0.0.1, right?</em></p>
+<p><em>D: YEAH! I&rsquo;ve just released version 0.0.2 to the public. Now I&rsquo;m deleting 0.0.1, right?</em></p>
 
-<p>A: No. Never. Ideally, unless you must - by must I mean something like "there's a password for my bank account in the source code" or "I mistakenly copypasted code for which I hadn't the copyright" - <strong>you should never, ever, ever, remove a released version</strong>. You never know who's using it - if my software works fine with 0.0.1, why should I be forced to upgrade? You can shout at me if I ever ask anything about it to you, according to your version policy, but you shouldn't care about old versions otherwise. If tagging is supported on the repository you might want to tag old versions as "deprecated", "bugged", or maybe "donut" if they contain a huge security hole.</p>
+<p>A: No. Never. Ideally, unless you must &ndash; by must I mean something like &ldquo;there&rsquo;s a password for my bank account in the source code&rdquo; or &ldquo;I mistakenly copypasted code for which I hadn&rsquo;t the copyright&rdquo; &ndash; <strong>you should never, ever, ever, remove a released version</strong>. You never know who&rsquo;s using it &ndash; if my software works fine with 0.0.1, why should I be forced to upgrade? You can shout at me if I ever ask anything about it to you, according to your version policy, but you shouldn&rsquo;t care about old versions otherwise. If tagging is supported on the repository you might want to tag old versions as &ldquo;deprecated&rdquo;, &ldquo;bugged&rdquo;, or maybe &ldquo;donut&rdquo; if they contain a huge security hole.</p>
 
-<p><em>D: I like fancy names. Can I name my next release 2.0.5sarah? You know, it's my first daughter and she was born in the very day of such release.</em></p>
+<p><em>D: I like fancy names. Can I name my next release 2.0.5sarah? You know, it&rsquo;s my first daughter and she was born in the very day of such release.</em></p>
 
-<p>A: I'm happy of hearing that, but please stick with numbers only. Is 2.0.5sarah higher or lower than 2.0.6? No, "lexicographical" is not what you and I want to hear in such context. You may want to use a suffix/prefix/tag to mark non-final releases, e.g. alpha/beta/development releases, preferably a SINGLE suffix, which is widely recognized, for all of those, and decide once-for-all if it means lower or higher. Usually it means "lower", so that 2.0.0beta is &lt; 2.0.0, but that's not always the case - a very good idea is to deny that the same version of a package can exist both for a development and production version. I.e. if 2.1.'' is beta, 2.0.5 can be a production release, but not 2.1.0 or 2.1.1.</p>
+<p>A: I&rsquo;m happy of hearing that, but please stick with numbers only. Is 2.0.5sarah higher or lower than 2.0.6? No, &ldquo;lexicographical&rdquo; is not what you and I want to hear in such context. You may want to use a suffix/prefix/tag to mark non-final releases, e.g. alpha/beta/development releases, preferably a SINGLE suffix, which is widely recognized, for all of those, and decide once-for-all if it means lower or higher. Usually it means &ldquo;lower&rdquo;, so that 2.0.0beta is &lt; 2.0.0, but that&rsquo;s not always the case &ndash; a very good idea is to deny that the same version of a package can exist both for a development and production version. I.e. if 2.1.&lsquo;&rsquo; is beta, 2.0.5 can be a production release, but not 2.1.0 or 2.1.1.</p>
 
-<p><em>D: There're a lot of things to remember about dependency management and packaging. Should I learn everything by heart?</em></p>
+<p><em>D: There&rsquo;re a lot of things to remember about dependency management and packaging. Should I learn everything by heart?</em></p>
 
-<p>A: What the heck, no. <strong>Your packaging tool should guide you in such practices</strong> and prevent you from going stray unless it's what you really mean to do! That why I'm complaining in the first place about the way Python does packaging!</p>
+<p>A: What the heck, no. <strong>Your packaging tool should guide you in such practices</strong> and prevent you from going stray unless it&rsquo;s what you really mean to do! That why I&rsquo;m complaining in the first place about the way Python does packaging!</p>
 
-<p>In part 2 I'll dig into Python-packaging specific issues.</p>
+<p>In <a href="/2013/01/27/python-packaging-woes-2/">part 2</a> I dig into Python-specific packaging issues.</p>
 ]]></content>
   </entry>
   
@@ -73,11 +73,11 @@
     <link href="http://ollivander.franzoni.eu/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/"/>
     <updated>2012-07-23T13:30:00+02:00</updated>
     <id>http://ollivander.franzoni.eu/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2</id>
-    <content type="html"><![CDATA[<p>So, here we come to our second part; if you did miss the first, it's <a href="http://ollivander.franzoni.eu/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/">there</a>. All of the following discussion is valid on Sun Java 6.</p>
+    <content type="html"><![CDATA[<p>So, here we come to our second part; if you did miss the first, it&rsquo;s <a href="http://ollivander.franzoni.eu/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/">there</a>. All of the following discussion is valid on Sun Java 6.</p>
 
-<p>Let's see the way Java handles unicode issues and why it's usually less problematic than Python - or, at least, while it <strong>looks</strong> less problematic than Python.</p>
+<p>Let&rsquo;s see the way Java handles unicode issues and why it&rsquo;s usually less problematic than Python &ndash; or, at least, while it <strong>looks</strong> less problematic than Python.</p>
 
-<p>String literals in Java, just like in Python 3, are just Unicode objects; so you don't need to think whether it's a "binary string" or a "unicode object"; if it's a binary blob, you'll probably get a byte[], which should result in a 'here be dragons' behaviour about encoding.</p>
+<p>String literals in Java, just like in Python 3, are just Unicode objects; so you don&rsquo;t need to think whether it&rsquo;s a &ldquo;binary string&rdquo; or a &ldquo;unicode object&rdquo;; if it&rsquo;s a binary blob, you&rsquo;ll probably get a byte[], which should result in a &lsquo;here be dragons&rsquo; behaviour about encoding.</p>
 
 <p>Nevertheless, whenever you want to print out a string you actually need binary data, raw bytes! How does Java find out what to do?</p>
 
@@ -125,9 +125,9 @@
 </span><span class='line'>àèìòù
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>The value of the default charset is detected by the JVM at startup, and it can vary on different OSes and because of different language environment settings. On Sun Java you can even set at JVM launch time through the file.encoding property, but that's discouraged as it can be unpredictable and unreliable. On the contrary, <strong>you should always use constructors and methods that accept a charset parameter</strong> if you're converting to/from raw bytes, just like <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html#getBytes(java.nio.charset.Charset)">String.getBytes(Charset charset)</a> or <a href="http://docs.oracle.com/javase/6/docs/api/java/io/OutputStreamWriter.html#OutputStreamWriter(java.io.OutputStream,%20java.nio.charset.Charset)">OutputStreamWriter(OutputStream outputStream, Charset charset)</a></p>
+<p>The value of the default charset is detected by the JVM at startup, and it can vary on different OSes and because of different language environment settings. On Sun Java you can even set at JVM launch time through the file.encoding property, but that&rsquo;s discouraged as it can be unpredictable and unreliable. On the contrary, <strong>you should always use constructors and methods that accept a charset parameter</strong> if you&rsquo;re converting to/from raw bytes, just like <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html#getBytes(java.nio.charset.Charset)">String.getBytes(Charset charset)</a> or <a href="http://docs.oracle.com/javase/6/docs/api/java/io/OutputStreamWriter.html#OutputStreamWriter(java.io.OutputStream,%20java.nio.charset.Charset)">OutputStreamWriter(OutputStream outputStream, Charset charset)</a></p>
 
-<p>So far, so good. But what happens if the outputstream is unable to handle the chars you'd like it to write?</p>
+<p>So far, so good. But what happens if the outputstream is unable to handle the chars you&rsquo;d like it to write?</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (CantEncode.java)</span> <a href='/downloads/code/eu.franzoni.examples/src/eu/franzoni/examples/pythonvsjavaencoding/CantEncode.java'>download</a></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -179,15 +179,15 @@
 </span><span class='line'>?????
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>ASCII encoding cannot possibly output the accented chars, so they're replaced with question marks instead of throwing the dreaded UnicodeEncodeError.</p>
+<p>ASCII encoding cannot possibly output the accented chars, so they&rsquo;re replaced with question marks instead of throwing the dreaded UnicodeEncodeError.</p>
 
-<p>Which approach is the best? That depends on the context. If you expect somebody to actually read your text, the Java approach might just let an error slip unnoticed for a long time, while the Python approach would trigger an immediate 'heads up!'. Otherwise if you're just logging something to the console (or to any other stream) an exception might disrupt your otherwise well-working program and force an unnecessary quit. The Java approach just looks easier for the non-charset-aware because it throws fewer errors around.</p>
+<p>Which approach is the best? That depends on the context. If you expect somebody to actually read your text, the Java approach might just let an error slip unnoticed for a long time, while the Python approach would trigger an immediate &lsquo;heads up!&rsquo;. Otherwise if you&rsquo;re just logging something to the console (or to any other stream) an exception might disrupt your otherwise well-working program and force an unnecessary quit. The Java approach just looks easier for the non-charset-aware because it throws fewer errors around.</p>
 
-<p>But there's another situation where Java falls short of Python: source file encoding. While Python allows setting it on a per-file basis and defaults it to iso-8859-1 if the coding directive is not there, on Java you'll use <a href="http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/javac.html">javac</a> <strong>-encoding</strong> flag to set it globally, per compile, in order to tell the compiler which kind of encoding the source file uses; <strong>if you don't pass such option, the platform default converter is used</strong></p>
+<p>But there&rsquo;s another situation where Java falls short of Python: source file encoding. While Python allows setting it on a per-file basis and defaults it to iso-8859-1 if the coding directive is not there, on Java you&rsquo;ll use <a href="http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/javac.html">javac</a> <strong>-encoding</strong> flag to set it globally, per compile, in order to tell the compiler which kind of encoding the source file uses; <strong>if you don&rsquo;t pass such option, the platform default converter is used</strong></p>
 
-<p>What's the problem with this approach? Consider a very common situation: you work on a project on Linux, your platform defaults to UTF-8 and everything just works.</p>
+<p>What&rsquo;s the problem with this approach? Consider a very common situation: you work on a project on Linux, your platform defaults to UTF-8 and everything just works.</p>
 
-<p>Then you checkout your project on Windows; you compile it, the default charset is Windows-1252 and all your files print garbage. That's what happens, in fact:</p>
+<p>Then you checkout your project on Windows; you compile it, the default charset is Windows-1252 and all your files print garbage. That&rsquo;s what happens, in fact:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (multiple_encodings_output.sh)</span> <a href='/downloads/code/eu.franzoni.examples/src/multiple_encodings_output.sh'>download</a></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -223,9 +223,9 @@
 </span><span class='line'>Ã Ã¨Ã¬Ã²Ã¹
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>As you can see there, it's not that the JVM encoding has any issue at runtime; it's the parser, at compile time, which is told a wrong encoding about the string literals in your source code. There's no way around this!</p>
+<p>As you can see there, it&rsquo;s not that the JVM encoding has any issue at runtime; it&rsquo;s the parser, at compile time, which is told a wrong encoding about the string literals in your source code. There&rsquo;s no way around this!</p>
 
-<p>What I can recommend you is to ALWAYS set the <a href="http://maven.apache.org/general.html#encoding-warning">project.build.sourceEncoding</a> property when using Maven to compile, and to ALWAYS set the <a href="http://ant.apache.org/manual/Tasks/javac.html">encoding attribute</a> whenever you're using Ant. This will save you a lot, lot, lot of headaches.</p>
+<p>What I can recommend you is to ALWAYS set the <a href="http://maven.apache.org/general.html#encoding-warning">project.build.sourceEncoding</a> property when using Maven to compile, and to ALWAYS set the <a href="http://ant.apache.org/manual/Tasks/javac.html">encoding attribute</a> whenever you&rsquo;re using Ant. This will save you a lot, lot, lot of headaches.</p>
 ]]></content>
   </entry>
   

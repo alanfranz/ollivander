@@ -9,7 +9,7 @@
   <meta name="author" content="Alan Franzoni">
 
   
-  <meta name="description" content="So, here we come to our second part; if you did miss the first, it&#8217;s there. All of the following discussion is valid on Sun Java 6. Let&#8217;s &hellip;">
+  <meta name="description" content="So, here we come to our second part; if you did miss the first, it&rsquo;s there. All of the following discussion is valid on Sun Java 6. Let&rsquo;s &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -92,11 +92,11 @@
   </header>
 
 
-<div class="entry-content"><p>So, here we come to our second part; if you did miss the first, it&#8217;s <a href="http://ollivander.franzoni.eu/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/">there</a>. All of the following discussion is valid on Sun Java 6.</p>
+<div class="entry-content"><p>So, here we come to our second part; if you did miss the first, it&rsquo;s <a href="http://ollivander.franzoni.eu/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/">there</a>. All of the following discussion is valid on Sun Java 6.</p>
 
-<p>Let&#8217;s see the way Java handles unicode issues and why it&#8217;s usually less problematic than Python - or, at least, while it <strong>looks</strong> less problematic than Python.</p>
+<p>Let&rsquo;s see the way Java handles unicode issues and why it&rsquo;s usually less problematic than Python &ndash; or, at least, while it <strong>looks</strong> less problematic than Python.</p>
 
-<p>String literals in Java, just like in Python 3, are just Unicode objects; so you don&#8217;t need to think whether it&#8217;s a &#8220;binary string&#8221; or a &#8220;unicode object&#8221;; if it&#8217;s a binary blob, you&#8217;ll probably get a byte[], which should result in a &#8216;here be dragons&#8217; behaviour about encoding.</p>
+<p>String literals in Java, just like in Python 3, are just Unicode objects; so you don&rsquo;t need to think whether it&rsquo;s a &ldquo;binary string&rdquo; or a &ldquo;unicode object&rdquo;; if it&rsquo;s a binary blob, you&rsquo;ll probably get a byte[], which should result in a &lsquo;here be dragons&rsquo; behaviour about encoding.</p>
 
 <p>Nevertheless, whenever you want to print out a string you actually need binary data, raw bytes! How does Java find out what to do?</p>
 
@@ -148,9 +148,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The value of the default charset is detected by the JVM at startup, and it can vary on different OSes and because of different language environment settings. On Sun Java you can even set at JVM launch time through the file.encoding property, but that&#8217;s discouraged as it can be unpredictable and unreliable. On the contrary, <strong>you should always use constructors and methods that accept a charset parameter</strong> if you&#8217;re converting to/from raw bytes, just like <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html#getBytes(java.nio.charset.Charset)">String.getBytes(Charset charset)</a> or <a href="http://docs.oracle.com/javase/6/docs/api/java/io/OutputStreamWriter.html#OutputStreamWriter(java.io.OutputStream,%20java.nio.charset.Charset)">OutputStreamWriter(OutputStream outputStream, Charset charset)</a></p>
+<p>The value of the default charset is detected by the JVM at startup, and it can vary on different OSes and because of different language environment settings. On Sun Java you can even set at JVM launch time through the file.encoding property, but that&rsquo;s discouraged as it can be unpredictable and unreliable. On the contrary, <strong>you should always use constructors and methods that accept a charset parameter</strong> if you&rsquo;re converting to/from raw bytes, just like <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html#getBytes(java.nio.charset.Charset)">String.getBytes(Charset charset)</a> or <a href="http://docs.oracle.com/javase/6/docs/api/java/io/OutputStreamWriter.html#OutputStreamWriter(java.io.OutputStream,%20java.nio.charset.Charset)">OutputStreamWriter(OutputStream outputStream, Charset charset)</a></p>
 
-<p>So far, so good. But what happens if the outputstream is unable to handle the chars you&#8217;d like it to write?</p>
+<p>So far, so good. But what happens if the outputstream is unable to handle the chars you&rsquo;d like it to write?</p>
 
 <figure class='code'><figcaption><span> (CantEncode.java)</span> <a href='/downloads/code/eu.franzoni.examples/src/eu/franzoni/examples/pythonvsjavaencoding/CantEncode.java'>download</a></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -206,15 +206,15 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>ASCII encoding cannot possibly output the accented chars, so they&#8217;re replaced with question marks instead of throwing the dreaded UnicodeEncodeError.</p>
+<p>ASCII encoding cannot possibly output the accented chars, so they&rsquo;re replaced with question marks instead of throwing the dreaded UnicodeEncodeError.</p>
 
-<p>Which approach is the best? That depends on the context. If you expect somebody to actually read your text, the Java approach might just let an error slip unnoticed for a long time, while the Python approach would trigger an immediate &#8216;heads up!&#8217;. Otherwise if you&#8217;re just logging something to the console (or to any other stream) an exception might disrupt your otherwise well-working program and force an unnecessary quit. The Java approach just looks easier for the non-charset-aware because it throws fewer errors around.</p>
+<p>Which approach is the best? That depends on the context. If you expect somebody to actually read your text, the Java approach might just let an error slip unnoticed for a long time, while the Python approach would trigger an immediate &lsquo;heads up!&rsquo;. Otherwise if you&rsquo;re just logging something to the console (or to any other stream) an exception might disrupt your otherwise well-working program and force an unnecessary quit. The Java approach just looks easier for the non-charset-aware because it throws fewer errors around.</p>
 
-<p>But there&#8217;s another situation where Java falls short of Python: source file encoding. While Python allows setting it on a per-file basis and defaults it to iso-8859-1 if the coding directive is not there, on Java you&#8217;ll use <a href="http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/javac.html">javac</a> <strong>-encoding</strong> flag to set it globally, per compile, in order to tell the compiler which kind of encoding the source file uses; <strong>if you don&#8217;t pass such option, the platform default converter is used</strong></p>
+<p>But there&rsquo;s another situation where Java falls short of Python: source file encoding. While Python allows setting it on a per-file basis and defaults it to iso-8859-1 if the coding directive is not there, on Java you&rsquo;ll use <a href="http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/javac.html">javac</a> <strong>-encoding</strong> flag to set it globally, per compile, in order to tell the compiler which kind of encoding the source file uses; <strong>if you don&rsquo;t pass such option, the platform default converter is used</strong></p>
 
-<p>What&#8217;s the problem with this approach? Consider a very common situation: you work on a project on Linux, your platform defaults to UTF-8 and everything just works.</p>
+<p>What&rsquo;s the problem with this approach? Consider a very common situation: you work on a project on Linux, your platform defaults to UTF-8 and everything just works.</p>
 
-<p>Then you checkout your project on Windows; you compile it, the default charset is Windows-1252 and all your files print garbage. That&#8217;s what happens, in fact:</p>
+<p>Then you checkout your project on Windows; you compile it, the default charset is Windows-1252 and all your files print garbage. That&rsquo;s what happens, in fact:</p>
 
 <figure class='code'><figcaption><span> (multiple_encodings_output.sh)</span> <a href='/downloads/code/eu.franzoni.examples/src/multiple_encodings_output.sh'>download</a></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -254,9 +254,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>As you can see there, it&#8217;s not that the JVM encoding has any issue at runtime; it&#8217;s the parser, at compile time, which is told a wrong encoding about the string literals in your source code. There&#8217;s no way around this!</p>
+<p>As you can see there, it&rsquo;s not that the JVM encoding has any issue at runtime; it&rsquo;s the parser, at compile time, which is told a wrong encoding about the string literals in your source code. There&rsquo;s no way around this!</p>
 
-<p>What I can recommend you is to ALWAYS set the <a href="http://maven.apache.org/general.html#encoding-warning">project.build.sourceEncoding</a> property when using Maven to compile, and to ALWAYS set the <a href="http://ant.apache.org/manual/Tasks/javac.html">encoding attribute</a> whenever you&#8217;re using Ant. This will save you a lot, lot, lot of headaches.</p>
+<p>What I can recommend you is to ALWAYS set the <a href="http://maven.apache.org/general.html#encoding-warning">project.build.sourceEncoding</a> property when using Maven to compile, and to ALWAYS set the <a href="http://ant.apache.org/manual/Tasks/javac.html">encoding attribute</a> whenever you&rsquo;re using Ant. This will save you a lot, lot, lot of headaches.</p>
 </div>
 
 
@@ -353,25 +353,13 @@
 </section>
 
 
+
+
 <section>
   <h1>Latest Tweets</h1>
-  <ul id="tweets">
-    <li class="loading">Status updating...</li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("franzeur", 3, true);
-    });
-  </script>
-  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/franzeur" class="twitter-follow-button" data-show-count="false">Follow @franzeur</a>
-  
+  <a class="twitter-timeline" href="https://twitter.com/franzeur" data-widget-id="361445337954672640">Tweets by @franzeur</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </section>
-
-
-
-
 
   
 </aside>

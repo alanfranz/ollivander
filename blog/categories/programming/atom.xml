@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Ollivander]]></title>
   <link href="http://ollivander.franzoni.eu/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://ollivander.franzoni.eu/"/>
-  <updated>2013-01-21T23:38:05+01:00</updated>
+  <updated>2013-08-23T11:06:48+02:00</updated>
   <id>http://ollivander.franzoni.eu/</id>
   <author>
     <name><![CDATA[Alan Franzoni]]></name>
@@ -18,19 +18,19 @@
     <link href="http://ollivander.franzoni.eu/2013/01/17/php-killer-features/"/>
     <updated>2013-01-17T00:10:00+01:00</updated>
     <id>http://ollivander.franzoni.eu/2013/01/17/php-killer-features</id>
-    <content type="html"><![CDATA[<p>I don't like php, and I've got <a href="http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/">my reasons</a>.
-I've met a lot of people who dislike PHP and don't see how possibly anyone, anyhow, could think about ever
+    <content type="html"><![CDATA[<p>I don&rsquo;t like php, and I&rsquo;ve got <a href="http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/">my reasons</a>.
+I&rsquo;ve met a lot of people who dislike PHP and don&rsquo;t see how possibly anyone, anyhow, could think about ever
 using PHP in any real-world project out there, and simply dismiss PHP as a crap being created and used from
 and for incompetent stupid people around the world.</p>
 
-<p>On the other side there're a bunch of PHP supporters which show you how wonderful is PHP, how many people
+<p>On the other side there&rsquo;re a bunch of PHP supporters which show you how wonderful is PHP, how many people
 use it and how widespread it is, and whoever says the contrary is just an enterprisey fool which spends
 nights at getting things done in Java or C#.</p>
 
-<p>I disagree with both groups (of course!) and I think that PHP's got its unique set of killer features
+<p>I disagree with both groups (of course!) and I think that PHP&rsquo;s got its unique set of killer features
 that make it still valuable, and those should be acknowledged.</p>
 
-<p>First, it's not PHP by itself - there's the <a href="http://en.wikipedia.org/wiki/LAMP_(software_bundle%29">LAMP stack</a>,
+<p>First, it&rsquo;s not PHP by itself &ndash; there&rsquo;s the <a href="http://en.wikipedia.org/wiki/LAMP_(software_bundle%29">LAMP stack</a>,
 a de-facto pseudo-standard; interoperability of PHP applications on many different hostings work quite well.
 This is very different from most other platforms, where you must either adapt your development environment
 to what your hosting provides, like in Google App Engine, or you must find a way to tune your hosting environment
@@ -40,50 +40,50 @@ reach a similar consensus on a standard stack.</p>
 <p>And this sort of Platform-as-a-Service offering is widespread. This is catching on lately for other languages
 with things like <a href="https://developers.google.com/appengine/">Google App Engine</a>,
 <a href="http://www.jelastic.com">Jelastic</a>, <a href="http://www.engineyard.com">Engineyard</a>, <a href="http://www.heroku.com">Heroku</a>
-(while this last one is slightly more complex), but on PHP there's simply a incredible amount of really
-cheap and simple hosting. If you're willing to spend something like 50 EUR an year you can find out really
+(while this last one is slightly more complex), but on PHP there&rsquo;s simply a incredible amount of really
+cheap and simple hosting. If you&rsquo;re willing to spend something like 50 EUR an year you can find out really
 good PHP hostings just everywhere, and you can expect to go down to 15 EUR per year and still have something
-that's pretty decent.</p>
+that&rsquo;s pretty decent.</p>
 
-<p>What's all this hosting good for? Do you create your own custom software in PHP and run on top of that? Of course
+<p>What&rsquo;s all this hosting good for? Do you create your own custom software in PHP and run on top of that? Of course
 not! Many experienced PHP developers go with their own infrastracture in order to have full control and tuning;
-the real bulk of PHP installations (IMHO - I don't have collected actual data on such topic, maybe one day I will)
+the real bulk of PHP installations (IMHO &ndash; I don&rsquo;t have collected actual data on such topic, maybe one day I will)
 consists of existing free software installations. Existing software written in PHP makes the difference.
-There're a lot of people that simply don't care about PHP or programming at all, and yet they use PHP every day thanks to existing open source software.</p>
+There&rsquo;re a lot of people that simply don&rsquo;t care about PHP or programming at all, and yet they use PHP every day thanks to existing open source software.</p>
 
 <p>Do you want a blog engine that you can customize and offers a variety of plugins that have nothing to do with
-a blog? Here's Wordpress. Would you like to manage a community? Drupal is your friend.</p>
+a blog? Here&rsquo;s Wordpress. Would you like to manage a community? Drupal is your friend.</p>
 
-<p>Please note that, more often than not, the available PHP software is not the "best of the breed". Other software
-exists that is better, or faster, or offers more functionality, but PHP is usually "good enough", allows "quick and dirty"
-customization, and it's free.</p>
+<p>Please note that, more often than not, the available PHP software is not the &ldquo;best of the breed&rdquo;. Other software
+exists that is better, or faster, or offers more functionality, but PHP is usually &ldquo;good enough&rdquo;, allows &ldquo;quick and dirty&rdquo;
+customization, and it&rsquo;s free.</p>
 
-<p>And doesn't require to be a developer to be installed - it's targeted at the slightly experienced user. I think
+<p>And doesn&rsquo;t require to be a developer to be installed &ndash; it&rsquo;s targeted at the slightly experienced user. I think
 that installation wizards in PHP are really well constructed (although they often require full manual intervention
 and it would be hard to automate them via command-line scripts or similar) and I sometimes miss them in other
 languages (like Ruby, Python, Java), where heavy command-line and config editing is required, many times in
 non-obvious way. Most PHP applications contain the application AND a web-based configuration tool for such application
-- that's an obvious thumbs up.</p>
+&ndash; that&rsquo;s an obvious thumbs up.</p>
 
-<p>The "install your own web software" approach is getting less useful nowadays, with a lot of great services around that let you
-do almost anything you'd do with a php software, yet it was very common until mid 2000s to setup your own hosting
+<p>The &ldquo;install your own web software&rdquo; approach is getting less useful nowadays, with a lot of great services around that let you
+do almost anything you&rsquo;d do with a php software, yet it was very common until mid 2000s to setup your own hosting
 and your own software instance, and it retains a lot of charm on users that want
-to feel empowered, that want to "own" their website and make modifications to it (and maybe they want to say they're PHP
-programmers because what they did) - php can be edited and new pages appear live on the server!</p>
+to feel empowered, that want to &ldquo;own&rdquo; their website and make modifications to it (and maybe they want to say they&rsquo;re PHP
+programmers because what they did) &ndash; php can be edited and new pages appear live on the server!</p>
 
-<p>Then, don't forget there're many PHP developers around the world. It's not an exotic language - it's quite mainstream,
-if you need a custom feature you won't go in mancraft-starvation mode. Developer quality in such world may be a problem,
-but if you can find somebody who's not a PHP-only developer, you should feel safe.</p>
+<p>Then, don&rsquo;t forget there&rsquo;re many PHP developers around the world. It&rsquo;s not an exotic language &ndash; it&rsquo;s quite mainstream,
+if you need a custom feature you won&rsquo;t go in mancraft-starvation mode. Developer quality in such world may be a problem,
+but if you can find somebody who&rsquo;s not a PHP-only developer, you should feel safe.</p>
 
-<p>And remember: most software for PHP is content-centered. There's very little business logic in it. PHP works
+<p>And remember: most software for PHP is content-centered. There&rsquo;s very little business logic in it. PHP works
 well as long as your application only does only <a href="http://en.wikipedia.org/wiki/CRUD">CRUD</a>. Advanced usages,
 anything that would require a sort of application server or persistent, long-running process, should be avoided.</p>
 
 <p>So, PHP is simply great for its target. If you want to have your own website, with your own domain, where you can do
-whatever you like, you don't care for quality, uptime, or security, PHP is simply the right tool for you.</p>
+whatever you like, you don&rsquo;t care for quality, uptime, or security, PHP is simply the right tool for you.</p>
 
-<p>You can even use it for learning some programming basics, but PHP is gotcha-intensive, and you aren't a
-real PHP programmer if you don't know at least 75% of <a href="http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/">such gotchas</a> :-). Good luck!</p>
+<p>You can even use it for learning some programming basics, but PHP is gotcha-intensive, and you aren&rsquo;t a
+real PHP programmer if you don&rsquo;t know at least 75% of <a href="http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/">such gotchas</a> :&ndash;). Good luck!</p>
 ]]></content>
   </entry>
   
