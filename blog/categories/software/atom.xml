@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: software | Ollivander]]></title>
+  <link href="http://ollivander.franzoni.eu/blog/categories/software/atom.xml" rel="self"/>
+  <link href="http://ollivander.franzoni.eu/"/>
+  <updated>2013-08-26T23:52:13+02:00</updated>
+  <id>http://ollivander.franzoni.eu/</id>
+  <author>
+    <name><![CDATA[Alan Franzoni]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[One Assertion Per Test Considered Ambiguous]]></title>
+    <link href="http://ollivander.franzoni.eu/2013/08/26/one-assertion-per-test-considered-ambiguous/"/>
+    <updated>2013-08-26T22:44:00+02:00</updated>
+    <id>http://ollivander.franzoni.eu/2013/08/26/one-assertion-per-test-considered-ambiguous</id>
+    <content type="html"><![CDATA[<p>There&rsquo;s a practice of good programming which is often referred as <a href="http://www.artima.com/weblogs/viewpost.jsp?thread=35578">One Assertion Per Test</a>.
+In the opinion of some people, this practice would advocate the usage of a single call to xunit assert method for each test.</p>
+
+<p>I think that idea is plainly wrong. Saying &ldquo;One Test Per Test&rdquo; would have been better, but implied an high <a href="http://xkcd.com/703/">tautology risk</a>.</p>
+
+<p>Let&rsquo;s take an old-and-trite shopping cart example; we have a cart which the user fills, then a checkout happens and we have a completed order, which holds things like a total amount for the order and a list of items.</p>
+
+<p>Sometimes people will complain about this (Python is used throughout the examples, yet the concept applies to any language):</p>
+
+<p>``` python</p>
+
+<p>def test_successful_checkout(self):</p>
+
+<pre><code>item1 = Item(price=10.00)
+item2 = Item(price=20.00)
+cart = Cart()
+cart.add(item1)
+cart.add(item2)
+completed_order = Checkout.perform(cart)
+self.assertEquals(30.00, completed_order.amount)
+self.assertEquals([item1, item2], completed_order.items)
+</code></pre>
+
+<p>```</p>
+
+<p>(<em>I know floats aren&rsquo;t good for currency. I just didn&rsquo;t want to make the example too long.</em>)</p>
+
+<p>and yet would find the following completely acceptable:</p>
+
+<p>``` python</p>
+
+<p>def test_successful_checkout(self):</p>
+
+<pre><code>item1 = Item(price=10.00)
+item2 = Item(price=20.00)
+cart = Cart()
+cart.add(item1)
+cart.add(item2)
+completed_order = Checkout.perform(cart)
+expected_order = CompletedOrder(amount=30.00, items=[item1, item2])
+self.assertEquals(expected_order, completed_order)
+</code></pre>
+
+<p>```</p>
+
+<p>Do you see? One assertion per test.</p>
+
+<p><img class="center" src="/images/download.jpeg"></p>
+
+<p>Frankly speaking, that&rsquo;s bullshit. One assertion per test does <strong>not</strong> mean that. One assertion per test means <strong>test ONE THING for each of your tests</strong>.
+You should begin thinking about whether your object does too many things and whether your test methods are properly named.</p>
+
+<p>A possible example would be:</p>
+
+<p>``` python</p>
+
+<p>def setUp(self):</p>
+
+<pre><code>item1 = self.item1 = Item(price=10.00)
+item2 = self.item2 = Item(price=20.00)
+cart = Cart()
+cart.add(item1)
+cart.add(item2)
+self.completed_order = Checkout.perform(cart)
+</code></pre>
+
+<p>def test_successful_checkout_order_amount_is_the_sum_of_item_prices(self):</p>
+
+<pre><code>self.assertEquals(30.00, self.completed_order.amount)
+</code></pre>
+
+<p>def test_successful_checkout_order_items_are_items_from_the_cart(self):</p>
+
+<pre><code>self.assertEquals([self.item1, self.item2], self.completed_order.items)
+</code></pre>
+
+<p>```</p>
+
+<p>Here, since the checkout process is doing multiple things (and it probably should as it is a checkout &ndash; this is probably more an example of an acceptance test rather than a unit test), we test them separately. If either fails, we know why and can go straight to the issue &ndash; and yet consider rewriting the second test like that:</p>
+
+<p>``` python</p>
+
+<p>def test_successful_checkout_order_items_are_items_from_the_cart(self):</p>
+
+<pre><code>self.assertEquals(self.item1, self.completed_order.items[0])
+self.assertEquals(self.item2, self.completed_order.items[1])
+</code></pre>
+
+<p>```</p>
+
+<p>If the example above is good, that&rsquo;s good as well, and you may have reasons for doing things like that &ndash; maybe your test framework doesn&rsquo;t show you the differences in a very clear way and you want to be sure to quickly catch the wrong item. This is what <a href="http://www.objectmentor.com/omTeam/martin_r.html">Robert C. Martin</a> calls <em>Single Concept per Test</em> in his own <a href="http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">Clean Code</a> book &ndash; a recommended reading!</p>
+
+<p>So, <em>&ldquo;You&rsquo;re testing multiple things in a single test&rdquo;</em> can be a good remark. <em>&ldquo;You&rsquo;re using multiple assertions per test&rdquo;</em>, on the contrary, means nothing.</p>
+]]></content>
+  </entry>
+  
+</feed>

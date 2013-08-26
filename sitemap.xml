@@ -91,8 +91,14 @@
         <lastmod>2013-08-23T11:23:09+02:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://ollivander.franzoni.eu/2013/08/26/one-assertion-per-test-considered-ambiguous/
+        </loc>
+        <lastmod>2013-08-26T23:51:21+02:00</lastmod>
+    </url>
+    <url>
         <loc>http://ollivander.franzoni.eu/blog/archives/</loc>
-        <lastmod>2013-08-23T11:23:09+02:00</lastmod>
+        <lastmod>2013-08-26T23:51:21+02:00</lastmod>
     </url>
     <url>
         <loc>http://ollivander.franzoni.eu/feeds/posts/default</loc>
@@ -100,7 +106,7 @@
     </url>
     <url>
         <loc>http://ollivander.franzoni.eu/</loc>
-        <lastmod>2013-08-23T11:23:09+02:00</lastmod>
+        <lastmod>2013-08-26T23:51:21+02:00</lastmod>
     </url>
     <url>
         <loc>http://ollivander.franzoni.eu/robots.txt</loc>

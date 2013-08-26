@@ -9,7 +9,7 @@
   <meta name="author" content="Alan Franzoni">
 
   
-  <meta name="description" content="This is a multipart post. See part 3Just a brief conclusion to my post sequence; the three principles for succeeding at community-driven projects &hellip;">
+  <meta name="description" content="I had some hard time when testing Twisted&nbsp;protocols. Although they should be decoupled from factories, most examples I could find, including &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,43 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/04/26/unit-testing-with-twisted-testing-protocols/">Unit Testing With Twisted: Testing Protocols</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-26T21:33:00+02:00" pubdate data-updated="true">Apr 26<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+I had some hard time when testing <a href="http://twistedmatrix.com/trac/">Twisted</a>&nbsp;protocols. Although they should be decoupled from factories, most examples I could find, including those from the <a href="http://twistedmatrix.com/trac/browser/trunk/doc/core/howto/trial.xhtml?format=raw">official doc</a>, were just too noisy and suggested using a factory.<br /><br />I don&#8217;t like that approach - I should not be forced to use a factory - that creates an unnecessary coupling - let&#8217;s just pretend a factory existed and creates a connections, that&#8217;s all our protocol should need.<br /><br />Of course sometimes a protocol is bound to a very specific factory since it needs to invoke methods on it for non protocol-specific data (remember, there&#8217;s just one factory, while there&#8217;s one protocol per connection). I don&#8217;t like that behaviour, since it creates an unnecessary coupling and makes factories huge and not cohesive, and I think protocols should just be injected whatever peers they need during the <a href="http://twistedmatrix.com/documents/current/api/twisted.internet.protocol.Factory.html#buildProtocol">buildProtocol()</a>&nbsp;invocation - but I&#8217;ll talk about that in another post. In the meantime, I reccommend just creating a mock factory and setting it manually on the protocol.<br /><br />So, here it is the solution I baked:<br /><br /><script src="https://gist.github.com/942093.js">  </script><br /><br />What do you think about this solution?</div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -141,43 +178,6 @@ I&#8217;ve found a good way to launch tests using <a href="http://twistedmatrix.
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/02/03/pycharm-rubymine-and-idea-linux-desktop-entries/">PyCharm, RubyMine and IDEA Linux Desktop Entries</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-02-03T23:00:00+01:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class='post'>
-<b>UPDATED:</b>&nbsp;IDEA entry.<br /><b>UPDATED:</b>&nbsp;Automatic agent add script.<br /><br />I&#8217;m starting to like both <a href="http://www.jetbrains.com/pycharm/">PyCharm</a> and <a href="http://www.jetbrains.com/ruby/">RubyMine</a>, two IDEs from IntelliJ, along with <a href="http://www.jetbrains.com/idea/">IDEA</a><br /><br />I had some problems while they were both running on Linux using a dock - I like <a href="http://www.go-docky.com/">docky</a> - since they&#8217;re both Java apps and they got &#8220;merged&#8221; in a single icon, but then <a href="http://blog.jteam.nl/2011/01/09/make-intellij-idea-behave-properly-in-linux-docks/">I found a solution</a>&nbsp;- pull the <a href="http://jelmer.s3.amazonaws.com/agent.jar">agent</a> into bin folder and just edit pycharm.sh, rubymine.sh and idea.sh this way, around the end of the file:<br /><br /><script src="https://gist.github.com/809723.js?file=idea_launch_with_agent"></script><br /><script src="https://gist.github.com/809723.js?file=pycharm_launch_with_agent"></script><br /><script src="https://gist.github.com/809723.js?file=rubymine_launch_with_agent"></script><br /> If you&#8217;re lazy, or you&#8217;re just tired of readding the agent every time your IDE gets updated, just download the <a href="http://jelmer.s3.amazonaws.com/agent.jar">agent</a> and the adder script for <a href="https://raw.github.com/gist/809723/5ee73ab9d2260685b6f556c3dad1cdb5e62f216a/idea_add_agent.sh">IDEA</a>, <a href="https://raw.github.com/gist/809723/b81e6f53fa800a1a2b20143e12d2a311e671fda0/pycharm_add_agent.sh">PyCharm</a> or <a href="https://raw.github.com/gist/809723/0dbf7ee8bf7bc65a285f70919fc864383cca6709/rubymine_add_agent.sh">RubyMine</a> to your bin directory and re-execute it every time your ide gets updated.   <br /> <br />I was just missing a desktop file entry so they could show up in my menu; IntelliJ currently distributes their ides as .tar.gz archives, no .deb, no .rpm, so I just packed up two small entries and added them to ~/.local/share/applications:<br /><br /><br /><script src="https://gist.github.com/809730.js"></script><br /><br />Replace the PATH_TO_&#8230; and enjoy!<br /><br /><br />EDIT:<br />As a bonus, by just installing &#8220;wmctrl&#8221; you can easily setting global shortcuts for moving pycharm &amp; rubymine IDEs on the current screen and putting them in the foreground:<br /><br /><blockquote>wmctrl -x -R PyCharm</blockquote><blockquote>wmctrl -x -R RubyMine</blockquote>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; wmctrl -x -R IDEA<br /><br />&nbsp;In GNOME you can assign such commands as a global shortcuts via System -&gt; Preferences -&gt; Keyboard Shortcuts.</div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -195,6 +195,10 @@ I&#8217;ve found a good way to launch tests using <a href="http://twistedmatrix.
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/08/26/one-assertion-per-test-considered-ambiguous/">One Assertion Per Test Considered Ambiguous</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/01/21/python-packaging-woes/">Python Packaging Woes - part 1</a>
       </li>
     
@@ -208,10 +212,6 @@ I&#8217;ve found a good way to launch tests using <a href="http://twistedmatrix.
     
       <li class="post">
         <a href="/2012/07/17/migrated-to-octopress/">Migrated to Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/">Unicode and encoding:  Python vs Java shootout, part 1</a>
       </li>
     
   </ul>
