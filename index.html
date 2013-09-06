@@ -9,8 +9,8 @@
   <meta name="author" content="Alan Franzoni">
 
   
-  <meta name="description" content="There&rsquo;s a practice of good programming which is often referred as One Assertion Per Test.
-In the opinion of some people, this practice would &hellip;">
+  <meta name="description" content="Check out part 1 for my thoughts on what packaging and dependency
+management should be. I forgot about this post and left it in a draft state for &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,147 @@ In the opinion of some people, this practice would &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/09/06/python-packaging-woes-2/">Python Packaging Woes - Part 2</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-06T20:09:00+02:00" pubdate data-updated="true">Sep 6<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Check out <a href="/2013/01/21/python-packaging-woes/">part 1</a> for my thoughts on what packaging and dependency
+management should be. I forgot about this post and left it in a draft state for quite a lot of time, I&rsquo;m sorry!</p>
+
+<h2>How Python messed it up</h2>
+
+<h3>A Diaspora of Tools</h3>
+
+<p>There&rsquo;s a plethora of packaging tools for Python! Let&rsquo;s take a look at them.</p>
+
+<h4>Distutils</h4>
+
+<p>The original <a href="http://docs.python.org/2/distutils/">distutils</a> is part of the Python standard library, but
+it&rsquo;s not really feature-packed, and it&rsquo;s considered unsuitable for many production usages. As an example,
+its
+<a href="http://docs.python.org/2/distutils/setupscript.html#relationships-between-distributions-and-packages">requires</a>
+keyword seems to do
+<a href="http://blog.doughellmann.com/2007/11/requiring-packages-with-distutils.html">absolutely nothing else</a>
+than documenting requirements. Nothing will happen if you install a package requiring another one;
+you still need to install dependencies manually.</p>
+
+<p>Distutils is not inherently bad, but since it&rsquo;s a standard library tool it&rsquo;s quite stable &ndash; it changes
+very little and in very predictable ways, so it wasn&rsquo;t updated for a long time and got quite old and
+tired, and needs an overhaul now (more on that later).</p>
+
+<h4>Setuptools</h4>
+
+<p>The original <a href="http://peak.telecommunity.com/DevCenter/setuptools">setuptools</a> package, which was created
+by a clever guy called Phillip J. Eby, is what people used for a lot of time, and that it&rsquo;s unmantained
+right now. It builds on distutils and extends/monkeypatches it, adding a lot of functionalities.</p>
+
+<p>It includes <a href="http://peak.telecommunity.com/DevCenter/EasyInstall">easy_install</a> which is probably the
+first tool that allowed people to install packages straight from pypi (or other URLs, more on that later)
+on the command line, without a lot of manual intervention; also, if the downloaded package is
+setuptools-aware and correctly specifies dependencies with
+<a href="http://peak.telecommunity.com/DevCenter/setuptools#declaring-dependencies">install_requires</a> it will
+install all transitive dependencies.</p>
+
+<p>It includes <a href="http://peak.telecommunity.com/DevCenter/PkgResources">pkg_resources</a> as well; that last
+one is one of the great Python underdogs, IMHO; it allows Python programmers to access any kind of
+data which is installed in Python libraries, regardless of how it was installed &ndash; is it an egg? A
+flat install? Did the install became part of the standard library? &ndash; don&rsquo;t worry: just ask for the
+resource name and the package name, and pkg_resources will look up the file object for you and open
+it.</p>
+
+<p>Unluckily the API was not so easy to use &ndash; that&rsquo;s something I&rsquo;m trying to address in
+<a href="http://pydenji.franzoni.eu">pydenji</a> with its resourceloader URL-parsing based system &ndash; and many
+people to handle resource in python just &ldquo;look for them&rdquo; from the current directory using
+introspection by <code>__file__</code>. Too bad.</p>
+
+<h4>Distribute</h4>
+
+<p>In the end, setuptools had little maintenance applied and was forked; distribute is dropin
+replacement which shares functions and dysfunctions of its ancestor.</p>
+
+<p>Recently it has been re-merged into setuptools.</p>
+
+<p>This wouldn&rsquo;t be inherently a problem, but sometimes you can find projects that are distribute-unaware and try forcing
+a specific-and-old version of setuptools, or you can find projects that know that setuptools is &ldquo;old&rdquo; and force
+installing distribute (which is an issue since setuptools is now an actually updated distribute) :&ndash;/</p>
+
+<h4>Distutils2</h4>
+
+<p>The Next Big Thing in Python packaging, which has never happened so far &ndash; should have been available in Python 3.3, but
+development seems to have <a href="http://hg.python.org/distutils2">stalled</a>.</p>
+
+<h4>Pip</h4>
+
+<p><a href="http://www.pip-installer.org/">Pip</a> is among the best tools you could use and works fine, but it&rsquo;s Yet Another Tool. It works
+as his author thinks it&rsquo;s well done &ndash; which is usually a good thing, since Ian Bicking knows what he&rsquo;s doing.</p>
+
+<h3>Dependency Management</h3>
+
+<p>Dependency management is hard with distribute; you can&rsquo;t handle diamond dependencies nor do overrides.
+Pypi repository is mutable (versions can be deleted by package owners) and isn&rsquo;t got a real API, even though, today, there&rsquo;s
+a way to prevent the packages from being fetched from their homepage and just rely on pypi &ndash; see <a href="http://www.python.org/dev/peps/pep-0438/">PEP 438</a></p>
+
+<p>One good way of handling dependency management in such cases is to use Pip&rsquo;s own requirements.txt file, which &ndash; of course &ndash; is not a standard, and may not work in all environments, or simply the project you love may not provide it at all.</p>
+
+<h3>Consequences</h3>
+
+<p>It&rsquo;s very easy to find packages from pypi that don&rsquo;t work out of the box, either because of wrong dependencies,
+or because somehow pypi changed hosted versions since the time the package was built. Replicating a deployment
+is not easy.</p>
+
+<p>And different tools just don&rsquo;t play well together.</p>
+
+<h2>What should be done?</h2>
+
+<ul>
+<li>Focusing more on the problem. Packaging and dependency management seem to be underdogs in the Python
+community.</li>
+<li>Choose a tool or an API (Maven repos became de-facto standard for non-Maven users as well) that can
+work, and if it doesn&rsquo;t, evolve it, don&rsquo;t just let people invent their in-house solution. It&rsquo;s not
+important if it&rsquo;s not part of the standard library.</li>
+<li>Define best practices for packaging and dependencies (package layout, version numbers, metadata,
+uploaded package formats, etc) and be sure the user doesn&rsquo;t override them unless he knows what and why
+he does it.</li>
+<li>Have a good doc linked from the official documentation. The current <a href="http://guide.python-distribute.org/">packaging
+guide</a> is not complete and it&rsquo;s not linked from anything
+&ldquo;official&rdquo; &ndash; it&rsquo;s just another guide.</li>
+</ul>
+
+
+<h2>But?</h2>
+
+<p>There&rsquo;s a light at the end of the gallery, and it&rsquo;s not a train! We&rsquo;ll talk about it in part 3. Which I hope should happen soon enough :&ndash;)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -292,107 +433,6 @@ You should begin thinking about whether your object does too many things and whe
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/01/17/php-killer-features/">PHP Killer Features</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-17T00:10:00+01:00" pubdate data-updated="true">Jan 17<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I don&rsquo;t like php, and I&rsquo;ve got <a href="http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/">my reasons</a>.
-I&rsquo;ve met a lot of people who dislike PHP and don&rsquo;t see how possibly anyone, anyhow, could think about ever
-using PHP in any real-world project out there, and simply dismiss PHP as a crap being created and used from
-and for incompetent stupid people around the world.</p>
-
-<p>On the other side there&rsquo;re a bunch of PHP supporters which show you how wonderful is PHP, how many people
-use it and how widespread it is, and whoever says the contrary is just an enterprisey fool which spends
-nights at getting things done in Java or C#.</p>
-
-<p>I disagree with both groups (of course!) and I think that PHP&rsquo;s got its unique set of killer features
-that make it still valuable, and those should be acknowledged.</p>
-
-<p>First, it&rsquo;s not PHP by itself &ndash; there&rsquo;s the <a href="http://en.wikipedia.org/wiki/LAMP_(software_bundle%29">LAMP stack</a>,
-a de-facto pseudo-standard; interoperability of PHP applications on many different hostings work quite well.
-This is very different from most other platforms, where you must either adapt your development environment
-to what your hosting provides, like in Google App Engine, or you must find a way to tune your hosting environment
-to match your required dependencies. Not even Java, which heavily relies on standardized APIs, was able to
-reach a similar consensus on a standard stack.</p>
-
-<p>And this sort of Platform-as-a-Service offering is widespread. This is catching on lately for other languages
-with things like <a href="https://developers.google.com/appengine/">Google App Engine</a>,
-<a href="http://www.jelastic.com">Jelastic</a>, <a href="http://www.engineyard.com">Engineyard</a>, <a href="http://www.heroku.com">Heroku</a>
-(while this last one is slightly more complex), but on PHP there&rsquo;s simply a incredible amount of really
-cheap and simple hosting. If you&rsquo;re willing to spend something like 50 EUR an year you can find out really
-good PHP hostings just everywhere, and you can expect to go down to 15 EUR per year and still have something
-that&rsquo;s pretty decent.</p>
-
-<p>What&rsquo;s all this hosting good for? Do you create your own custom software in PHP and run on top of that? Of course
-not! Many experienced PHP developers go with their own infrastracture in order to have full control and tuning;
-the real bulk of PHP installations (IMHO &ndash; I don&rsquo;t have collected actual data on such topic, maybe one day I will)
-consists of existing free software installations. Existing software written in PHP makes the difference.
-There&rsquo;re a lot of people that simply don&rsquo;t care about PHP or programming at all, and yet they use PHP every day thanks to existing open source software.</p>
-
-<p>Do you want a blog engine that you can customize and offers a variety of plugins that have nothing to do with
-a blog? Here&rsquo;s Wordpress. Would you like to manage a community? Drupal is your friend.</p>
-
-<p>Please note that, more often than not, the available PHP software is not the &ldquo;best of the breed&rdquo;. Other software
-exists that is better, or faster, or offers more functionality, but PHP is usually &ldquo;good enough&rdquo;, allows &ldquo;quick and dirty&rdquo;
-customization, and it&rsquo;s free.</p>
-
-<p>And doesn&rsquo;t require to be a developer to be installed &ndash; it&rsquo;s targeted at the slightly experienced user. I think
-that installation wizards in PHP are really well constructed (although they often require full manual intervention
-and it would be hard to automate them via command-line scripts or similar) and I sometimes miss them in other
-languages (like Ruby, Python, Java), where heavy command-line and config editing is required, many times in
-non-obvious way. Most PHP applications contain the application AND a web-based configuration tool for such application
-&ndash; that&rsquo;s an obvious thumbs up.</p>
-
-<p>The &ldquo;install your own web software&rdquo; approach is getting less useful nowadays, with a lot of great services around that let you
-do almost anything you&rsquo;d do with a php software, yet it was very common until mid 2000s to setup your own hosting
-and your own software instance, and it retains a lot of charm on users that want
-to feel empowered, that want to &ldquo;own&rdquo; their website and make modifications to it (and maybe they want to say they&rsquo;re PHP
-programmers because what they did) &ndash; php can be edited and new pages appear live on the server!</p>
-
-<p>Then, don&rsquo;t forget there&rsquo;re many PHP developers around the world. It&rsquo;s not an exotic language &ndash; it&rsquo;s quite mainstream,
-if you need a custom feature you won&rsquo;t go in mancraft-starvation mode. Developer quality in such world may be a problem,
-but if you can find somebody who&rsquo;s not a PHP-only developer, you should feel safe.</p>
-
-<p>And remember: most software for PHP is content-centered. There&rsquo;s very little business logic in it. PHP works
-well as long as your application only does only <a href="http://en.wikipedia.org/wiki/CRUD">CRUD</a>. Advanced usages,
-anything that would require a sort of application server or persistent, long-running process, should be avoided.</p>
-
-<p>So, PHP is simply great for its target. If you want to have your own website, with your own domain, where you can do
-whatever you like, you don&rsquo;t care for quality, uptime, or security, PHP is simply the right tool for you.</p>
-
-<p>You can even use it for learning some programming basics, but PHP is gotcha-intensive, and you aren&rsquo;t a
-real PHP programmer if you don&rsquo;t know at least 75% of <a href="http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/">such gotchas</a> :&ndash;). Good luck!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -408,6 +448,10 @@ real PHP programmer if you don&rsquo;t know at least 75% of <a href="http://me.v
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/09/06/python-packaging-woes-2/">Python Packaging Woes - part 2</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/08/26/one-assertion-per-test-considered-ambiguous/">One Assertion Per Test Considered Ambiguous</a>
       </li>
     
@@ -421,10 +465,6 @@ real PHP programmer if you don&rsquo;t know at least 75% of <a href="http://me.v
     
       <li class="post">
         <a href="/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/">Unicode and Encoding: Python vs Java Shootout, part 2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/07/17/migrated-to-octopress/">Migrated to Octopress</a>
       </li>
     
   </ul>

@@ -9,7 +9,8 @@
   <meta name="author" content="Alan Franzoni">
 
   
-  <meta name="description" content="So, here we come to our second part; if you did miss the first, it&rsquo;s there. All of the following discussion is valid on Sun Java 6. Let&rsquo;s &hellip;">
+  <meta name="description" content="I don&rsquo;t like php, and I&rsquo;ve got my reasons.
+I&rsquo;ve met a lot of people who dislike PHP and don&rsquo;t see how possibly anyone, anyhow &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +67,107 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/01/17/php-killer-features/">PHP Killer Features</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-17T00:10:00+01:00" pubdate data-updated="true">Jan 17<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I don&rsquo;t like php, and I&rsquo;ve got <a href="http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/">my reasons</a>.
+I&rsquo;ve met a lot of people who dislike PHP and don&rsquo;t see how possibly anyone, anyhow, could think about ever
+using PHP in any real-world project out there, and simply dismiss PHP as a crap being created and used from
+and for incompetent stupid people around the world.</p>
+
+<p>On the other side there&rsquo;re a bunch of PHP supporters which show you how wonderful is PHP, how many people
+use it and how widespread it is, and whoever says the contrary is just an enterprisey fool which spends
+nights at getting things done in Java or C#.</p>
+
+<p>I disagree with both groups (of course!) and I think that PHP&rsquo;s got its unique set of killer features
+that make it still valuable, and those should be acknowledged.</p>
+
+<p>First, it&rsquo;s not PHP by itself &ndash; there&rsquo;s the <a href="http://en.wikipedia.org/wiki/LAMP_(software_bundle%29">LAMP stack</a>,
+a de-facto pseudo-standard; interoperability of PHP applications on many different hostings work quite well.
+This is very different from most other platforms, where you must either adapt your development environment
+to what your hosting provides, like in Google App Engine, or you must find a way to tune your hosting environment
+to match your required dependencies. Not even Java, which heavily relies on standardized APIs, was able to
+reach a similar consensus on a standard stack.</p>
+
+<p>And this sort of Platform-as-a-Service offering is widespread. This is catching on lately for other languages
+with things like <a href="https://developers.google.com/appengine/">Google App Engine</a>,
+<a href="http://www.jelastic.com">Jelastic</a>, <a href="http://www.engineyard.com">Engineyard</a>, <a href="http://www.heroku.com">Heroku</a>
+(while this last one is slightly more complex), but on PHP there&rsquo;s simply a incredible amount of really
+cheap and simple hosting. If you&rsquo;re willing to spend something like 50 EUR an year you can find out really
+good PHP hostings just everywhere, and you can expect to go down to 15 EUR per year and still have something
+that&rsquo;s pretty decent.</p>
+
+<p>What&rsquo;s all this hosting good for? Do you create your own custom software in PHP and run on top of that? Of course
+not! Many experienced PHP developers go with their own infrastracture in order to have full control and tuning;
+the real bulk of PHP installations (IMHO &ndash; I don&rsquo;t have collected actual data on such topic, maybe one day I will)
+consists of existing free software installations. Existing software written in PHP makes the difference.
+There&rsquo;re a lot of people that simply don&rsquo;t care about PHP or programming at all, and yet they use PHP every day thanks to existing open source software.</p>
+
+<p>Do you want a blog engine that you can customize and offers a variety of plugins that have nothing to do with
+a blog? Here&rsquo;s Wordpress. Would you like to manage a community? Drupal is your friend.</p>
+
+<p>Please note that, more often than not, the available PHP software is not the &ldquo;best of the breed&rdquo;. Other software
+exists that is better, or faster, or offers more functionality, but PHP is usually &ldquo;good enough&rdquo;, allows &ldquo;quick and dirty&rdquo;
+customization, and it&rsquo;s free.</p>
+
+<p>And doesn&rsquo;t require to be a developer to be installed &ndash; it&rsquo;s targeted at the slightly experienced user. I think
+that installation wizards in PHP are really well constructed (although they often require full manual intervention
+and it would be hard to automate them via command-line scripts or similar) and I sometimes miss them in other
+languages (like Ruby, Python, Java), where heavy command-line and config editing is required, many times in
+non-obvious way. Most PHP applications contain the application AND a web-based configuration tool for such application
+&ndash; that&rsquo;s an obvious thumbs up.</p>
+
+<p>The &ldquo;install your own web software&rdquo; approach is getting less useful nowadays, with a lot of great services around that let you
+do almost anything you&rsquo;d do with a php software, yet it was very common until mid 2000s to setup your own hosting
+and your own software instance, and it retains a lot of charm on users that want
+to feel empowered, that want to &ldquo;own&rdquo; their website and make modifications to it (and maybe they want to say they&rsquo;re PHP
+programmers because what they did) &ndash; php can be edited and new pages appear live on the server!</p>
+
+<p>Then, don&rsquo;t forget there&rsquo;re many PHP developers around the world. It&rsquo;s not an exotic language &ndash; it&rsquo;s quite mainstream,
+if you need a custom feature you won&rsquo;t go in mancraft-starvation mode. Developer quality in such world may be a problem,
+but if you can find somebody who&rsquo;s not a PHP-only developer, you should feel safe.</p>
+
+<p>And remember: most software for PHP is content-centered. There&rsquo;s very little business logic in it. PHP works
+well as long as your application only does only <a href="http://en.wikipedia.org/wiki/CRUD">CRUD</a>. Advanced usages,
+anything that would require a sort of application server or persistent, long-running process, should be avoided.</p>
+
+<p>So, PHP is simply great for its target. If you want to have your own website, with your own domain, where you can do
+whatever you like, you don&rsquo;t care for quality, uptime, or security, PHP is simply the right tool for you.</p>
+
+<p>You can even use it for learning some programming basics, but PHP is gotcha-intensive, and you aren&rsquo;t a
+real PHP programmer if you don&rsquo;t know at least 75% of <a href="http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/">such gotchas</a> :&ndash;). Good luck!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -309,48 +411,6 @@ URL will probably be dismissed shortly.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/">Unicode and Encoding: Python vs Java Shootout, Part 1</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-22T13:34:00+01:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class='post'>
-Before going on with this post, be sure you&#8217;ve read&nbsp;<a href="http://www.joelonsoftware.com/articles/Unicode.html" target="_blank">The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)</a>&nbsp;- otherwise, I won&#8217;t be able to solve your issues.<br /><br />Sometimes Java fans just say that Python Unicode support sucks. While there&#8217;s a bit of truth in that assertion - for Python 2.x at least, since 3.x solved the problem at its root - the real problem lies in the fact that many programmers don&#8217;t know what&#8217;s going on &#8220;under the hood&#8221;, and that python default behaviour is a bit unforgiving.<br /><br />First things first: Python 2.x has got <b><a href="http://docs.python.org/library/stdtypes.html#string-methods">two distinct string types</a>: </b>the so-called &#8220;byte strings&#8221; (str type) are one, and unicode objects (unicode type) are another one. Unicode objects are much like Java strings; they&#8217;re an internal abstraction of Python, and need to be interpreted to/from byte strings whenever printing, reading/writing from/to a file, etc.<br /><br />Sometimes such interpreting &#8220;just works&#8221; (most probably if you&#8217;re dealing with ascii-only text), but if such conversion fails, errors occur:&nbsp;Python infamous and dreaded UnicodeDecodeError can happen in many places and might sometime just puzzle the programmer:<br /><br /><pre class="brush: py"># -*- coding: utf-8 -*-<br />import sys<br /><br />print "current default encoding: " + sys.getdefaultencoding()<br /><br />"àèìòù" + u"asd"<br /></pre><br /><pre class="brush: plain">javapythonunicode$ python unicode_concat.py<br />current default encoding: ascii<br />Traceback (most recent call last):<br />  File "unicode_concat.py", line 6, in &lt;module&gt;<br />  "àèìòù" + u"asd"<br />UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 0: ordinal not in range(128)<br /></pre><br />&nbsp;This happens when trying to concatenate an unicode string to string object. What really happens here, behind the scenes, is explained in unicode_concat_explained.py:<br /><br /><pre class="brush: py"># -*- coding: utf-8 -*-<br />import sys<br /><br />print "current default encoding: " + sys.getdefaultencoding()<br /><br />"àèìòù".decode(sys.getdefaultencoding()) + u"asd"<br /></pre><br />When using a byte string (not a unicode object) python tries to convert that string to unicode before concatenating to a unicode object. Since an encoding wasn&#8217;t specified, python just uses the default.<br /><br />So, if you&#8217;re planning to mix unicode and bytestring objects (which is not a good idea), <b>always remember to explicitly convert string objects to unicode by their decode() method.</b> Or, if you&#8217;re sure the encoding is always the same, you could add a <a href="http://docs.python.org/library/site.html">sitecustomize.py</a> to your interpreter or your project PYTHONPATH, and set such encoding. Beware that setting it system wide may lead to unexpected results when running your project on another machine.<br /><br />Also, just remember that the <a href="http://www.python.org/dev/peps/pep-0263/">coding directive</a> at the begininning of the file does not change unicode encoding/decoding behaviour: that&#8217;s a directive to the parser, which is used to instruct it about the current encoding of the file. That information is not retained nor used at runtime.<br /><br /><br />Let&#8217;s go for another much dreaded error now:&nbsp;UnicodeEncodeError!<br /><br /><pre class="brush: py"># -*- coding: utf-8 -*-<br />import sys<br />print "current stdout encoding: " + str(sys.stdout.encoding)<br />print "current default encoding: " + sys.getdefaultencoding()<br /><br />print u"àèìòù"<br /></pre><br />results in this output: <br /><br /><pre class="brush: plain">javapythonunicode$ python unicode_print.py<br />current stdout encoding: UTF-8<br />àèìòù<br /></pre><br />Everything seems to work (as long as your terminal supports a charset, like UTF-8, or iso-8859-1, which can display accented chars) ! But now let&#8217;s go for some &#8220;black magic&#8221;:<br /><br /><script class="brush: plain" type="syntaxhighlighter"><![CDATA[ javapythonunicode$ python unicode_print.py | tee Traceback (most recent call last):   File "unicode_print.py", line 6, in <module>    print u"àèìòù" UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-4: ordinal not in range(128) current stdout encoding: None current default encoding: ascii ]] </script><br />That may be puzzling, but the sys.stdout printout should give you an hint.<br /><br />Whenever output is to a terminal, Python does perform autodetection of the encoding of your terminal, and subsequently sets sys.stdout accordingly. When sys.stdout encoding is set, any unicode object that gets printed is encoded accordingly. When output is NOT to a terminal, python does not autodetect sys.stdout encoding and, when sys.stdout has no encoding set any unicode object that is printed is <a href="http://docs.python.org/library/stdtypes.html#file-objects" target="_blank">converted according to sys.getdefaultencoding()</a><br /><br />So, what really happens here is:<br /><br /><pre class="brush: py"># -*- coding: utf-8 -*-<br />import sys<br />print "current stdout encoding: " + str(sys.stdout.encoding)<br />print "current default encoding: " + sys.getdefaultencoding()<br /><br />sys.stdout.write(<br />    u"àèìòù".encode(sys.stdout.encoding or sys.getdefaultencoding())<br />                )<br /></pre><br />Since accented characters can be encoded to UTF-8 but not to ASCII, such UnicodeEncodeErrors arise.<br /><br />Also beware of <a href="http://bugs.python.org/issue4947" target="_blank">bug 4947</a>&nbsp;- it may hit you if you&#8217;re using Python 2.6 or or older.<br /><br />
-You can find the second part of this article  <a href="http://ollivander.franzoni.eu/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/">here</a>
-<br /></div>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -368,6 +428,10 @@ You can find the second part of this article  <a href="http://ollivander.franzon
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/09/06/python-packaging-woes-2/">Python Packaging Woes - part 2</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/08/26/one-assertion-per-test-considered-ambiguous/">One Assertion Per Test Considered Ambiguous</a>
       </li>
     
@@ -381,10 +445,6 @@ You can find the second part of this article  <a href="http://ollivander.franzon
     
       <li class="post">
         <a href="/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/">Unicode and Encoding: Python vs Java Shootout, part 2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/07/17/migrated-to-octopress/">Migrated to Octopress</a>
       </li>
     
   </ul>

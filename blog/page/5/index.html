@@ -9,7 +9,7 @@
   <meta name="author" content="Alan Franzoni">
 
   
-  <meta name="description" content="UPDATED:&nbsp;IDEA entry.UPDATED:&nbsp;Automatic agent add script.I&#8217;m starting to like both PyCharm and RubyMine, two IDEs from IntelliJ, &hellip;">
+  <meta name="description" content="I&#8217;ve found a good way to launch tests using Twisted Trial in a zc.buildout enabled project. I was in fear of needing a full-fledged recipe - &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,43 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/03/14/using-trial-as-test-runner-with-zc-buildout/">Using Trial as Test Runner With zc.buildout</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-14T18:10:00+01:00" pubdate data-updated="true">Mar 14<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+I&#8217;ve found a good way to launch tests using <a href="http://twistedmatrix.com/trac/wiki/TwistedTrial">Twisted Trial</a> in a <a href="http://www.buildout.org/">zc.buildout</a> enabled project. I was in fear of needing a full-fledged recipe - which I didn&#8217;t have the time nor the will to code.<br /><br />Luckily, <a href="http://pypi.python.org/pypi/zc.recipe.egg">zc.recipe.egg</a> seems good enough to satisfy my needs; I wanted a recipe that could launch all unit tests if no parameter was passed, while retaining the ability to choose which specific unit test was launched on command line.<br /><br /><br />Here it is:<br /><br /><script src="https://gist.github.com/869469.js?file=buildout.cfg"></script><br /><br />That&#8217;s filled in for <a href="http://pydenji.franzoni.eu">pydenji</a><br /><br /><script src="https://gist.github.com/869469.js?file=example.buildout.cfg"></script></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -141,43 +178,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/01/02/building-a-successful-community-driven-software-project-part-2/">Building a Successful Community-driven Software Project / Part 2</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-01-02T20:05:00+01:00" pubdate data-updated="true">Jan 2<span>nd</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class='post'>
-This is a multipart article - link to&nbsp;<a href="http://ollivander.franzoni.eu/2010/12/building-successful-community-driven.html">part 1</a><br /><div><br /></div><div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><span class="Apple-style-span" style="font-size: large;"><b>3. Make it easy to report issues.</b></span></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">Yes, your software is got a bug. Never thought about it, didn&#8217;t you? And here it is.&nbsp;</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">Now, <b>users shouldn&#8217;t be forced to climb mountains in order to report it</b>. You might not want it to be dealt with just in the discussion area, so a bug tracker is usually a good idea, but just like the discussion group,&nbsp;<b>quick access&nbsp;</b>should be allowed, either via anonymous issue reporting or using a backend supporting a decentralized authentication system. Remember,&nbsp;<b>any bug reporter is doing you a favor!</b>&nbsp;You shouldn&#8217;t ask too much to them.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">Many large open source hosting platforms, like github, launchpad, bitbucket, google code, are great examples of how you can achieve this goal pretty easily.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><span class="Apple-style-span" style="font-size: large;"><b>4. Make it easy to submit bugfix patches.</b></span></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">This is a big one, and I&#8217;m sure many people won&#8217;t agree with me.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">Sometimes a patch comes along a bug report, yet many projects have got some coding standards, and they&nbsp;<b>don&#8217;t accept patches that don&#8217;t follow such standards.</b>&nbsp;</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">Whew.&nbsp;</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">Many times, though, either the coding standard isn&#8217;t really a widely accepted one, like&nbsp;<a href="http://www.python.org/dev/peps/pep-0008/">PEP-8</a>&nbsp;for Python projects, but it&#8217;s just how the lead developer likes to code, or many old parts of the codebase themselves don&#8217;t follow such standard.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">Hence, after I&#8217;ve discovered a bug in your software, I&#8217;ve debugged it, I&#8217;ve tracked it down and now I&#8217;m providing you a patch, you&#8217;re rejecting it on a mostly cosmetic base because of some principles you alone chose to follow. Thank you very much sir, you&#8217;re so nice to me. Don&#8217;t call me by the way, I&#8217;ll call you if I update my patch to achieve your great coding perfection.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">The whole point is,&nbsp;<b>your coding standards are your business.&nbsp;</b>Never forget the&nbsp;<a href="http://programmer.97things.oreilly.com/wiki/index.php/The_Boy_Scout_Rule">Boy Scout rule</a>&nbsp;-&nbsp;<i>you don&#8217;t have to make every module perfect before you check it in.&nbsp;</i>Removing a bug is enough of an improvement to let a patch be accepted. If you don&#8217;t want non-complaint code in your codebase just edit the patch - it should be easy for you - don&#8217;t reject it and don&#8217;t ask the reporter to edit it.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">Of course there are perfectly good reasons to reject a patch. If it&#8217;s a &#8220;worst hack ever&#8221; style of patch, or if it adds unnecessary complexity, provokes unintended side effects or changes a behaviour on which existing clients rely, just do whatever you think it&#8217;s right.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">There&#8217;s another top rejection reason: &nbsp;<b>missing unit tests&nbsp;</b>or&nbsp;<b>insufficient&nbsp;coverage.</b>&nbsp;Some projects with high coding standards require a unit test for each functionality and maybe 100% test coverage. It&#8217;s perfectly fine, but there&#8217;re issues with this choice.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">Very often there&#8217;re some legacy parts of the codebase that have got little test coverage; in order to achieve 100% test coverage the reporter might be forced to create a unit test that does not exist for some code that he has not written. That&#8217;s a burden and most people will get discouraged.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">Other times the overall design in some parts of the code does not allow for easy dependency injection, hence making it hard to create a good unit test which can really test the specific behaviour being patched, and the reporter might be able to reproduce the issue only with an higher-level, more integration-level-like test example.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">In both those cases you should remember that&nbsp;<b>the quality of your codebase is your business.&nbsp;</b>You should not reject a patch from being applied because there&#8217;re no unit tests if creating such a unit test is impractical and the fault is yours. Of course&nbsp;<b>you can create a guideline for patch submission</b>&nbsp;that says that you prefer the issues to be reproduced via a unit test, but don&#8217;t make it a strict requirement. A patch without a test is better than nothing, you might just pick it up later when you&#8217;ve got some time and write a test for it.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">Of course if a patch does not convince you for any reason and you don&#8217;t get a unit test, just don&#8217;t apply it - but don&#8217;t be a&nbsp;<a href="http://www.amazon.com/Adrenaline-Junkies-Template-Zombies-Understanding/dp/0932633676">template zombie</a>&nbsp;- i.e. don&#8217;t place policies ahead of people.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">If you&#8217;re unable to reproduce a problem because it happens in scenario you aren&#8217;t able to test, try checking whether&nbsp;the patch causes any drawback to your supported scenarios. If it doesn&#8217;t, you might decide to just trust the reporter.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">Feature patches are a completely different story IMHO - when you accept something new in your codebase you should &nbsp;be able to dictate whatever you want.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><span class="Apple-style-span" style="font-size: large;"><b>5. Reply to issues&nbsp;</b></span></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">Reply to issues. Always. If possible, do it in a reasonable amount of time, which should be, in my opinion, ten days at a maximum.&nbsp;<i>You don&#8217;t have to take immediate action.&nbsp;</i>Your reply could just be&nbsp;<i>Investigating the issue&nbsp;</i>or something like that. Remember the&nbsp;<a href="http://jeremy.zawodny.com/blog/archives/009311.html">Inbox Zero</a>&nbsp;approach to GTD: don&#8217;t let unread, unaccepted bug tickets linger in your bugtracker! A lingering ticket is the first stop on the path to killing community support to your project.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">The same approach is valid for issues with an attached patch - say something.&nbsp;<i>Don&#8217;t let issues linger unanswered.</i></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><i><br /></i></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">And never, never&nbsp;<i>wake up after a bug has been lingering for months just to ask the reporter if it &#8220;still applies&#8221;!</i>&nbsp;This is terrible, I hate it when it happens. &#8220;Sorry, being too busy but did 37 releases of my software in the meantime, could you check if this still happens with the latest?&#8221;. You&#8217;re probably in a better position for verifying the issue - assuming that a way to reproduce it is provided - on any release, since you made them.</div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">The next part will deal with APIs and public info for your project - see <a href="http://ollivander.franzoni.eu/2011/02/building-successful-community-driven.html">part 3</a></div><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><br /></div></div></div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -195,6 +195,10 @@ This is a multipart article - link to&nbsp;<a href="http://ollivander.franzoni.e
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/09/06/python-packaging-woes-2/">Python Packaging Woes - part 2</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/08/26/one-assertion-per-test-considered-ambiguous/">One Assertion Per Test Considered Ambiguous</a>
       </li>
     
@@ -208,10 +212,6 @@ This is a multipart article - link to&nbsp;<a href="http://ollivander.franzoni.e
     
       <li class="post">
         <a href="/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/">Unicode and Encoding: Python vs Java Shootout, part 2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/07/17/migrated-to-octopress/">Migrated to Octopress</a>
       </li>
     
   </ul>

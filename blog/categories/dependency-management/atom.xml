@@ -4,7 +4,7 @@
   <title><![CDATA[Category: dependency management | Ollivander]]></title>
   <link href="http://ollivander.franzoni.eu/blog/categories/dependency-management/atom.xml" rel="self"/>
   <link href="http://ollivander.franzoni.eu/"/>
-  <updated>2013-08-29T00:41:41+02:00</updated>
+  <updated>2013-09-06T20:17:40+02:00</updated>
   <id>http://ollivander.franzoni.eu/</id>
   <author>
     <name><![CDATA[Alan Franzoni]]></name>
@@ -12,6 +12,120 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python Packaging Woes - part 2]]></title>
+    <link href="http://ollivander.franzoni.eu/2013/09/06/python-packaging-woes-2/"/>
+    <updated>2013-09-06T20:09:00+02:00</updated>
+    <id>http://ollivander.franzoni.eu/2013/09/06/python-packaging-woes-2</id>
+    <content type="html"><![CDATA[<p>Check out <a href="/2013/01/21/python-packaging-woes/">part 1</a> for my thoughts on what packaging and dependency
+management should be. I forgot about this post and left it in a draft state for quite a lot of time, I&rsquo;m sorry!</p>
+
+<h2>How Python messed it up</h2>
+
+<h3>A Diaspora of Tools</h3>
+
+<p>There&rsquo;s a plethora of packaging tools for Python! Let&rsquo;s take a look at them.</p>
+
+<h4>Distutils</h4>
+
+<p>The original <a href="http://docs.python.org/2/distutils/">distutils</a> is part of the Python standard library, but
+it&rsquo;s not really feature-packed, and it&rsquo;s considered unsuitable for many production usages. As an example,
+its
+<a href="http://docs.python.org/2/distutils/setupscript.html#relationships-between-distributions-and-packages">requires</a>
+keyword seems to do
+<a href="http://blog.doughellmann.com/2007/11/requiring-packages-with-distutils.html">absolutely nothing else</a>
+than documenting requirements. Nothing will happen if you install a package requiring another one;
+you still need to install dependencies manually.</p>
+
+<p>Distutils is not inherently bad, but since it&rsquo;s a standard library tool it&rsquo;s quite stable &ndash; it changes
+very little and in very predictable ways, so it wasn&rsquo;t updated for a long time and got quite old and
+tired, and needs an overhaul now (more on that later).</p>
+
+<h4>Setuptools</h4>
+
+<p>The original <a href="http://peak.telecommunity.com/DevCenter/setuptools">setuptools</a> package, which was created
+by a clever guy called Phillip J. Eby, is what people used for a lot of time, and that it&rsquo;s unmantained
+right now. It builds on distutils and extends/monkeypatches it, adding a lot of functionalities.</p>
+
+<p>It includes <a href="http://peak.telecommunity.com/DevCenter/EasyInstall">easy_install</a> which is probably the
+first tool that allowed people to install packages straight from pypi (or other URLs, more on that later)
+on the command line, without a lot of manual intervention; also, if the downloaded package is
+setuptools-aware and correctly specifies dependencies with
+<a href="http://peak.telecommunity.com/DevCenter/setuptools#declaring-dependencies">install_requires</a> it will
+install all transitive dependencies.</p>
+
+<p>It includes <a href="http://peak.telecommunity.com/DevCenter/PkgResources">pkg_resources</a> as well; that last
+one is one of the great Python underdogs, IMHO; it allows Python programmers to access any kind of
+data which is installed in Python libraries, regardless of how it was installed &ndash; is it an egg? A
+flat install? Did the install became part of the standard library? &ndash; don&rsquo;t worry: just ask for the
+resource name and the package name, and pkg_resources will look up the file object for you and open
+it.</p>
+
+<p>Unluckily the API was not so easy to use &ndash; that&rsquo;s something I&rsquo;m trying to address in
+<a href="http://pydenji.franzoni.eu">pydenji</a> with its resourceloader URL-parsing based system &ndash; and many
+people to handle resource in python just &ldquo;look for them&rdquo; from the current directory using
+introspection by <code>__file__</code>. Too bad.</p>
+
+<h4>Distribute</h4>
+
+<p>In the end, setuptools had little maintenance applied and was forked; distribute is dropin
+replacement which shares functions and dysfunctions of its ancestor.</p>
+
+<p>Recently it has been re-merged into setuptools.</p>
+
+<p>This wouldn&rsquo;t be inherently a problem, but sometimes you can find projects that are distribute-unaware and try forcing
+a specific-and-old version of setuptools, or you can find projects that know that setuptools is &ldquo;old&rdquo; and force
+installing distribute (which is an issue since setuptools is now an actually updated distribute) :&ndash;/</p>
+
+<h4>Distutils2</h4>
+
+<p>The Next Big Thing in Python packaging, which has never happened so far &ndash; should have been available in Python 3.3, but
+development seems to have <a href="http://hg.python.org/distutils2">stalled</a>.</p>
+
+<h4>Pip</h4>
+
+<p><a href="http://www.pip-installer.org/">Pip</a> is among the best tools you could use and works fine, but it&rsquo;s Yet Another Tool. It works
+as his author thinks it&rsquo;s well done &ndash; which is usually a good thing, since Ian Bicking knows what he&rsquo;s doing.</p>
+
+<h3>Dependency Management</h3>
+
+<p>Dependency management is hard with distribute; you can&rsquo;t handle diamond dependencies nor do overrides.
+Pypi repository is mutable (versions can be deleted by package owners) and isn&rsquo;t got a real API, even though, today, there&rsquo;s
+a way to prevent the packages from being fetched from their homepage and just rely on pypi &ndash; see <a href="http://www.python.org/dev/peps/pep-0438/">PEP 438</a></p>
+
+<p>One good way of handling dependency management in such cases is to use Pip&rsquo;s own requirements.txt file, which &ndash; of course &ndash; is not a standard, and may not work in all environments, or simply the project you love may not provide it at all.</p>
+
+<h3>Consequences</h3>
+
+<p>It&rsquo;s very easy to find packages from pypi that don&rsquo;t work out of the box, either because of wrong dependencies,
+or because somehow pypi changed hosted versions since the time the package was built. Replicating a deployment
+is not easy.</p>
+
+<p>And different tools just don&rsquo;t play well together.</p>
+
+<h2>What should be done?</h2>
+
+<ul>
+<li>Focusing more on the problem. Packaging and dependency management seem to be underdogs in the Python
+community.</li>
+<li>Choose a tool or an API (Maven repos became de-facto standard for non-Maven users as well) that can
+work, and if it doesn&rsquo;t, evolve it, don&rsquo;t just let people invent their in-house solution. It&rsquo;s not
+important if it&rsquo;s not part of the standard library.</li>
+<li>Define best practices for packaging and dependencies (package layout, version numbers, metadata,
+uploaded package formats, etc) and be sure the user doesn&rsquo;t override them unless he knows what and why
+he does it.</li>
+<li>Have a good doc linked from the official documentation. The current <a href="http://guide.python-distribute.org/">packaging
+guide</a> is not complete and it&rsquo;s not linked from anything
+&ldquo;official&rdquo; &ndash; it&rsquo;s just another guide.</li>
+</ul>
+
+
+<h2>But?</h2>
+
+<p>There&rsquo;s a light at the end of the gallery, and it&rsquo;s not a train! We&rsquo;ll talk about it in part 3. Which I hope should happen soon enough :&ndash;)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python Packaging Woes - part 1]]></title>
