@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Unit testing with Twisted: testing protocols - Ollivander</title>
+  <meta name="author" content="Alan Franzoni">
+
+  
+  <meta name="description" content="I had some hard time when testing Twisted&nbsp;protocols. Although they should be decoupled from factories, most examples I could find, including &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ollivander.franzoni.eu/2011/04/26/unit-testing-with-twisted-testing-protocols/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Ollivander" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-32820324-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ollivander</a></h1>
+  
+    <h2>A wand is not enough</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ollivander.franzoni.eu" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a title="Go to my homepage" href="http://www.franzoni.eu">My homepage</a></li>
+  <li><a title="Go to my tips&tricks blog" href="http://mostlyunixish.franzoni.eu">Mostly Unixish</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Unit Testing With Twisted: Testing Protocols</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-26T21:33:00+02:00" pubdate data-updated="true">Apr 26<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><div class='post'>
+I had some hard time when testing <a href="http://twistedmatrix.com/trac/">Twisted</a>&nbsp;protocols. Although they should be decoupled from factories, most examples I could find, including those from the <a href="http://twistedmatrix.com/trac/browser/trunk/doc/core/howto/trial.xhtml?format=raw">official doc</a>, were just too noisy and suggested using a factory.<br /><br />I don&#8217;t like that approach - I should not be forced to use a factory - that creates an unnecessary coupling - let&#8217;s just pretend a factory existed and creates a connections, that&#8217;s all our protocol should need.<br /><br />Of course sometimes a protocol is bound to a very specific factory since it needs to invoke methods on it for non protocol-specific data (remember, there&#8217;s just one factory, while there&#8217;s one protocol per connection). I don&#8217;t like that behaviour, since it creates an unnecessary coupling and makes factories huge and not cohesive, and I think protocols should just be injected whatever peers they need during the <a href="http://twistedmatrix.com/documents/current/api/twisted.internet.protocol.Factory.html#buildProtocol">buildProtocol()</a>&nbsp;invocation - but I&#8217;ll talk about that in another post. In the meantime, I reccommend just creating a mock factory and setting it manually on the protocol.<br /><br />So, here it is the solution I baked:<br /><br /><script src="https://gist.github.com/942093.js">  </script><br /><br />What do you think about this solution?</div>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Alan Franzoni</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-26T21:33:00+02:00" pubdate data-updated="true">Apr 26<span>th</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://ollivander.franzoni.eu/2011/04/26/unit-testing-with-twisted-testing-protocols/" data-via="franzeur" data-counturl="http://ollivander.franzoni.eu/2011/04/26/unit-testing-with-twisted-testing-protocols/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/04/22/building-a-successful-community-driven-software-project-part-4/" title="Previous Post: Building a successful community-driven software project / part 4">&laquo; Building a successful community-driven software project / part 4</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/08/30/mock-javamail-primer/" title="Next Post: Mock Javamail primer">Mock Javamail primer &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/09/06/python-packaging-woes-2/">Python Packaging Woes - part 2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/08/26/one-assertion-per-test-considered-ambiguous/">One Assertion Per Test Considered Ambiguous</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/01/21/python-packaging-woes/">Python Packaging Woes - part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/01/17/php-killer-features/">PHP Killer Features</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/">Unicode and Encoding: Python vs Java Shootout, part 2</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <a class="twitter-timeline" href="https://twitter.com/franzeur" data-widget-id="361445337954672640">Tweets by @franzeur</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Alan Franzoni - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.en_US">Creative Commons Attribution 3.0 Unported License</a>.  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  </p>
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0;" src="http://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ollivander';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Python Packaging Woes - part 2 - Ollivander</title>
+  <meta name="author" content="Alan Franzoni">
+
+  
+  <meta name="description" content="Check out part 1 for my thoughts on what packaging and dependency
+management should be. I forgot about this post and left it in a draft state for &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ollivander.franzoni.eu/2013/09/06/python-packaging-woes-2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Ollivander" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-32820324-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ollivander</a></h1>
+  
+    <h2>A wand is not enough</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ollivander.franzoni.eu" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a title="Go to my homepage" href="http://www.franzoni.eu">My homepage</a></li>
+  <li><a title="Go to my tips&tricks blog" href="http://mostlyunixish.franzoni.eu">Mostly Unixish</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Python Packaging Woes - Part 2</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-06T20:09:00+02:00" pubdate data-updated="true">Sep 6<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Check out <a href="/2013/01/21/python-packaging-woes/">part 1</a> for my thoughts on what packaging and dependency
+management should be. I forgot about this post and left it in a draft state for quite a lot of time, I&rsquo;m sorry!</p>
+
+<h2>How Python messed it up</h2>
+
+<h3>A Diaspora of Tools</h3>
+
+<p>There&rsquo;s a plethora of packaging tools for Python! Let&rsquo;s take a look at them.</p>
+
+<h4>Distutils</h4>
+
+<p>The original <a href="http://docs.python.org/2/distutils/">distutils</a> is part of the Python standard library, but
+it&rsquo;s not really feature-packed, and it&rsquo;s considered unsuitable for many production usages. As an example,
+its
+<a href="http://docs.python.org/2/distutils/setupscript.html#relationships-between-distributions-and-packages">requires</a>
+keyword seems to do
+<a href="http://blog.doughellmann.com/2007/11/requiring-packages-with-distutils.html">absolutely nothing else</a>
+than documenting requirements. Nothing will happen if you install a package requiring another one;
+you still need to install dependencies manually.</p>
+
+<p>Distutils is not inherently bad, but since it&rsquo;s a standard library tool it&rsquo;s quite stable &ndash; it changes
+very little and in very predictable ways, so it wasn&rsquo;t updated for a long time and got quite old and
+tired, and needs an overhaul now (more on that later).</p>
+
+<h4>Setuptools</h4>
+
+<p>The original <a href="http://peak.telecommunity.com/DevCenter/setuptools">setuptools</a> package, which was created
+by a clever guy called Phillip J. Eby, is what people used for a lot of time, and that it&rsquo;s unmantained
+right now. It builds on distutils and extends/monkeypatches it, adding a lot of functionalities.</p>
+
+<p>It includes <a href="http://peak.telecommunity.com/DevCenter/EasyInstall">easy_install</a> which is probably the
+first tool that allowed people to install packages straight from pypi (or other URLs, more on that later)
+on the command line, without a lot of manual intervention; also, if the downloaded package is
+setuptools-aware and correctly specifies dependencies with
+<a href="http://peak.telecommunity.com/DevCenter/setuptools#declaring-dependencies">install_requires</a> it will
+install all transitive dependencies.</p>
+
+<p>It includes <a href="http://peak.telecommunity.com/DevCenter/PkgResources">pkg_resources</a> as well; that last
+one is one of the great Python underdogs, IMHO; it allows Python programmers to access any kind of
+data which is installed in Python libraries, regardless of how it was installed &ndash; is it an egg? A
+flat install? Did the install became part of the standard library? &ndash; don&rsquo;t worry: just ask for the
+resource name and the package name, and pkg_resources will look up the file object for you and open
+it.</p>
+
+<p>Unluckily the API was not so easy to use &ndash; that&rsquo;s something I&rsquo;m trying to address in
+<a href="http://pydenji.franzoni.eu">pydenji</a> with its resourceloader URL-parsing based system &ndash; and many
+people to handle resource in python just &ldquo;look for them&rdquo; from the current directory using
+introspection by <code>__file__</code>. Too bad.</p>
+
+<h4>Distribute</h4>
+
+<p>In the end, setuptools had little maintenance applied and was forked; distribute is dropin
+replacement which shares functions and dysfunctions of its ancestor.</p>
+
+<p>Recently it has been re-merged into setuptools.</p>
+
+<p>This wouldn&rsquo;t be inherently a problem, but sometimes you can find projects that are distribute-unaware and try forcing
+a specific-and-old version of setuptools, or you can find projects that know that setuptools is &ldquo;old&rdquo; and force
+installing distribute (which is an issue since setuptools is now an actually updated distribute) :&ndash;/</p>
+
+<h4>Distutils2</h4>
+
+<p>The Next Big Thing in Python packaging, which has never happened so far &ndash; should have been available in Python 3.3, but
+development seems to have <a href="http://hg.python.org/distutils2">stalled</a>.</p>
+
+<h4>Pip</h4>
+
+<p><a href="http://www.pip-installer.org/">Pip</a> is among the best tools you could use and works fine, but it&rsquo;s Yet Another Tool. It works
+as his author thinks it&rsquo;s well done &ndash; which is usually a good thing, since Ian Bicking knows what he&rsquo;s doing.</p>
+
+<h3>Dependency Management</h3>
+
+<p>Dependency management is hard with distribute; you can&rsquo;t handle diamond dependencies nor do overrides.
+Pypi repository is mutable (versions can be deleted by package owners) and isn&rsquo;t got a real API, even though, today, there&rsquo;s
+a way to prevent the packages from being fetched from their homepage and just rely on pypi &ndash; see <a href="http://www.python.org/dev/peps/pep-0438/">PEP 438</a></p>
+
+<p>One good way of handling dependency management in such cases is to use Pip&rsquo;s own requirements.txt file, which &ndash; of course &ndash; is not a standard, and may not work in all environments, or simply the project you love may not provide it at all.</p>
+
+<h3>Consequences</h3>
+
+<p>It&rsquo;s very easy to find packages from pypi that don&rsquo;t work out of the box, either because of wrong dependencies,
+or because somehow pypi changed hosted versions since the time the package was built. Replicating a deployment
+is not easy.</p>
+
+<p>And different tools just don&rsquo;t play well together.</p>
+
+<h2>What should be done?</h2>
+
+<ul>
+<li>Focusing more on the problem. Packaging and dependency management seem to be underdogs in the Python
+community.</li>
+<li>Choose a tool or an API (Maven repos became de-facto standard for non-Maven users as well) that can
+work, and if it doesn&rsquo;t, evolve it, don&rsquo;t just let people invent their in-house solution. It&rsquo;s not
+important if it&rsquo;s not part of the standard library.</li>
+<li>Define best practices for packaging and dependencies (package layout, version numbers, metadata,
+uploaded package formats, etc) and be sure the user doesn&rsquo;t override them unless he knows what and why
+he does it.</li>
+<li>Have a good doc linked from the official documentation. The current <a href="http://guide.python-distribute.org/">packaging
+guide</a> is not complete and it&rsquo;s not linked from anything
+&ldquo;official&rdquo; &ndash; it&rsquo;s just another guide.</li>
+</ul>
+
+
+<h2>But?</h2>
+
+<p>There&rsquo;s a light at the end of the gallery, and it&rsquo;s not a train! We&rsquo;ll talk about it in part 3. Which I hope should happen soon enough :&ndash;)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Alan Franzoni</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-06T20:09:00+02:00" pubdate data-updated="true">Sep 6<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dependency-management/'>dependency management</a>, <a class='category' href='/blog/categories/packaging/'>packaging</a>, <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://ollivander.franzoni.eu/2013/09/06/python-packaging-woes-2/" data-via="franzeur" data-counturl="http://ollivander.franzoni.eu/2013/09/06/python-packaging-woes-2/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/08/26/one-assertion-per-test-considered-ambiguous/" title="Previous Post: One Assertion Per Test Considered Ambiguous">&laquo; One Assertion Per Test Considered Ambiguous</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/09/06/python-packaging-woes-2/">Python Packaging Woes - part 2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/08/26/one-assertion-per-test-considered-ambiguous/">One Assertion Per Test Considered Ambiguous</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/01/21/python-packaging-woes/">Python Packaging Woes - part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/01/17/php-killer-features/">PHP Killer Features</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/">Unicode and Encoding: Python vs Java Shootout, part 2</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <a class="twitter-timeline" href="https://twitter.com/franzeur" data-widget-id="361445337954672640">Tweets by @franzeur</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Alan Franzoni - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.en_US">Creative Commons Attribution 3.0 Unported License</a>.  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  </p>
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0;" src="http://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ollivander';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ollivander.franzoni.eu/2013/09/06/python-packaging-woes-2/';
+        var disqus_url = 'http://ollivander.franzoni.eu/2013/09/06/python-packaging-woes-2/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: bestpractices | Ollivander]]></title>
   <link href="http://ollivander.franzoni.eu/blog/categories/bestpractices/atom.xml" rel="self"/>
   <link href="http://ollivander.franzoni.eu/"/>
-  <updated>2014-02-05T11:17:28+01:00</updated>
+  <updated>2014-02-05T12:41:52+01:00</updated>
   <id>http://ollivander.franzoni.eu/</id>
   <author>
     <name><![CDATA[Alan Franzoni]]></name>
@@ -65,7 +65,7 @@ self.assertEquals(expected_order, completed_order)
 
 <p>Do you see? One assertion per test.</p>
 
-<p>{% img center /images/download.jpeg %}</p>
+<p><img class="center" src="/images/download.jpeg"></p>
 
 <p>Frankly speaking, that&rsquo;s bullshit. One assertion per test does <strong>not</strong> mean that. One assertion per test means <strong>test ONE THING for each of your tests</strong>.
 You should begin thinking about whether your object does too many things and whether your test methods are properly named.</p>
