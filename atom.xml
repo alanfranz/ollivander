@@ -4,7 +4,7 @@
   <title><![CDATA[Ollivander]]></title>
   <link href="http://ollivander.franzoni.eu/atom.xml" rel="self"/>
   <link href="http://ollivander.franzoni.eu/"/>
-  <updated>2014-02-09T16:37:04+01:00</updated>
+  <updated>2014-02-09T16:41:54+01:00</updated>
   <id>http://ollivander.franzoni.eu/</id>
   <author>
     <name><![CDATA[Alan Franzoni]]></name>
@@ -23,6 +23,8 @@
 <h3>Current state of the things</h3>
 
 <p>I seem to have missed something: there&rsquo;s now a very active <a href="https://github.com/pypa">Python</a> <a href="https://bitbucket.org/pypa">Packaging</a> <a href="https://groups.google.com/forum/#!forum/pypa-dev">Authority</a> which is trying very hard to push Python packaging in the right direction, so that we can have a good set of tools that work properly together. Checkout their repositories and mailing lists.</p>
+
+<p>Setuptools and distribute got <a href="https://mail.python.org/pipermail/distutils-sig/2013-March/020126.html">merged</a> and we won&rsquo;t experience a split-experience anymore, we&rsquo;ll just have One Tool To Rule Them All!</p>
 
 <p>So, rejoice! Things are getting better!</p>
 
