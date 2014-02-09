@@ -4,7 +4,7 @@
   <title><![CDATA[Ollivander]]></title>
   <link href="http://ollivander.franzoni.eu/atom.xml" rel="self"/>
   <link href="http://ollivander.franzoni.eu/"/>
-  <updated>2014-02-05T12:44:14+01:00</updated>
+  <updated>2014-02-09T16:37:04+01:00</updated>
   <id>http://ollivander.franzoni.eu/</id>
   <author>
     <name><![CDATA[Alan Franzoni]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python Packaging Woes - part 3]]></title>
+    <link href="http://ollivander.franzoni.eu/2014/02/09/python-packaging-woes-part-3/"/>
+    <updated>2014-02-09T16:45:00+01:00</updated>
+    <id>http://ollivander.franzoni.eu/2014/02/09/python-packaging-woes-part-3</id>
+    <content type="html"><![CDATA[<p>A bit of wrap-up.</p>
+
+<h3>Current state of the things</h3>
+
+<p>I seem to have missed something: there&rsquo;s now a very active <a href="https://github.com/pypa">Python</a> <a href="https://bitbucket.org/pypa">Packaging</a> <a href="https://groups.google.com/forum/#!forum/pypa-dev">Authority</a> which is trying very hard to push Python packaging in the right direction, so that we can have a good set of tools that work properly together. Checkout their repositories and mailing lists.</p>
+
+<p>So, rejoice! Things are getting better!</p>
+
+<h3>In the meantime</h3>
+
+<p>I recommend using <a href="http://www.pip-installer.org">Pip</a> . Always try using requirements.txt, it&rsquo;s a good way to keep your versions
+consistent and working.</p>
+
+<p>Use <a href="http://www.virtualenv.org">virtualenv</a> for development purposes, and <strong>always test your package in a virtualenv with a disabled site-packages</strong>! Otherwise you risk you&rsquo;re distributing something that works on your workstation only because of a site-wide package you have installed there!</p>
+
+<p>In order to distribute a package, you&rsquo;ll need setuptools/distribute as well;
+just do a source distribution and a wheel distribution (you&rsquo;re required to
+install <a href="https://pypi.python.org/pypi/wheel">wheel</a> beside setuptools); forget
+about eggs, especially for eggs containing binary extensions.  Your command line
+should be something like:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>python setup.py clean register sdist bdist_wheel upload</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And let&rsquo;s keep our fingers crossed on a better state of things!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python Packaging Woes - part 2]]></title>

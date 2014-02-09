@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: announces - Ollivander</title>
+  <title>Python Packaging Woes - part 3 - Ollivander</title>
   <meta name="author" content="Alan Franzoni">
 
   
-  <meta name="description" content="Category: announces">
+  <meta name="description" content="A bit of wrap-up. Current state of the things I seem to have missed something: there&rsquo;s now a very active Python Packaging Authority which is &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ollivander.franzoni.eublog/categories/announces/">
+  <link rel="canonical" href="http://ollivander.franzoni.eu/2014/02/09/python-packaging-woes-part-3/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -77,36 +77,120 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Announces</h1>
+    
+      <h1 class="entry-title">Python Packaging Woes - Part 3</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T16:45:00+01:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>A bit of wrap-up.</p>
 
-  
-  <h2>2012</h2>
+<h3>Current state of the things</h3>
 
-<article>
-  
-<h1><a href="/2012/07/17/migrated-to-octopress/">Migrated to Octopress</a></h1>
-<time datetime="2012-07-17T17:20:00+02:00" pubdate><span class='month'>Jul</span> <span class='day'>17</span> <span class='year'>2012</span></time>
+<p>I seem to have missed something: there&rsquo;s now a very active <a href="https://github.com/pypa">Python</a> <a href="https://bitbucket.org/pypa">Packaging</a> <a href="https://groups.google.com/forum/#!forum/pypa-dev">Authority</a> which is trying very hard to push Python packaging in the right direction, so that we can have a good set of tools that work properly together. Checkout their repositories and mailing lists.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/announces/'>announces</a>, <a class='category' href='/blog/categories/misc/'>misc</a></span>
-</footer>
+<p>So, rejoice! Things are getting better!</p>
+
+<h3>In the meantime</h3>
+
+<p>I recommend using <a href="http://www.pip-installer.org">Pip</a> . Always try using requirements.txt, it&rsquo;s a good way to keep your versions
+consistent and working.</p>
+
+<p>Use <a href="http://www.virtualenv.org">virtualenv</a> for development purposes, and <strong>always test your package in a virtualenv with a disabled site-packages</strong>! Otherwise you risk you&rsquo;re distributing something that works on your workstation only because of a site-wide package you have installed there!</p>
+
+<p>In order to distribute a package, you&rsquo;ll need setuptools/distribute as well;
+just do a source distribution and a wheel distribution (you&rsquo;re required to
+install <a href="https://pypi.python.org/pypi/wheel">wheel</a> beside setuptools); forget
+about eggs, especially for eggs containing binary extensions.  Your command line
+should be something like:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>python setup.py clean register sdist bdist_wheel upload</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
-
+<p>And let&rsquo;s keep our fingers crossed on a better state of things!</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Alan Franzoni</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T16:45:00+01:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dependency-management/'>dependency management</a>, <a class='category' href='/blog/categories/packaging/'>packaging</a>, <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://ollivander.franzoni.eu/2014/02/09/python-packaging-woes-part-3/" data-via="franzeur" data-counturl="http://ollivander.franzoni.eu/2014/02/09/python-packaging-woes-part-3/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/09/06/python-packaging-woes-2/" title="Previous Post: Python Packaging Woes - part 2">&laquo; Python Packaging Woes - part 2</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -166,7 +250,10 @@
       var disqus_shortname = 'ollivander';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ollivander.franzoni.eu/2014/02/09/python-packaging-woes-part-3/';
+        var disqus_url = 'http://ollivander.franzoni.eu/2014/02/09/python-packaging-woes-part-3/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
