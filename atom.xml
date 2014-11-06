@@ -4,7 +4,7 @@
   <title><![CDATA[Ollivander]]></title>
   <link href="http://ollivander.franzoni.eu/atom.xml" rel="self"/>
   <link href="http://ollivander.franzoni.eu/"/>
-  <updated>2014-02-21T08:41:27+01:00</updated>
+  <updated>2014-11-06T19:20:08+01:00</updated>
   <id>http://ollivander.franzoni.eu/</id>
   <author>
     <name><![CDATA[Alan Franzoni]]></name>
@@ -329,7 +329,7 @@ You should begin thinking about whether your object does too many things and whe
 
 <p>A: What the heck, no. <strong>Your packaging tool should guide you in such practices</strong> and prevent you from going stray unless it&rsquo;s what you really mean to do! That why I&rsquo;m complaining in the first place about the way Python does packaging!</p>
 
-<p>In <a href="http://ollivander.franzoni.eu/2013/01/27/python-packaging-woes-2/">part 2</a> I dig into Python-specific packaging issues.</p>
+<p>In <a href="http://ollivander.franzoni.eu/2013/09/06/python-packaging-woes-2/">part 2</a> I dig into Python-specific packaging issues.</p>
 ]]></content>
   </entry>
   
