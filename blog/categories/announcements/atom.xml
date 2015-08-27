@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: announcements | Ollivander]]></title>
+  <link href="http://ollivander.franzoni.eu/blog/categories/announcements/atom.xml" rel="self"/>
+  <link href="http://ollivander.franzoni.eu/"/>
+  <updated>2015-08-28T00:22:20+02:00</updated>
+  <id>http://ollivander.franzoni.eu/</id>
+  <author>
+    <name><![CDATA[Alan Franzoni]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[This blog is moving]]></title>
+    <link href="http://ollivander.franzoni.eu/2015/08/28/this-blog-is-moving/"/>
+    <updated>2015-08-28T00:17:00+02:00</updated>
+    <id>http://ollivander.franzoni.eu/2015/08/28/this-blog-is-moving</id>
+    <content type="html"><![CDATA[<h2>Migration announcement</h2>
+
+<p>I&rsquo;m consolidating my website infrastructure, and I&rsquo;ll use <a href="http://gohugo.io/">hugo</a> from now on.</p>
+
+<p>This blog is moving to <a href="">https://www.franzoni.eu/ollivander</a>, the new RSS feed is
+<a href="">https://www.franzoni.eu/ollivander/index.xml</a>. The new feed won&rsquo;t duplicate old
+posts.</p>
+
+<p>I&rsquo;ll setup redirects as well as soon as the migration is completed.</p>
+]]></content>
+  </entry>
+  
+</feed>

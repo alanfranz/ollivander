@@ -9,7 +9,7 @@
   <meta name="author" content="Alan Franzoni">
 
   
-  <meta name="description" content="This is a multipart post. See part 26. State your missionWhat&#8217;s your project for? Who should use it? Which platform is designed for?&nbsp; &hellip;">
+  <meta name="description" content="UPDATED:&nbsp;IDEA entry.UPDATED:&nbsp;Automatic agent add script.I&#8217;m starting to like both PyCharm and RubyMine, two IDEs from IntelliJ, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,43 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/02/03/pycharm-rubymine-and-idea-linux-desktop-entries/">PyCharm, RubyMine and IDEA Linux Desktop Entries</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-03T23:00:00+01:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<b>UPDATED:</b>&nbsp;IDEA entry.<br /><b>UPDATED:</b>&nbsp;Automatic agent add script.<br /><br />I&#8217;m starting to like both <a href="http://www.jetbrains.com/pycharm/">PyCharm</a> and <a href="http://www.jetbrains.com/ruby/">RubyMine</a>, two IDEs from IntelliJ, along with <a href="http://www.jetbrains.com/idea/">IDEA</a><br /><br />I had some problems while they were both running on Linux using a dock - I like <a href="http://www.go-docky.com/">docky</a> - since they&#8217;re both Java apps and they got &#8220;merged&#8221; in a single icon, but then <a href="http://blog.jteam.nl/2011/01/09/make-intellij-idea-behave-properly-in-linux-docks/">I found a solution</a>&nbsp;- pull the <a href="http://jelmer.s3.amazonaws.com/agent.jar">agent</a> into bin folder and just edit pycharm.sh, rubymine.sh and idea.sh this way, around the end of the file:<br /><br /><script src="https://gist.github.com/809723.js?file=idea_launch_with_agent"></script><br /><script src="https://gist.github.com/809723.js?file=pycharm_launch_with_agent"></script><br /><script src="https://gist.github.com/809723.js?file=rubymine_launch_with_agent"></script><br /> If you&#8217;re lazy, or you&#8217;re just tired of readding the agent every time your IDE gets updated, just download the <a href="http://jelmer.s3.amazonaws.com/agent.jar">agent</a> and the adder script for <a href="https://raw.github.com/gist/809723/5ee73ab9d2260685b6f556c3dad1cdb5e62f216a/idea_add_agent.sh">IDEA</a>, <a href="https://raw.github.com/gist/809723/b81e6f53fa800a1a2b20143e12d2a311e671fda0/pycharm_add_agent.sh">PyCharm</a> or <a href="https://raw.github.com/gist/809723/0dbf7ee8bf7bc65a285f70919fc864383cca6709/rubymine_add_agent.sh">RubyMine</a> to your bin directory and re-execute it every time your ide gets updated.   <br /> <br />I was just missing a desktop file entry so they could show up in my menu; IntelliJ currently distributes their ides as .tar.gz archives, no .deb, no .rpm, so I just packed up two small entries and added them to ~/.local/share/applications:<br /><br /><br /><script src="https://gist.github.com/809730.js"></script><br /><br />Replace the PATH_TO_&#8230; and enjoy!<br /><br /><br />EDIT:<br />As a bonus, by just installing &#8220;wmctrl&#8221; you can easily setting global shortcuts for moving pycharm &amp; rubymine IDEs on the current screen and putting them in the foreground:<br /><br /><blockquote>wmctrl -x -R PyCharm</blockquote><blockquote>wmctrl -x -R RubyMine</blockquote>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; wmctrl -x -R IDEA<br /><br />&nbsp;In GNOME you can assign such commands as a global shortcuts via System -&gt; Preferences -&gt; Keyboard Shortcuts.</div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -153,43 +190,6 @@ This is a multipart article - link to&nbsp;<a href="http://ollivander.franzoni.e
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/12/19/building-a-successful-community-driven-software-project-part-1/">Building a Successful Community-driven Software Project / Part 1</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-12-19T13:18:00+01:00" pubdate data-updated="true">Dec 19<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class='post'>
-There&#8217;s a lot of buzz about open source software lately.&nbsp;Many projects are supposed to embrace the <a href="http://en.wikipedia.org/wiki/The_Cathedral_and_the_Bazaar">Bazaar development model</a>, but they really don&#8217;t, and their leaders just seem to ignore users a lot. This often leads both to wild forking - one new feature, one new fork that&#8217;s never merged in the original code base - and to multiple incomplete implementations - there&#8217;re many projects to satisfy a single need, but none of them is complete.<br /><br />What should you do to make your project successful? Those are my guidelines. I&#8217;ve split the post into pieces since it was growing too large for a single entry.<br /><br />This is mostly developer-oriented; I think supporting a community of end-users might be slightly different, although concerns might sometimes be similar.<br /><b><br /></b><br /><b><span class="Apple-style-span" style="font-size: large;">1. Make it easy to discuss about your software.</span></b><br />Something might not be clear about your software, whether it&#8217;s usage, availability, license, scope, and so on. It must be easy to ask a question, whether it&#8217;s on a mailing list, on a forum or by any other mean - <a href="https://answers.launchpad.net/">Launchpad Answers</a>&nbsp;or <a href="http://getsatisfaction.com/">GetSatifaction</a>&nbsp;are good alternatives - just <b>don&#8217;t make it too hard</b>&nbsp;to just ask a question!<br /><br />&nbsp;If you&#8217;re using a custom forum or any other portal, <b>make sure it supports a decentralized authentication system</b>, be it&nbsp;OpenID, Google Account, MSN or whatever you like. Very often creating a new username/password couplet, fill in a few forms, clicking to verify an email, etc. etc. may just be <b>too much an hassle </b>for somebody who just wants to ask a small question.<br /><br />Similarly, if you&#8217;re using a mailing list, make sure <b>it&#8217;s not too hard to get subscribed</b>; if possible, just let anyone post a question - then a &#8220;reply all&#8221; from any list subscriber should reach the poster. Don&#8217;t moderate subscriptions and posts unless you&#8217;ve got a really good reason to - e.g. too much spam that automatic filters can&#8217;t handle. Consider using mailing list providers that make it easy to use the ML from the web as well - <a href="http://groups.yahoo.com/">Yahoo Groups</a> and <a href="http://groups.google.com/">Google Groups</a> are great examples; they&#8217;ll give a great overall user experience, and satisfy those who prefer forums and those who prefer mailing lists at the very same time.<br /><span class="Apple-style-span" style="font-size: large;"><b><br /></b></span><br /><span class="Apple-style-span" style="font-size: large;"><b>2. Answer questions and doubts.</b></span><br />This seems a silly one, but it isn&#8217;t. <b>Make sure users get a minimum of feedback, </b>be it just a &#8220;read the FAQ&#8221;, or &#8220;it&#8217;s not implemented yet&#8221; or &#8220;I don&#8217;t know&#8221;. Any message left lingering is a big thumbs down for your project.<br /><i><span class="Apple-style-span" style="font-size: large;"><b><span class="Apple-style-span" style="font-size: large;"><b><br /></b></span></b></span></i><br /><span class="Apple-style-span" style="font-size: large;"><b><span class="Apple-style-span" style="font-size: large;"><b>3. Have a FAQ</b></span></b></span><br /><div style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;"><span class="Apple-style-span">This was pretty common during the nineties, I can remember being turned down with a &#8220;Read the FAQ&#8221; many times when I was young and inexperienced, but it&#8217;s not such frequent thing anymore. There&#8217;re some questions that get asked again and again. If you don&#8217;t mantain a FAQ you can&#8217;t tell people &#8220;Read the FAQ!&#8221;, and you&#8217;ll need to answer the same question again, and again, and again. And you won&#8217;t like it.</span><br /><span class="Apple-style-span"><br /></span><br /><span class="Apple-style-span">Link to <a href="http://ollivander.franzoni.eu/2011/01/building-successful-community-driven.html">part 2</a>&nbsp;- bug reporting and patch submission.</span><br /><br /></div></div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -207,6 +207,10 @@ There&#8217;s a lot of buzz about open source software lately.&nbsp;Many project
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/08/28/this-blog-is-moving/">This blog is moving</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/02/09/python-packaging-woes-part-3/">Python Packaging Woes - part 3</a>
       </li>
     
@@ -220,10 +224,6 @@ There&#8217;s a lot of buzz about open source software lately.&nbsp;Many project
     
       <li class="post">
         <a href="/2013/01/21/python-packaging-woes/">Python Packaging Woes - part 1</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/01/17/php-killer-features/">PHP Killer Features</a>
       </li>
     
   </ul>

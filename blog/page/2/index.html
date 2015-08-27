@@ -9,7 +9,8 @@
   <meta name="author" content="Alan Franzoni">
 
   
-  <meta name="description" content="This is a spinoff from my Europython 2012 talk (video, slides). Some days ago I got involved in a brief discussion on the topic, so here&rsquo;s what &hellip;">
+  <meta name="description" content="There&rsquo;s a practice of good programming which is often referred as One Assertion Per Test.
+In the opinion of some people, this practice would &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +79,148 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/08/26/one-assertion-per-test-considered-ambiguous/">One Assertion Per Test Considered Ambiguous</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-26T22:44:00+02:00" pubdate data-updated="true">Aug 26<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>There&rsquo;s a practice of good programming which is often referred as <a href="http://www.artima.com/weblogs/viewpost.jsp?thread=35578">One Assertion Per Test</a>.
+In the opinion of some people, this practice would advocate the usage of a single call to xunit assert method for each test.</p>
+
+<p>I think that idea is plainly wrong. Saying &ldquo;One Test Per Test&rdquo; would have been better, but implied an high <a href="http://xkcd.com/703/">tautology risk</a>.</p>
+
+<p>Let&rsquo;s take an old-and-trite shopping cart example; we have a cart which the user fills, then a checkout happens and we have a completed order, which holds things like a total amount for the order and a list of items.</p>
+
+<p>Sometimes people will complain about this (Python is used throughout the examples, yet the concept applies to any language):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_successful_checkout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">item1</span> <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">10.00</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">item2</span> <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">20.00</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">cart</span> <span class="o">=</span> <span class="n">Cart</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">cart</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">item1</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">cart</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">item2</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">completed_order</span> <span class="o">=</span> <span class="n">Checkout</span><span class="o">.</span><span class="n">perform</span><span class="p">(</span><span class="n">cart</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="mf">30.00</span><span class="p">,</span> <span class="n">completed_order</span><span class="o">.</span><span class="n">amount</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">([</span><span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">],</span> <span class="n">completed_order</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(<em>I know floats aren&rsquo;t good for currency. I just didn&rsquo;t want to make the example too long.</em>)</p>
+
+<p>and yet would find the following completely acceptable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_successful_checkout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">item1</span> <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">10.00</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">item2</span> <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">20.00</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">cart</span> <span class="o">=</span> <span class="n">Cart</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">cart</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">item1</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">cart</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">item2</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">completed_order</span> <span class="o">=</span> <span class="n">Checkout</span><span class="o">.</span><span class="n">perform</span><span class="p">(</span><span class="n">cart</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expected_order</span> <span class="o">=</span> <span class="n">CompletedOrder</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="mf">30.00</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="p">[</span><span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">])</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="n">expected_order</span><span class="p">,</span> <span class="n">completed_order</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Do you see? One assertion per test.</p>
+
+<p><img class="center" src="/images/download.jpeg"></p>
+
+<p>Frankly speaking, that&rsquo;s bullshit. One assertion per test does <strong>not</strong> mean that. One assertion per test means <strong>test ONE THING for each of your tests</strong>.
+You should begin thinking about whether your object does too many things and whether your test methods are properly named.</p>
+
+<p>A possible example would be:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">item1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item1</span> <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">10.00</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">item2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item2</span> <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">20.00</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">cart</span> <span class="o">=</span> <span class="n">Cart</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">cart</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">item1</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">cart</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">item2</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">completed_order</span> <span class="o">=</span> <span class="n">Checkout</span><span class="o">.</span><span class="n">perform</span><span class="p">(</span><span class="n">cart</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">test_successful_checkout_order_amount_is_the_sum_of_item_prices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="mf">30.00</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">completed_order</span><span class="o">.</span><span class="n">amount</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">test_successful_checkout_order_items_are_items_from_the_cart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">item1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">item2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">completed_order</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here, since the checkout process is doing multiple things (and it probably should as it is a checkout &ndash; this is probably more an example of an acceptance test rather than a unit test), we test them separately. If either fails, we know why and can go straight to the issue &ndash; and yet consider rewriting the second test like that:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_successful_checkout_order_items_are_items_from_the_cart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">completed_order</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">completed_order</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If the example above is good, that&rsquo;s good as well, and you may have reasons for doing things like that &ndash; maybe your test framework doesn&rsquo;t show you the differences in a very clear way and you want to be sure to quickly catch the wrong item. This is what <a href="http://www.objectmentor.com/omTeam/martin_r.html">Robert C. Martin</a> calls <em>Single Concept per Test</em> in his own <a href="http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">Clean Code</a> book &ndash; a recommended reading!</p>
+
+<p>So, <em>&ldquo;You&rsquo;re testing multiple things in a single test&rdquo;</em> can be a good remark. <em>&ldquo;You&rsquo;re using multiple assertions per test&rdquo;</em>, on the contrary, means nothing.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -262,206 +405,6 @@ real PHP programmer if you don&rsquo;t know at least 75% of <a href="http://me.v
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/">Unicode and Encoding: Python vs Java Shootout, Part 2</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-23T13:30:00+02:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So, here we come to our second part; if you did miss the first, it&rsquo;s <a href="http://ollivander.franzoni.eu/2012/02/22/unicode-and-encoding-python-vs-java-shootout-part-1/">there</a>. All of the following discussion is valid on Sun Java 6.</p>
-
-<p>Let&rsquo;s see the way Java handles unicode issues and why it&rsquo;s usually less problematic than Python &ndash; or, at least, while it <strong>looks</strong> less problematic than Python.</p>
-
-<p>String literals in Java, just like in Python 3, are just Unicode objects; so you don&rsquo;t need to think whether it&rsquo;s a &ldquo;binary string&rdquo; or a &ldquo;unicode object&rdquo;; if it&rsquo;s a binary blob, you&rsquo;ll probably get a byte[], which should result in a &lsquo;here be dragons&rsquo; behaviour about encoding.</p>
-
-<p>Nevertheless, whenever you want to print out a string you actually need binary data, raw bytes! How does Java find out what to do?</p>
-
-<p><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/System.html#out">System.out</a>, which is an instance of <a href="http://docs.oracle.com/javase/6/docs/api/java/io/PrintStream.html">java.io.PrintStream</a>, internally uses a <a href="http://docs.oracle.com/javase/6/docs/api/java/io/OutputStreamWriter.html">java.io.OutputStreamWriter</a> which gets initialized using <a href="http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html#defaultCharset()">Charset.defaultCharset()</a>, and such value will be used for conversions between raw bytes and strings:</p>
-
-<figure class='code'><figcaption><span> (Encoding.java)</span> <a href='/downloads/code/eu.franzoni.examples/src/eu/franzoni/examples/pythonvsjavaencoding/Encoding.java'>download</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">eu</span><span class="o">.</span><span class="na">franzoni</span><span class="o">.</span><span class="na">examples</span><span class="o">.</span><span class="na">pythonvsjavaencoding</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kn">import</span> <span class="nn">java.nio.charset.Charset</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Encoding</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">String</span> <span class="n">myString</span> <span class="o">=</span> <span class="s">&quot;àèìòù&quot;</span><span class="o">;</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">getClass</span><span class="o">());</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Charset</span><span class="o">.</span><span class="na">defaultCharset</span><span class="o">());</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">myString</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">myString</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">Charset</span><span class="o">.</span><span class="na">defaultCharset</span><span class="o">()));</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span> (Encoding.java.out)</span> <a href='/downloads/code/eu.franzoni.examples/src/eu/franzoni/examples/pythonvsjavaencoding/Encoding.java.out'>download</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>class java.io.PrintStream
-</span><span class='line'>UTF-8
-</span><span class='line'>àèìòù
-</span><span class='line'>àèìòù
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The value of the default charset is detected by the JVM at startup, and it can vary on different OSes and because of different language environment settings. On Sun Java you can even set at JVM launch time through the file.encoding property, but that&rsquo;s discouraged as it can be unpredictable and unreliable. On the contrary, <strong>you should always use constructors and methods that accept a charset parameter</strong> if you&rsquo;re converting to/from raw bytes, just like <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html#getBytes(java.nio.charset.Charset)">String.getBytes(Charset charset)</a> or <a href="http://docs.oracle.com/javase/6/docs/api/java/io/OutputStreamWriter.html#OutputStreamWriter(java.io.OutputStream,%20java.nio.charset.Charset)">OutputStreamWriter(OutputStream outputStream, Charset charset)</a></p>
-
-<p>So far, so good. But what happens if the outputstream is unable to handle the chars you&rsquo;d like it to write?</p>
-
-<figure class='code'><figcaption><span> (CantEncode.java)</span> <a href='/downloads/code/eu.franzoni.examples/src/eu/franzoni/examples/pythonvsjavaencoding/CantEncode.java'>download</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">eu</span><span class="o">.</span><span class="na">franzoni</span><span class="o">.</span><span class="na">examples</span><span class="o">.</span><span class="na">pythonvsjavaencoding</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="kn">import</span> <span class="nn">java.io.FileOutputStream</span><span class="o">;</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">java.io.OutputStream</span><span class="o">;</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">java.io.PrintStream</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CantEncode</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
-</span><span class='line'>        <span class="c1">// change default output stream</span>
-</span><span class='line'>        <span class="n">OutputStream</span> <span class="n">outputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="s">&quot;eu.franzoni.examples/src/eu/franzoni/examples/pythonvsjavaencoding/CantEncode.output&quot;</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">PrintStream</span> <span class="n">printStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintStream</span><span class="o">(</span><span class="n">outputStream</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="s">&quot;ASCII&quot;</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">setOut</span><span class="o">(</span><span class="n">printStream</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">String</span> <span class="n">myString</span> <span class="o">=</span> <span class="s">&quot;àèìòù&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">getClass</span><span class="o">());</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">myString</span><span class="o">);</span>
-</span><span class='line'>     <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span> (CantEncode.output)</span> <a href='/downloads/code/eu.franzoni.examples/src/eu/franzoni/examples/pythonvsjavaencoding/CantEncode.output'>download</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>class java.io.PrintStream
-</span><span class='line'>?????
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ASCII encoding cannot possibly output the accented chars, so they&rsquo;re replaced with question marks instead of throwing the dreaded UnicodeEncodeError.</p>
-
-<p>Which approach is the best? That depends on the context. If you expect somebody to actually read your text, the Java approach might just let an error slip unnoticed for a long time, while the Python approach would trigger an immediate &lsquo;heads up!&rsquo;. Otherwise if you&rsquo;re just logging something to the console (or to any other stream) an exception might disrupt your otherwise well-working program and force an unnecessary quit. The Java approach just looks easier for the non-charset-aware because it throws fewer errors around.</p>
-
-<p>But there&rsquo;s another situation where Java falls short of Python: source file encoding. While Python allows setting it on a per-file basis and defaults it to iso-8859-1 if the coding directive is not there, on Java you&rsquo;ll use <a href="http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/javac.html">javac</a> <strong>-encoding</strong> flag to set it globally, per compile, in order to tell the compiler which kind of encoding the source file uses; <strong>if you don&rsquo;t pass such option, the platform default converter is used</strong></p>
-
-<p>What&rsquo;s the problem with this approach? Consider a very common situation: you work on a project on Linux, your platform defaults to UTF-8 and everything just works.</p>
-
-<p>Then you checkout your project on Windows; you compile it, the default charset is Windows-1252 and all your files print garbage. That&rsquo;s what happens, in fact:</p>
-
-<figure class='code'><figcaption><span> (multiple_encodings_output.sh)</span> <a href='/downloads/code/eu.franzoni.examples/src/multiple_encodings_output.sh'>download</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s2">&quot;utf8 compiled:&quot;</span>
-</span><span class='line'>javac -encoding utf8 eu/franzoni/examples/pythonvsjavaencoding/Encoding.java <span class="o">&amp;&amp;</span> java eu.franzoni.examples.pythonvsjavaencoding.Encoding
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;windows-1252 compiled:&quot;</span>
-</span><span class='line'>javac -encoding windows-1252 eu/franzoni/examples/pythonvsjavaencoding/Encoding.java <span class="o">&amp;&amp;</span> java eu.franzoni.examples.pythonvsjavaencoding.Encoding
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span> (multiple_encodings_output.sh.out)</span> <a href='/downloads/code/eu.franzoni.examples/src/multiple_encodings_output.sh.out'>download</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>utf8 compiled:
-</span><span class='line'>class java.io.PrintStream
-</span><span class='line'>UTF-8
-</span><span class='line'>àèìòù
-</span><span class='line'>àèìòù
-</span><span class='line'>windows-1252 compiled:
-</span><span class='line'>class java.io.PrintStream
-</span><span class='line'>UTF-8
-</span><span class='line'>Ã Ã¨Ã¬Ã²Ã¹
-</span><span class='line'>Ã Ã¨Ã¬Ã²Ã¹
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As you can see there, it&rsquo;s not that the JVM encoding has any issue at runtime; it&rsquo;s the parser, at compile time, which is told a wrong encoding about the string literals in your source code. There&rsquo;s no way around this!</p>
-
-<p>What I can recommend you is to ALWAYS set the <a href="http://maven.apache.org/general.html#encoding-warning">project.build.sourceEncoding</a> property when using Maven to compile, and to ALWAYS set the <a href="http://ant.apache.org/manual/Tasks/javac.html">encoding attribute</a> whenever you&rsquo;re using Ant. This will save you a lot, lot, lot of headaches.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -479,6 +422,10 @@ real PHP programmer if you don&rsquo;t know at least 75% of <a href="http://me.v
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/08/28/this-blog-is-moving/">This blog is moving</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/02/09/python-packaging-woes-part-3/">Python Packaging Woes - part 3</a>
       </li>
     
@@ -492,10 +439,6 @@ real PHP programmer if you don&rsquo;t know at least 75% of <a href="http://me.v
     
       <li class="post">
         <a href="/2013/01/21/python-packaging-woes/">Python Packaging Woes - part 1</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/01/17/php-killer-features/">PHP Killer Features</a>
       </li>
     
   </ul>
