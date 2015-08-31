@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: announcements | Ollivander]]></title>
+  <title><![CDATA[Category: Announcements | Ollivander]]></title>
   <link href="http://ollivander.franzoni.eu/blog/categories/announcements/atom.xml" rel="self"/>
   <link href="http://ollivander.franzoni.eu/"/>
-  <updated>2015-08-31T23:32:02+02:00</updated>
+  <updated>2015-08-31T23:44:34+02:00</updated>
   <id>http://ollivander.franzoni.eu/</id>
   <author>
     <name><![CDATA[Alan Franzoni]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[This blog is moving]]></title>
+    <title type="html"><![CDATA[This Blog Is Moving]]></title>
     <link href="http://ollivander.franzoni.eu/2015/08/28/this-blog-is-moving/"/>
     <updated>2015-08-28T00:17:00+02:00</updated>
     <id>http://ollivander.franzoni.eu/2015/08/28/this-blog-is-moving</id>

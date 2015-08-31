@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: python | Ollivander]]></title>
+  <title><![CDATA[Category: Python | Ollivander]]></title>
   <link href="http://ollivander.franzoni.eu/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://ollivander.franzoni.eu/"/>
-  <updated>2015-08-31T23:32:02+02:00</updated>
+  <updated>2015-08-31T23:44:34+02:00</updated>
   <id>http://ollivander.franzoni.eu/</id>
   <author>
     <name><![CDATA[Alan Franzoni]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Python Packaging Woes - part 3]]></title>
+    <title type="html"><![CDATA[Python Packaging Woes - Part 3]]></title>
     <link href="http://ollivander.franzoni.eu/2014/02/09/python-packaging-woes-part-3/"/>
     <updated>2014-02-09T16:45:00+01:00</updated>
     <id>http://ollivander.franzoni.eu/2014/02/09/python-packaging-woes-part-3</id>
@@ -50,7 +50,7 @@ python setup.py clean register sdist bdist_wheel upload
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Python Packaging Woes - part 2]]></title>
+    <title type="html"><![CDATA[Python Packaging Woes - Part 2]]></title>
     <link href="http://ollivander.franzoni.eu/2013/09/06/python-packaging-woes-2/"/>
     <updated>2013-09-06T20:09:00+02:00</updated>
     <id>http://ollivander.franzoni.eu/2013/09/06/python-packaging-woes-2</id>
@@ -164,7 +164,7 @@ guide</a> is not complete and it&rsquo;s not linked from anything
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Python Packaging Woes - part 1]]></title>
+    <title type="html"><![CDATA[Python Packaging Woes - Part 1]]></title>
     <link href="http://ollivander.franzoni.eu/2013/01/21/python-packaging-woes/"/>
     <updated>2013-01-21T23:40:00+01:00</updated>
     <id>http://ollivander.franzoni.eu/2013/01/21/python-packaging-woes</id>
@@ -219,7 +219,7 @@ guide</a> is not complete and it&rsquo;s not linked from anything
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Unicode and Encoding: Python vs Java Shootout, part 2]]></title>
+    <title type="html"><![CDATA[Unicode and Encoding: Python vs Java Shootout, Part 2]]></title>
     <link href="http://ollivander.franzoni.eu/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2/"/>
     <updated>2012-07-23T13:30:00+02:00</updated>
     <id>http://ollivander.franzoni.eu/2012/07/23/unicode-and-encoding-python-vs-java-shootout-part-2</id>

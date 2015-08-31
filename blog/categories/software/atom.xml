@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: software | Ollivander]]></title>
+  <title><![CDATA[Category: Software | Ollivander]]></title>
   <link href="http://ollivander.franzoni.eu/blog/categories/software/atom.xml" rel="self"/>
   <link href="http://ollivander.franzoni.eu/"/>
-  <updated>2015-08-31T23:32:02+02:00</updated>
+  <updated>2015-08-31T23:44:34+02:00</updated>
   <id>http://ollivander.franzoni.eu/</id>
   <author>
     <name><![CDATA[Alan Franzoni]]></name>
